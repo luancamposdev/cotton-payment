@@ -1,15 +1,15 @@
 export class Email {
   private readonly _email: string;
 
+  public get value(): string {
+    return this._email;
+  }
+
   static create(email: string): Email {
     if (!Email.isValid(email)) {
       throw new Error('Email address is invalid');
     }
     return new Email(email.trim().toLowerCase());
-  }
-
-  public getValue(): string {
-    return this._email;
   }
 
   private static isValid(email: string): boolean {
