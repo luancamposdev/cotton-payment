@@ -1,5 +1,5 @@
-import { Password } from '@core/users/value-objects/password';
-import { PasswordHash } from '@core/users/value-objects/password-hash';
+import { Password } from '@core/shared/value-objects/password';
+import { PasswordHash } from '@core/shared/value-objects/password-hash';
 
 describe('Password Hash', () => {
   it('Should be able to create a hash from a valid password', async () => {

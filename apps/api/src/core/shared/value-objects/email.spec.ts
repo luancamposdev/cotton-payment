@@ -1,4 +1,4 @@
-import { Email } from '@core/users/value-objects/email';
+import { Email } from '@core/shared/value-objects/email';
 
 describe('Email', () => {
   it('Should be able to create a valid email', () => {

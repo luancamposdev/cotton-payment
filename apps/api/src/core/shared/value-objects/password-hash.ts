@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 
-import { Password } from '@core/users/value-objects/password';
+import { Password } from '@core/shared/value-objects/password';
 
 export class PasswordHash {
   private readonly _hash: string;
