@@ -1,0 +1,52 @@
+import { randomUUID } from 'node:crypto';
+import { Role, User } from './user';
+
+import { Password } from '@core/users/value-objects/password';
+import { PasswordHash } from '@core/users/value-objects/password-hash';
+import { Name } from '@core/users/value-objects/name';
+import { Email } from '@core/users/value-objects/email';
+import { AvatarUrl } from '@core/users/value-objects/avatar-url';
+
+describe('User', () => {
+  it('Should be able to create user', async () => {
+    const password = Password.create('myPassword123');
+    const hash = await PasswordHash.fromPassword(password);
+
+    const user = new User(randomUUID(), {
+      name: Name.create('Luan Campos'),
+      email: Email.create('luancampos@mail.com'),
+      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
+      password: password,
+      passwordHash: hash,
+      role: Role.CLIENT,
+    });
+
+    expect(user).toBeTruthy();
+    expect(user.name.value).toBe('Luan Campos');
+    expect(user.email.value).toBe('luancampos@mail.com');
+    expect(user.avatarUrl.value).toBe('https://github.com/luancamposdev.png');
+    expect(user.password.value()).toBe('myPassword123');
+    expect(await user.passwordHash.compare(password)).toBe(true);
+    expect(user.role).toBe(Role.CLIENT);
+    expect(user.createdAt).toBeInstanceOf(Date);
+    expect(user.deleteAccountAt).toBeUndefined();
+  });
+
+  it('should allow updating the avatar URL', async () => {
+    const password = Password.create('UpdateAvatar123');
+    const hash = await PasswordHash.fromPassword(password);
+
+    const user = new User(randomUUID(), {
+      name: Name.create('Luan Campos'),
+      email: Email.create('luancampos@mail.com'),
+      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
+      password: password,
+      passwordHash: hash,
+      role: Role.CLIENT,
+    });
+
+    user.avatarUrl = AvatarUrl.create('https://cdn.example.com/luancampos.png');
+
+    expect(user.avatarUrl.value).toBe('https://cdn.example.com/luancampos.png');
+  });
+});

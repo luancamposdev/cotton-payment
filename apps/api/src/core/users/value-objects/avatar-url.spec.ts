@@ -6,7 +6,7 @@ describe('AvatarURL', () => {
     const avatarUrl = AvatarUrl.create(url);
 
     expect(avatarUrl).toBeInstanceOf(AvatarUrl);
-    expect(avatarUrl.getValue()).toBe(url);
+    expect(avatarUrl.value).toBe(url);
   });
 
   it('Should throw an error if the avatar URl is an empty string', () => {
@@ -27,6 +27,6 @@ describe('AvatarURL', () => {
     const urlWithSpaces = '  https://cdn.com/avatar.jpg  ';
     const avatar = AvatarUrl.create(urlWithSpaces);
 
-    expect(avatar.getValue()).toBe('https://cdn.com/avatar.jpg');
+    expect(avatar.value).toBe('https://cdn.com/avatar.jpg');
   });
 });
