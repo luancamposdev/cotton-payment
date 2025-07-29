@@ -1,10 +1,10 @@
-import { UUID, randomUUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 
 import { Name } from '@core/users/value-objects/name';
-import { Email } from '@core/users/value-objects/email';
+import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
-import { Password } from '@core/users/value-objects/password';
-import { PasswordHash } from '@core/users/value-objects/password-hash';
+import { Password } from '@core/shared/value-objects/password';
+import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Replace } from '@helpers/replace';
 
 export enum Role {
@@ -23,11 +23,11 @@ export interface IUser {
   createdAt: Date;
 }
 
-export class User {
-  private readonly _id: UUID;
+export class UserEntity {
+  private readonly _id: string;
   private props: IUser;
 
-  constructor(id: UUID, props: Replace<IUser, { createdAt?: Date }>) {
+  constructor(props: Replace<IUser, { createdAt?: Date }>, id?: string) {
     this._id = id ?? randomUUID();
     this.props = {
       ...props,
@@ -35,7 +35,7 @@ export class User {
     };
   }
 
-  public get id(): UUID {
+  public get id(): string {
     return this._id;
   }
 
