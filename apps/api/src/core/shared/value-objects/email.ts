@@ -1,7 +1,7 @@
 export class Email {
   private readonly _email: string;
 
-  public get value(): string {
+  get value(): string {
     return this._email;
   }
 
