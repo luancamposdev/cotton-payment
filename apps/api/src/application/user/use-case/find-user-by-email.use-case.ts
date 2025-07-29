@@ -21,7 +21,7 @@ export class FindUserByEmail {
 
     const user = await this.userRepository.findByEmail(email);
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new Error('Usuário não encontrado');
 
     return { user };
   }
