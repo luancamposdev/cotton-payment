@@ -1,18 +1,17 @@
-import { randomUUID } from 'node:crypto';
-import { Role, User } from './user';
+import { Role, UserEntity } from './user.entity';
 
-import { Password } from '@core/users/value-objects/password';
-import { PasswordHash } from '@core/users/value-objects/password-hash';
+import { Password } from '@core/shared/value-objects/password';
+import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Name } from '@core/users/value-objects/name';
-import { Email } from '@core/users/value-objects/email';
+import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 
-describe('User', () => {
+describe('UserEntity', () => {
   it('Should be able to create user', async () => {
     const password = Password.create('myPassword123');
     const hash = await PasswordHash.fromPassword(password);
 
-    const user = new User(randomUUID(), {
+    const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
       avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
@@ -36,7 +35,7 @@ describe('User', () => {
     const password = Password.create('UpdateAvatar123');
     const hash = await PasswordHash.fromPassword(password);
 
-    const user = new User(randomUUID(), {
+    const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
       avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
