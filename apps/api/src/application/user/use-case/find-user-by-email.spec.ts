@@ -34,4 +34,13 @@ describe('FindUserByEmailUseCase', () => {
     expect(result.user.email.value).toBe('luancampos@mail.com');
     expect(result.user.name.value).toBe('Luan Campos');
   });
+
+  it('should throw NotFoundException if user does not exist', async () => {
+    const userRepository = new InMemoryUserRepository();
+    const findUserByEmail = new FindUserByEmail(userRepository);
+
+    await expect(
+      findUserByEmail.execute({ email: 'notfound@example.com' }),
+    ).rejects.toThrow('Usuário não encontrado');
+  });
 });
