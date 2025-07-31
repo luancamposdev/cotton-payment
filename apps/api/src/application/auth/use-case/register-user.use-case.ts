@@ -9,41 +9,40 @@ import { Name } from '@core/users/value-objects/name';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 
 interface IRegisterUserRequest {
-  name: string;
-  email: string;
-  avatarUrl?: string;
-  plainPassword: string;
+  name: Name;
+  email: Email;
+  avatarUrl?: AvatarUrl;
+  password: Password;
   role: Role;
 }
 
+interface IRegisterUserResponse {
+  user: UserEntity;
+}
+
 @Injectable()
-export class RegisterUserUseCase {
+export class RegisterUser {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async execute(request: IRegisterUserRequest): Promise<{ user: UserEntity }> {
-    const email = Email.create(request.email);
-
+  async execute(request: IRegisterUserRequest): Promise<IRegisterUserResponse> {
+    const email = Email.create(request.email.value);
     const existingUser = await this.userRepository.findByEmail(email.value);
 
     if (existingUser) {
       throw new ConflictException('E-mail já está em uso');
     }
 
-    const name = Name.create(request.name);
-    const avatarUrl = AvatarUrl.create(request.avatarUrl ?? '');
-
+    const name = Name.create(request.name.value);
+    const avatarUrl = AvatarUrl.create(request.avatarUrl?.value ?? '');
     const role = request.role ?? Role.CLIENT;
-
-    const password = Password.create(request.plainPassword);
-    const passwordHash = await PasswordHash.fromPassword(password);
+    const password = Password.create(request.password.value());
 
     const user = new UserEntity({
       name,
       email,
       avatarUrl,
-      password,
-      passwordHash,
-      role: role,
+      passwordHash: await PasswordHash.fromPassword(password),
+      role,
     });
 
     await this.userRepository.create(user);
