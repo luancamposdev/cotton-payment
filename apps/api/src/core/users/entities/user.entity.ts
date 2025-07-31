@@ -3,7 +3,6 @@ import { randomUUID } from 'node:crypto';
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
-import { Password } from '@core/shared/value-objects/password';
 import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Replace } from '@helpers/replace';
 
@@ -16,7 +15,6 @@ export interface IUser {
   name: Name;
   email: Email;
   avatarUrl: AvatarUrl;
-  password: Password;
   passwordHash: PasswordHash;
   role: Role;
   deletedAccountAt?: Date | null;
@@ -61,14 +59,6 @@ export class UserEntity {
 
   public get avatarUrl(): AvatarUrl {
     return this.props.avatarUrl;
-  }
-
-  public set password(password: Password) {
-    this.props.password = password;
-  }
-
-  public get password(): Password {
-    return this.props.password;
   }
 
   public set passwordHash(passwordHash: PasswordHash) {
