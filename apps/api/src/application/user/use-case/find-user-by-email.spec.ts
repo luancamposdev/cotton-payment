@@ -19,7 +19,6 @@ describe('FindUserByEmailUseCase', () => {
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
       avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
-      password,
       passwordHash,
       role: Role.CREATOR,
     });
