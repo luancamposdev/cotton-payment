@@ -15,7 +15,6 @@ describe('UserEntity', () => {
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
       avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
-      password: password,
       passwordHash: hash,
       role: Role.CLIENT,
     });
@@ -24,7 +23,6 @@ describe('UserEntity', () => {
     expect(user.name.value).toBe('Luan Campos');
     expect(user.email.value).toBe('luancampos@mail.com');
     expect(user.avatarUrl.value).toBe('https://github.com/luancamposdev.png');
-    expect(user.password.value()).toBe('myPassword123');
     expect(await user.passwordHash.compare(password)).toBe(true);
     expect(user.role).toBe(Role.CLIENT);
     expect(user.createdAt).toBeInstanceOf(Date);
@@ -39,7 +37,6 @@ describe('UserEntity', () => {
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
       avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
-      password: password,
       passwordHash: hash,
       role: Role.CLIENT,
     });
