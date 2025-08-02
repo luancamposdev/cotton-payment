@@ -11,12 +11,20 @@ export enum Role {
   CREATOR = 'CREATOR',
 }
 
+export type SocialProvider = 'google' | 'github';
+
+export interface ISocialLogin {
+  provider: SocialProvider;
+  providerId: string;
+}
+
 export interface IUser {
   name: Name;
   email: Email;
   avatarUrl: AvatarUrl;
   passwordHash: PasswordHash;
   role: Role;
+  socialLogins?: ISocialLogin[];
   deletedAccountAt?: Date | null;
   createdAt: Date;
 }
@@ -87,5 +95,28 @@ export class UserEntity {
 
   public get createdAt(): Date {
     return this.props.createdAt;
+  }
+
+  public addSocialLogin(login: ISocialLogin) {
+    this.props.socialLogins = this.props.socialLogins ?? [];
+    const exists = this.props.socialLogins.find(
+      (l) => l.provider === login.provider && l.providerId === login.providerId,
+    );
+    if (!exists) {
+      this.props.socialLogins.push(login);
+    }
+  }
+
+  public findByProvider(
+    provider: string,
+    providerId: string,
+  ): ISocialLogin | undefined {
+    return (this.props.socialLogins ?? []).find(
+      (l) => l.provider === provider && l.providerId === providerId,
+    );
+  }
+
+  public get socialLogins(): ISocialLogin[] {
+    return this.props.socialLogins ?? [];
   }
 }
