@@ -32,7 +32,7 @@ export class InMemoryUserRepository implements UserRepository {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async save(user: UserEntity): Promise<void> {
-    const index = this.users.findIndex((user) => user.id === user.id);
+    const index = this.users.findIndex((u) => u.id === user.id);
 
     if (index >= 0) this.users[index] = user;
   }
