@@ -107,12 +107,12 @@ export class UserEntity {
     }
   }
 
-  public findByProvider(
+  public findSocialLogin(
     provider: string,
     providerId: string,
   ): ISocialLogin | undefined {
     return (this.props.socialLogins ?? []).find(
-      (l) => l.provider === provider && l.providerId === providerId,
+      (login) => login.provider === provider && login.providerId === providerId,
     );
   }
 

@@ -7,4 +7,5 @@ export abstract class UserRepository {
     provider: string,
     providerId: string,
   ): Promise<UserEntity | null>;
+  abstract save(user: UserEntity): Promise<void>;
 }
