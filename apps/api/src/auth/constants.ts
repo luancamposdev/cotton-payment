@@ -1,5 +1,5 @@
 export const JWT_STRATEGY = 'jwt';
-export const LOCAL_STRATEGY = 'local';
+export const LOCAL_STRATEGY = 'local' as const;
 export const GITHUB_STRATEGY = 'github';
 export const GOOGLE_STRATEGY = 'google';
 
