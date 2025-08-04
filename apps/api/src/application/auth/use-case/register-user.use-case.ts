@@ -25,23 +25,24 @@ export class RegisterUser {
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute(request: IRegisterUserRequest): Promise<IRegisterUserResponse> {
-    const email = Email.create(request.email.value);
+    const email = request.email; // já é value object
     const existingUser = await this.userRepository.findByEmail(email.value);
 
     if (existingUser) {
       throw new ConflictException('E-mail já está em uso');
     }
 
-    const name = Name.create(request.name.value);
-    const avatarUrl = AvatarUrl.create(request.avatarUrl?.value ?? '');
+    const name = request.name;
+    const avatarUrl = request.avatarUrl ?? AvatarUrl.create('');
     const role = request.role ?? Role.CLIENT;
-    const password = Password.create(request.password.value());
+    const password = request.password;
+    const passwordHash = await PasswordHash.fromPassword(password);
 
     const user = new UserEntity({
       name,
       email,
       avatarUrl,
-      passwordHash: await PasswordHash.fromPassword(password),
+      passwordHash,
       role,
     });
 
