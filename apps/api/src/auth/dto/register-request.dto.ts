@@ -1,13 +1,27 @@
-import { Name } from '@core/users/value-objects/name';
-import { Email } from '@core/shared/value-objects/email';
-import { Password } from '@core/shared/value-objects/password';
-import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 import { Role } from '@core/users/entities/user.entity';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class RegisterRequestDto {
-  name: Name;
-  email: Email;
-  password: Password;
-  avatarUrl?: AvatarUrl;
+  @IsString()
+  name: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsString()
+  @MinLength(6)
+  password: string;
+
+  @IsOptional()
+  avatarUrl?: string;
+
+  @IsOptional()
+  @IsEnum(Role)
   role: Role.CLIENT;
 }
