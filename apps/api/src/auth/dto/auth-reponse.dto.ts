@@ -7,9 +7,9 @@ export class AuthResponseDto {
   access_token: string;
   user: {
     id: string;
-    name: Name;
-    email: Email;
-    avatarUrl?: AvatarUrl;
+    name: string;
+    email: string;
+    avatarUrl?: string;
     role: Role;
     createdAt: Date;
   };
