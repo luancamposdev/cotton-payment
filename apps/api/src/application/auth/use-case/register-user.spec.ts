@@ -24,5 +24,32 @@ describe('Register user', () => {
     expect(user).toBeTruthy();
     expect(user.email.value).toBe('luancampos@mail.com');
     expect(user.name.value).toBe('Luan Campos');
+    expect(user.role).toBe(Role.CREATOR);
+    expect(user.passwordHash.value()).not.toBe('myPassword123');
+  });
+
+  it('Should not allow duplicate email', async () => {
+    const userRepository = new InMemoryUserRepository();
+    const registerUser = new RegisterUser(userRepository);
+
+    const password = Password.create('myPassword123');
+
+    await registerUser.execute({
+      name: Name.create('Luan Campos'),
+      email: Email.create('luancampos@mail.com'),
+      avatarUrl: AvatarUrl.create('https://luancampos.png'),
+      password,
+      role: Role.CREATOR,
+    });
+
+    await expect(
+      registerUser.execute({
+        name: Name.create('Outra Pessoa'),
+        email: Email.create('luancampos@mail.com'),
+        avatarUrl: AvatarUrl.create('https://example.com/avatar.png'),
+        password: Password.create('anotherPass'),
+        role: Role.CLIENT,
+      }),
+    ).rejects.toThrow('E-mail já está em uso');
   });
 });
