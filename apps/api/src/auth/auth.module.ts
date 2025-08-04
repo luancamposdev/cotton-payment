@@ -8,6 +8,8 @@ import { JwtStrategy } from '@/infrastructure/auth/passport/strategies/jwt.strat
 import { LocalStrategy } from '@/infrastructure/auth/passport/strategies/local.strategy';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
+import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
+import { LoginUseCase } from '@application/auth/use-case/login.use-case';
 
 @Module({
   imports: [
@@ -19,9 +21,12 @@ import { InMemoryUserRepository } from '@test/in-memory-user.repository';
   controllers: [AuthController],
   providers: [
     AuthService,
+    RegisterUser,
+    LoginUseCase,
     JwtStrategy,
     LocalStrategy,
     { provide: UserRepository, useClass: InMemoryUserRepository },
   ],
+  exports: [AuthService],
 })
 export class AuthModule {}
