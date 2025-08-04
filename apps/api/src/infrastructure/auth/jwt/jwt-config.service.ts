@@ -6,8 +6,8 @@ import * as process from 'node:process';
 export class JwtConfigService implements JwtOptionsFactory {
   createJwtOptions(): JwtModuleOptions {
     return {
-      secret: process.env.JET_SECRET || 'defaultSecret',
-      signOptions: { expiresIn: '1h' },
+      secret: process.env.JWT_SECRET || 'defaultSecret',
+      signOptions: { expiresIn: process.env.JWT_EXPIRES_IN },
     };
   }
 }
