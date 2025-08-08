@@ -5,9 +5,22 @@ export class AvatarUrl {
     return this._url;
   }
 
-  static create(url: string): AvatarUrl {
-    if (!AvatarUrl.isValid(url)) {
-      throw new Error('Invalid avatar URL');
+  private static generateAvatarUrl(name: string): string {
+    const initials = name
+      .split(' ')
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('')
+      .toUpperCase();
+
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=random&color=fff&rounded=true`;
+  }
+
+  static create(url: string | null | undefined, name: string): AvatarUrl {
+    if (!url || !AvatarUrl.isValid(url)) {
+      const generateUrl = AvatarUrl.generateAvatarUrl(name);
+
+      return new AvatarUrl(generateUrl);
     }
     return new AvatarUrl(url.trim());
   }
@@ -21,7 +34,7 @@ export class AvatarUrl {
     return urlRegex.test(trimmed);
   }
 
-  constructor(url: string) {
+  private constructor(url: string) {
     if (!url.startsWith('http')) {
       throw new Error('Invalid avatar URL');
     }
