@@ -1,39 +1,44 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JWT_STRATEGY } from '@/auth/constants';
+import { ConfigService } from '@nestjs/config';
+import { UserEntity } from '@core/users/entities/user.entity';
+import { UserRepository } from '@core/users/repositories/user.repository';
 
 export interface JwtPayload {
-  sub: string;
-  email: string;
-  role: string;
-  iat?: number;
-  exp?: number;
-}
-
-export interface AuthenticatedUser {
   sub: string;
   email: string;
   role: string;
 }
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, JWT_STRATEGY) {
-  constructor() {
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly configService: ConfigService,
+  ) {
+    const secret = configService.get<string>('JWT_SECRET');
+
+    if (!secret) {
+      throw new Error(
+        'JWT_SECRET must be defined in the environment variables.',
+      );
+    }
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET || 'defaultSecret',
+      ignoreExpiration: false,
+      secretOrKey: secret,
     });
   }
 
-  validate(payload: JwtPayload): AuthenticatedUser {
-    if (!payload.sub || !payload.email || !payload.role) {
-      throw new UnauthorizedException('Invalid JWT payload');
+  async validate(payload: JwtPayload): Promise<UserEntity> {
+    const user = await this.userRepository.findById(payload.sub);
+
+    if (!user) {
+      throw new UnauthorizedException();
     }
-    return {
-      sub: payload.sub,
-      email: payload.email,
-      role: payload.role,
-    };
+
+    return user;
   }
 }
