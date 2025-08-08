@@ -2,6 +2,11 @@ import { UserRepository } from '@core/users/repositories/user.repository';
 import { UserEntity } from '@core/users/entities/user.entity';
 
 export class InMemoryUserRepository implements UserRepository {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async findById(id: string): Promise<UserEntity | null> {
+    const user = this.users.find((user) => user.id === id);
+    return user ?? null;
+  }
   public users: UserEntity[] = [];
 
   // eslint-disable-next-line @typescript-eslint/require-await

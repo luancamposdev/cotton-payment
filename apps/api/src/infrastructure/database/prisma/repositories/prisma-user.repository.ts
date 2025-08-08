@@ -1,8 +1,11 @@
+import { Injectable } from '@nestjs/common';
+
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { ISocialLogin, UserEntity } from '@core/users/entities/user.entity';
 import { PrismaUserMapper } from '@/infrastructure/database/prisma/mappers/prisma-user.mapper';
 import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
 
+@Injectable()
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
   async create(user: UserEntity): Promise<void> {
@@ -27,6 +30,18 @@ export class PrismaUserRepository implements UserRepository {
     });
 
     if (!user) return null;
+
+    return PrismaUserMapper.toDomain(user);
+  }
+
+  async findById(id: string): Promise<UserEntity | null> {
+    const user = await this.prismaService.users.findFirstOrThrow({
+      where: { id },
+    });
+
+    if (!user) {
+      return null;
+    }
 
     return PrismaUserMapper.toDomain(user);
   }

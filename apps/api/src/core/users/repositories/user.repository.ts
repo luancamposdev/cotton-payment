@@ -3,6 +3,7 @@ import { UserEntity } from '@core/users/entities/user.entity';
 export abstract class UserRepository {
   abstract create(user: UserEntity): Promise<void>;
   abstract findByEmail(email: string): Promise<UserEntity | null>;
+  abstract findById(id: string): Promise<UserEntity | null>;
   abstract findBySocialLogin(
     provider: string,
     providerId: string,

@@ -1,18 +1,19 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 
-import { AuthService } from '@/auth/auth.service';
+import { AuthService } from '@/infrastructure/auth/auth.service';
 import { LocalAuthGuard } from '@/infrastructure/auth/passport/guards/local-auth.guard';
 import { JwtAuthGuard } from '@/infrastructure/auth/passport/guards/jwt-auth.guard';
 import { AuthResponseDto } from '@/auth/dto/auth-reponse.dto';
 import { RegisterRequestDto } from '@/auth/dto/register-request.dto';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import { UserViewModel } from '@/auth/mapper/user-view.model';
+import { UserViewModel } from '@/infrastructure/auth/mappers/user-view.model';
 
 import { UserEntity } from '@core/users/entities/user.entity';
 import { Name } from '@core/users/value-objects/name';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 import { Email } from '@core/shared/value-objects/email';
 import { Password } from '@core/shared/value-objects/password';
+import { CurrentUser } from '@/auth/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -42,8 +43,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('profile')
-  profile(@Req() req: { user: UserEntity }) {
-    return UserViewModel.toHTTP(req.user);
+  @Get('profile')
+  profile(@CurrentUser() user: UserEntity) {
+    return UserViewModel.toHTTP(user);
   }
 }

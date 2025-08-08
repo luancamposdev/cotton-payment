@@ -1,7 +1,7 @@
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { JwtService } from '@nestjs/jwt';
 
-import { AuthService } from '@/auth/auth.service';
+import { AuthService } from '@/infrastructure/auth/auth.service';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
