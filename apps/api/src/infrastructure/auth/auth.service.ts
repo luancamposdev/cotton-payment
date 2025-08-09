@@ -8,6 +8,7 @@ import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 import { PasswordHash } from '@core/shared/value-objects/password-hash';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.servce';
 
 export type OAuthProvider = 'google' | 'github';
 
@@ -16,6 +17,7 @@ export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly tokenBlacklistService: TokenBlacklistService,
   ) {}
 
   /**
@@ -99,6 +101,22 @@ export class AuthService {
     return { user, access_token };
   }
 
+  /**
+   * Adiciona um token à lista negra para invalidá-lo.
+   * @param token O token JWT a ser invalidado.
+   */
+  invalidateToken(token: string): void {
+    this.tokenBlacklistService.addToBlacklist(token);
+  }
+
+  /**
+   * Verifica se um token está na lista negra.
+   * @param token O token JWT a ser verificado.
+   * @returns Retorna true se o token estiver na blacklist, false caso contrário.
+   */
+  isTokenInvalid(token: string | null): boolean {
+    return this.tokenBlacklistService.isBlacklisted(token);
+  }
   async loginOAuth(payload: {
     provider: OAuthProvider;
     providerId: string;

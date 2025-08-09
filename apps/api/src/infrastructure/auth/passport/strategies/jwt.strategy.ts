@@ -4,6 +4,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { UserRepository } from '@core/users/repositories/user.repository';
+import { AuthService } from '@infrastructure/auth/auth.service';
 
 export interface JwtPayload {
   sub: string;
@@ -16,6 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly configService: ConfigService,
+    private readonly authService: AuthService,
   ) {
     const secret = configService.get<string>('JWT_SECRET');
 
@@ -29,10 +31,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
       secretOrKey: secret,
+      passReqToCallback: true,
     });
   }
 
-  async validate(payload: JwtPayload): Promise<UserEntity> {
+  async validate(request: Request, payload: JwtPayload): Promise<UserEntity> {
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(request);
+
+    if (this.authService.isTokenInvalid(token)) {
+      throw new UnauthorizedException('Token invalidado.');
+    }
+
     const user = await this.userRepository.findById(payload.sub);
 
     if (!user) {

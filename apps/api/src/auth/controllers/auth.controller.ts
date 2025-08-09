@@ -3,7 +3,9 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
+  Headers,
   UseGuards,
 } from '@nestjs/common';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
@@ -53,5 +55,17 @@ export class AuthController {
   @Get('profile')
   profile(@CurrentUser() user: UserEntity) {
     return UserViewModel.toHTTP(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('logout')
+  @HttpCode(200)
+  logout(@Headers('authorization') authHeader: string) {
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      this.authService.invalidateToken(token);
+    }
+
+    return { message: 'Logout realizado com sucesso.' };
   }
 }
