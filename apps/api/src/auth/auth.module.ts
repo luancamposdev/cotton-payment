@@ -11,7 +11,7 @@ import { RegisterUser } from '@application/auth/use-case/register-user.use-case'
 import { LoginUseCase } from '@application/auth/use-case/login.use-case';
 import { PrismaUserRepository } from '@/infrastructure/database/prisma/repositories/prisma-user.repository';
 import { ConfigModule } from '@nestjs/config';
-import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.servce';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 
 @Module({
   imports: [
