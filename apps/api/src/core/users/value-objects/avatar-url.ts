@@ -13,7 +13,7 @@ export class AvatarUrl {
       .join('')
       .toUpperCase();
 
-    return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=random&color=fff&rounded=true`;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=random&color=#000&rounded=true`;
   }
 
   static create(url: string | null | undefined, name: string): AvatarUrl {
