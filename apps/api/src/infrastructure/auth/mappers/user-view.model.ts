@@ -12,6 +12,7 @@ import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
+import { GenerateAvatarUrl } from '@helpers/generateAvatarUrl';
 
 type RawUserWithSocial = RawUsers & {
   socialLogins?: RawSocialLogin[];
@@ -19,11 +20,15 @@ type RawUserWithSocial = RawUsers & {
 
 export class UserViewModel {
   static toHTTP(user: UserEntity) {
+    const avatarUrl =
+      user.avatarUrl?.value ||
+      GenerateAvatarUrl.generateAvatarUrl(user.name.value);
+
     return {
       id: user.id,
       name: user.name.value,
       email: user.email.value,
-      avatarUrl: user.avatarUrl?.value,
+      avatarUrl: avatarUrl,
       role: user.role,
       createdAt: user.createdAt,
     };
