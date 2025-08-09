@@ -31,7 +31,7 @@ export class UserController {
     return UserViewModel.toHTTP(updatedUser);
   }
 
-  @Delete('delete-account')
+  @Delete()
   async deleteAccount(@CurrentUser() user: UserEntity) {
     await this.deleteUser.execute({
       userId: user.id,
