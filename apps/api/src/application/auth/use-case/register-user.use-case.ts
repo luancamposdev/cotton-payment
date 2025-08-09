@@ -44,7 +44,7 @@ export class RegisterUser {
     const userPasswordHash = await PasswordHash.fromPassword(
       Password.create(password),
     );
-    const userAvatarUrl = AvatarUrl.create(avatarUrl, userName.value);
+    const userAvatarUrl = AvatarUrl.create(avatarUrl);
 
     const user = new UserEntity({
       name: userName,

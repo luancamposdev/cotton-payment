@@ -6,9 +6,7 @@ interface IDeleteUserRequest {
   userId: string;
 }
 
-interface IDeleteUserResponse {
-  user: UserEntity;
-}
+type IDeleteUserResponse = void;
 
 @Injectable()
 export class DeleteUser {
@@ -22,7 +20,5 @@ export class DeleteUser {
     user.deleteAccount();
 
     await this.userRepository.save(user);
-
-    return { user };
   }
 }

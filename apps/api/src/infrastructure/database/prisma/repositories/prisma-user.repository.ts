@@ -12,6 +12,7 @@ export class PrismaUserRepository implements UserRepository {
     await this.prismaService.users.create({
       data: {
         ...PrismaUserMapper.toPrisma(user),
+        avatarUrl: user.avatarUrl?.value ?? null,
         socialLogins: {
           create: (user.socialLogins || []).map((sl: ISocialLogin) => ({
             provider: sl.provider,
@@ -75,7 +76,7 @@ export class PrismaUserRepository implements UserRepository {
       where: {
         email: raw.email,
       },
-      data: raw,
+      data: { ...raw, avatarUrl: user.avatarUrl?.value ?? null },
     });
   }
 }

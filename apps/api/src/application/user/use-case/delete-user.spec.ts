@@ -28,17 +28,18 @@ describe('Delete User', () => {
       password: 'myPassword123',
     });
 
-    const { user: deletedUser } = await deleteUser.execute({
-      userId: registeredUser.id,
-    });
+    await deleteUser.execute({ userId: registeredUser.id });
 
-    expect(deletedUser.deleteAccountAt).toBeInstanceOf(Date);
+    const softDeletedUser = await userRepository.findById(registeredUser.id);
+
+    expect(softDeletedUser?.deleteAccountAt).toBeInstanceOf(Date);
   });
 
   it('Should throw a NotFoundException if user does not exist', async () => {
     const nonExistentUserId = 'non-existent-id';
-    const result = deleteUser.execute({ userId: nonExistentUserId });
 
-    await expect(result).rejects.toThrow(NotFoundException);
+    await expect(() =>
+      deleteUser.execute({ userId: nonExistentUserId }),
+    ).rejects.toThrow(NotFoundException);
   });
 });

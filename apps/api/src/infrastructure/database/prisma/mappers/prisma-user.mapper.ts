@@ -23,7 +23,7 @@ export class PrismaUserMapper {
       id: user.id,
       name: user.name.value,
       email: user.email.value,
-      avatarUrl: user.avatarUrl.value,
+      avatarUrl: user.avatarUrl,
       passwordHash: user.passwordHash.value(),
       role: user.role,
       deletedAccountAt: user.deleteAccountAt,
@@ -36,7 +36,7 @@ export class PrismaUserMapper {
       {
         name: Name.create(raw.name),
         email: Email.create(raw.email),
-        avatarUrl: AvatarUrl.create(raw.avatarUrl, raw.name),
+        avatarUrl: AvatarUrl.create(raw.avatarUrl),
         passwordHash: PasswordHash.fromHash(raw.passwordHash),
         role: raw.role as Role,
         deletedAccountAt: raw.deletedAccountAt,

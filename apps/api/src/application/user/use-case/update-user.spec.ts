@@ -26,6 +26,7 @@ describe('Update user', () => {
     const { user: registeredUser } = await registerUser.execute({
       name: 'Luan Campos',
       email: 'luancampos@mail.com',
+      avatarUrl: 'https://gitub.com/luancamposdev.png',
       password: 'myPassword123',
     });
 
@@ -37,7 +38,7 @@ describe('Update user', () => {
     });
 
     expect(updatedUser.name.value).toBe('Luan Campos Reis');
-    expect(updatedUser.avatarUrl.value).toBe(
+    expect(updatedUser.avatarUrl?.value).toBe(
       'https://gitub.com/luancamposdev.png',
     );
     expect(updatedUser.role).toBe(Role.CREATOR);

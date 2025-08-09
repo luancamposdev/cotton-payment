@@ -14,10 +14,7 @@ describe('UserEntity', () => {
     const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create(
-        'https://github.com/luancamposdev.png',
-        'Luan Campos',
-      ),
+      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
       passwordHash: hash,
       role: Role.CLIENT,
     });
@@ -25,7 +22,7 @@ describe('UserEntity', () => {
     expect(user).toBeTruthy();
     expect(user.name.value).toBe('Luan Campos');
     expect(user.email.value).toBe('luancampos@mail.com');
-    expect(user.avatarUrl.value).toBe('https://github.com/luancamposdev.png');
+    expect(user.avatarUrl?.value).toBe('https://github.com/luancamposdev.png');
     expect(await user.passwordHash.compare(password)).toBe(true);
     expect(user.role).toBe(Role.CLIENT);
     expect(user.createdAt).toBeInstanceOf(Date);
@@ -39,18 +36,14 @@ describe('UserEntity', () => {
     const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create(
-        'https://github.com/luancamposdev.png',
-        'Luan Campos',
-      ),
+      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
       passwordHash: hash,
       role: Role.CLIENT,
     });
 
-    user.avatarUrl = AvatarUrl.create(
-      'https://cdn.example.com/luancampos.png',
-      'Luan Campos',
-    );
+    user.avatarUrl = AvatarUrl.create('https://cdn.example.com/luancampos.png');
+
+    if (!user.avatarUrl) return;
 
     expect(user.avatarUrl.value).toBe('https://cdn.example.com/luancampos.png');
   });

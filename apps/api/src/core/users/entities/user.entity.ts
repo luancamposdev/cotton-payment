@@ -21,7 +21,7 @@ export interface ISocialLogin {
 export interface IUser {
   name: Name;
   email: Email;
-  avatarUrl: AvatarUrl;
+  avatarUrl: AvatarUrl | null;
   passwordHash: PasswordHash;
   role: Role;
   socialLogins?: ISocialLogin[];
@@ -61,11 +61,11 @@ export class UserEntity {
     return this.props.email;
   }
 
-  public set avatarUrl(avatarUrl: AvatarUrl) {
+  public set avatarUrl(avatarUrl: AvatarUrl | null) {
     this.props.avatarUrl = avatarUrl;
   }
 
-  public get avatarUrl(): AvatarUrl {
+  public get avatarUrl(): AvatarUrl | null {
     return this.props.avatarUrl;
   }
 

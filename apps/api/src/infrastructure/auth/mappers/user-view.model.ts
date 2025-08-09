@@ -23,9 +23,8 @@ export class UserViewModel {
       id: user.id,
       name: user.name.value,
       email: user.email.value,
-      avatarUrl: user.avatarUrl.value,
+      avatarUrl: user.avatarUrl?.value,
       role: user.role,
-      deletedAccountAt: user.deleteAccountAt,
       createdAt: user.createdAt,
     };
   }
@@ -35,7 +34,7 @@ export class UserViewModel {
       {
         name: Name.create(raw.name),
         email: Email.create(raw.email),
-        avatarUrl: AvatarUrl.create(raw.avatarUrl, raw.name),
+        avatarUrl: AvatarUrl.create(raw.avatarUrl),
         passwordHash: PasswordHash.fromHash(raw.passwordHash),
         role: raw.role as Role,
         createdAt: raw.createdAt,

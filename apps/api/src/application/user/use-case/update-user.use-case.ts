@@ -9,7 +9,7 @@ import { Role } from '@core/users/entities/user.entity';
 interface IUpdateUserRequest {
   userId: string;
   name?: string;
-  avatarUrl?: string;
+  avatarUrl?: string | null;
   role?: Role;
 }
 
@@ -36,7 +36,7 @@ export class UpdateUser {
     }
 
     if (avatarUrl) {
-      user.avatarUrl = AvatarUrl.create(avatarUrl, '');
+      user.avatarUrl = AvatarUrl.create(avatarUrl);
     }
 
     if (role) {
