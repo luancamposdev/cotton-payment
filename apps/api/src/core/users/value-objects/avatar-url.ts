@@ -17,7 +17,7 @@ export class AvatarUrl {
   }
 
   static create(url: string | null | undefined, name: string): AvatarUrl {
-    if (!url || !AvatarUrl.isValid(url)) {
+    if (!url || (!AvatarUrl.isValid(url) && name)) {
       const generateUrl = AvatarUrl.generateAvatarUrl(name);
 
       return new AvatarUrl(generateUrl);
