@@ -2,8 +2,6 @@
 dist/
 node_modules/
 build/
-*.db
-apps/api/prisma/migrations/**/*
 
 # Logs
 logs
