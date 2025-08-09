@@ -3,12 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 
 import { AuthService } from '@infrastructure/auth/auth.service';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import {
-  LoginUseCase,
-  InvalidCredentialsError,
-} from '@application/auth/use-case/login.use-case';
+import { LoginUseCase } from '@application/auth/use-case/login.use-case';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
+import { InvalidCredentialsError } from '@application/auth/use-case/Errors/InvalidCredentialsError';
 
 describe('AuthService (integration-ish)', () => {
   let userRepository: InMemoryUserRepository;
