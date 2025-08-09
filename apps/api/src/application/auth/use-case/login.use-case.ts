@@ -4,13 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { Password } from '@core/shared/value-objects/password';
-
-export class InvalidCredentialsError extends Error {
-  constructor() {
-    super('E-mail ou senha inválidos');
-    this.name = 'InvalidCredentialsError';
-  }
-}
+import { InvalidCredentialsError } from '@application/auth/use-case/Errors/InvalidCredentialsError';
 
 interface ILoginUserRequest {
   email: string;
