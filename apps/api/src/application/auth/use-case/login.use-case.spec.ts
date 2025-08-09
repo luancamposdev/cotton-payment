@@ -7,18 +7,25 @@ import {
   LoginUseCase,
   InvalidCredentialsError,
 } from '@application/auth/use-case/login.use-case';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 
 describe('AuthService (integration-ish)', () => {
   let userRepository: InMemoryUserRepository;
   let jwtService: JwtService;
   let authService: AuthService;
   let registerUser: RegisterUser;
+  let tokenBlacklistService: TokenBlacklistService;
   let loginUseCase: LoginUseCase;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TESTE_SECRET_KEY' });
-    authService = new AuthService(userRepository, jwtService);
+    tokenBlacklistService = new TokenBlacklistService();
+    authService = new AuthService(
+      userRepository,
+      jwtService,
+      tokenBlacklistService,
+    );
 
     registerUser = new RegisterUser(userRepository, authService);
     loginUseCase = new LoginUseCase(userRepository, jwtService);

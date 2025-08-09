@@ -6,6 +6,7 @@ import { UpdateUser } from '@application/user/use-case/update-user.use-case';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { AuthService } from '@infrastructure/auth/auth.service';
 import { Role } from '@core/users/entities/user.entity';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 
 describe('Update user', () => {
   let userRepository: InMemoryUserRepository;
@@ -13,11 +14,17 @@ describe('Update user', () => {
   let registerUser: RegisterUser;
   let authService: AuthService;
   let jwtService: JwtService;
+  let tokenBlacklistService: TokenBlacklistService;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TEST_SECRET_KEY' });
-    authService = new AuthService(userRepository, jwtService);
+    tokenBlacklistService = new TokenBlacklistService();
+    authService = new AuthService(
+      userRepository,
+      jwtService,
+      tokenBlacklistService,
+    );
     registerUser = new RegisterUser(userRepository, authService);
     updateUser = new UpdateUser(userRepository);
   });

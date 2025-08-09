@@ -8,6 +8,7 @@ import {
   InvalidCredentialsError,
 } from '@application/auth/use-case/login.use-case';
 import { UserEntity } from '@core/users/entities/user.entity';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 
 describe('AuthService (integration-ish)', () => {
   let userRepository: InMemoryUserRepository;
@@ -16,11 +17,17 @@ describe('AuthService (integration-ish)', () => {
   let registerUser: RegisterUser;
   let loginUseCase: LoginUseCase;
   let registeredUser: UserEntity;
+  let tokenBlacklistService: TokenBlacklistService;
 
   beforeEach(async () => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TESTE_SECRET_KEY' });
-    authService = new AuthService(userRepository, jwtService);
+    tokenBlacklistService = new TokenBlacklistService();
+    authService = new AuthService(
+      userRepository,
+      jwtService,
+      tokenBlacklistService,
+    );
 
     registerUser = new RegisterUser(userRepository, authService);
     loginUseCase = new LoginUseCase(userRepository, jwtService);

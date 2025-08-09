@@ -5,17 +5,24 @@ import { AuthService } from '@infrastructure/auth/auth.service';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { Role } from '@core/users/entities/user.entity';
 import { Password } from '@core/shared/value-objects/password';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 
 describe('Register user', () => {
   let userRepository: InMemoryUserRepository;
   let authService: AuthService;
   let registerUser: RegisterUser;
+  let tokenBlacklistService: TokenBlacklistService;
   let jwtService: JwtService;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TESTE_SECRET_KEY' });
-    authService = new AuthService(userRepository, jwtService);
+    tokenBlacklistService = new TokenBlacklistService();
+    authService = new AuthService(
+      userRepository,
+      jwtService,
+      tokenBlacklistService,
+    );
     registerUser = new RegisterUser(userRepository, authService);
   });
 

@@ -5,6 +5,7 @@ import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { AuthService } from '@infrastructure/auth/auth.service';
 import { DeleteUser } from '@application/user/use-case/delete-user.use-case';
+import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 
 describe('Delete User', () => {
   let userRepository: InMemoryUserRepository;
@@ -12,11 +13,17 @@ describe('Delete User', () => {
   let registerUser: RegisterUser;
   let authService: AuthService;
   let jwtService: JwtService;
+  let tokenBlacklistService: TokenBlacklistService;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TEST_SECRET_KEY' });
-    authService = new AuthService(userRepository, jwtService);
+    tokenBlacklistService = new TokenBlacklistService();
+    authService = new AuthService(
+      userRepository,
+      jwtService,
+      tokenBlacklistService,
+    );
     registerUser = new RegisterUser(userRepository, authService);
     deleteUser = new DeleteUser(userRepository);
   });
