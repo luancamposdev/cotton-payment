@@ -38,7 +38,6 @@ export class UserViewModel {
         avatarUrl: AvatarUrl.create(raw.avatarUrl, raw.name),
         passwordHash: PasswordHash.fromHash(raw.passwordHash),
         role: raw.role as Role,
-        deletedAccountAt: raw.deletedAccountAt,
         createdAt: raw.createdAt,
         socialLogins: [],
       },

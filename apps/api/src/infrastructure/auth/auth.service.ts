@@ -18,12 +18,22 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  /**
+   * Valida as credenciais do usuário.
+   * Usado pelo LocalAuthGuard.
+   *
+   * @param email O email do usuário.
+   * @param password A senha do usuário.
+   * @returns A entidade do usuário se as credenciais forem válidas.
+   */
   async validateCredentials(
     email: string,
     password: string,
   ): Promise<UserEntity | null> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) return null;
+
+    if (user.deleteAccountAt) return null;
 
     const isValid = await user.passwordHash.compare(Password.create(password));
     if (!isValid) return null;
