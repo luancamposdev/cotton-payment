@@ -18,7 +18,10 @@ describe('FindUserByEmailUseCase', () => {
     const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
+      avatarUrl: AvatarUrl.create(
+        'https://github.com/luancamposdev.png',
+        'Luan Campos',
+      ),
       passwordHash,
       role: Role.CREATOR,
     });

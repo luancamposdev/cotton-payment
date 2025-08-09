@@ -1,55 +1,56 @@
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
+import { JwtService } from '@nestjs/jwt';
+
+import { AuthService } from '@infrastructure/auth/auth.service';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import { Password } from '@core/shared/value-objects/password';
 import { Role } from '@core/users/entities/user.entity';
-import { Name } from '@core/users/value-objects/name';
-import { Email } from '@core/shared/value-objects/email';
-import { AvatarUrl } from '@core/users/value-objects/avatar-url';
+import { Password } from '@core/shared/value-objects/password';
 
 describe('Register user', () => {
+  let userRepository: InMemoryUserRepository;
+  let authService: AuthService;
+  let registerUser: RegisterUser;
+  let jwtService: JwtService;
+
+  beforeEach(() => {
+    userRepository = new InMemoryUserRepository();
+    jwtService = new JwtService({ secret: 'TESTE_SECRET_KEY' });
+    authService = new AuthService(userRepository, jwtService);
+    registerUser = new RegisterUser(userRepository, authService);
+  });
+
   it('Should be able to register user', async () => {
-    const userRepository = new InMemoryUserRepository();
-    const registerUser = new RegisterUser(userRepository);
-
-    const password = Password.create('myPassword123');
-
     const { user } = await registerUser.execute({
-      name: Name.create('Luan Campos'),
-      email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create('https://luancampos.png'),
-      password,
-      role: Role.CREATOR,
+      name: 'Luan Campos',
+      email: 'luancampos@mail.com',
+      avatarUrl: 'https://luancampos.png',
+      password: 'myPassword123',
     });
 
-    expect(user).toBeTruthy();
+    expect(user).toBeDefined();
     expect(user.email.value).toBe('luancampos@mail.com');
     expect(user.name.value).toBe('Luan Campos');
-    expect(user.role).toBe(Role.CREATOR);
-    expect(user.passwordHash.value()).not.toBe('myPassword123');
+    expect(user.role).toBe(Role.CLIENT);
+    expect(
+      await user.passwordHash.compare(Password.create('myPassword123')),
+    ).toBeTruthy();
   });
 
   it('Should not allow duplicate email', async () => {
-    const userRepository = new InMemoryUserRepository();
-    const registerUser = new RegisterUser(userRepository);
-
-    const password = Password.create('myPassword123');
-
     await registerUser.execute({
-      name: Name.create('Luan Campos'),
-      email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create('https://luancampos.png'),
-      password,
-      role: Role.CREATOR,
+      name: 'Luan Campos',
+      email: 'luancampos@mail.com',
+      avatarUrl: 'https://luancampos.png',
+      password: 'myPassword123',
     });
 
     await expect(
       registerUser.execute({
-        name: Name.create('Outra Pessoa'),
-        email: Email.create('luancampos@mail.com'),
-        avatarUrl: AvatarUrl.create('https://example.com/avatar.png'),
-        password: Password.create('anotherPass'),
-        role: Role.CLIENT,
+        name: 'Outra Pessoa',
+        email: 'luancampos@mail.com',
+        avatarUrl: 'https://example.com/avatar.png',
+        password: 'anotherPass',
       }),
-    ).rejects.toThrow('E-mail já está em uso');
+    ).rejects.toThrow('User already exists.');
   });
 });

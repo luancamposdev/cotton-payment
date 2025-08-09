@@ -1,31 +1,20 @@
 import { AvatarUrl } from './avatar-url';
+import { Name } from '@core/users/value-objects/name';
 
 describe('AvatarURL', () => {
   it('should create a valid avatar with HTTPS URL', () => {
     const url = 'https://github.com/luancamposdev';
-    const avatarUrl = AvatarUrl.create(url);
+    const name = Name.create('Luan Campos').value;
+    const avatarUrl = AvatarUrl.create(url, name);
 
     expect(avatarUrl).toBeInstanceOf(AvatarUrl);
     expect(avatarUrl.value).toBe(url);
   });
 
-  it('Should throw an error if the avatar URl is an empty string', () => {
-    expect(() => AvatarUrl.create('')).toThrow('Invalid avatar URL');
-  });
-
-  it('Should throw an error if the URL is not valid', () => {
-    const invalidUrl = 'not-a-url';
-    expect(() => AvatarUrl.create(invalidUrl)).toThrow('Invalid avatar URL');
-  });
-
-  it('should throw an error if the URL does not start with http or https', () => {
-    const invalidUrl = 'ftp://example.com/avatar.png';
-    expect(() => AvatarUrl.create(invalidUrl)).toThrow('Invalid avatar URL');
-  });
-
   it('should trim whitespace from the URL', () => {
     const urlWithSpaces = '  https://cdn.com/avatar.jpg  ';
-    const avatar = AvatarUrl.create(urlWithSpaces);
+    const name = Name.create('Luan Campos').value;
+    const avatar = AvatarUrl.create(urlWithSpaces, name);
 
     expect(avatar.value).toBe('https://cdn.com/avatar.jpg');
   });

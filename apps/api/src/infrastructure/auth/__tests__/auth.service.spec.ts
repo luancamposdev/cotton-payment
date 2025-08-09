@@ -7,6 +7,7 @@ import {
   LoginUseCase,
   InvalidCredentialsError,
 } from '@application/auth/use-case/login.use-case';
+import { UserEntity } from '@core/users/entities/user.entity';
 
 describe('AuthService (integration-ish)', () => {
   let userRepository: InMemoryUserRepository;
@@ -14,43 +15,39 @@ describe('AuthService (integration-ish)', () => {
   let authService: AuthService;
   let registerUser: RegisterUser;
   let loginUseCase: LoginUseCase;
+  let registeredUser: UserEntity;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TESTE_SECRET_KEY' });
     authService = new AuthService(userRepository, jwtService);
 
     registerUser = new RegisterUser(userRepository, authService);
     loginUseCase = new LoginUseCase(userRepository, jwtService);
-  });
 
-  it('Should be able authenticate with valid credentials', async () => {
-    await registerUser.execute({
+    const { user } = await registerUser.execute({
       name: 'Luan Campos',
       email: 'luancampos@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
     });
 
+    registeredUser = user;
+  });
+
+  it('Should be able authenticate with valid credentials', async () => {
     const result = await authService.validateCredentials(
-      'luancampos@mail.com',
+      registeredUser.email.value,
       'myPassword123',
     );
 
     expect(result).toBeDefined();
-    expect(result!.email.value).toBe('luancampos@mail.com');
+    expect(result!.email.value).toBe(registeredUser.email.value);
   });
 
   it('Should throw InvalidCredentialsError with invalid password', async () => {
-    await registerUser.execute({
-      name: 'Luan Campos',
-      email: 'luan@mail.com',
-      avatarUrl: 'https://github.com/luancamposdev.png',
-      password: 'myPassword123',
-    });
-
     const result = loginUseCase.execute({
-      email: 'luan@mail.com',
+      email: registeredUser.email.value,
       password: 'wrongPass',
     });
 
@@ -58,17 +55,10 @@ describe('AuthService (integration-ish)', () => {
   });
 
   it('loginUseCase returns token and user', async () => {
-    await registerUser.execute({
-      name: 'Luan Campos',
-      email: 'luanzinho@mail.com',
-      avatarUrl: 'https://github.com/luancamposdev.png',
-      password: 'myPassword123',
-    });
-
     jest.spyOn(jwtService, 'sign').mockReturnValue('fixed-token');
 
     const { user: logged, token } = await loginUseCase.execute({
-      email: 'luanzinho@mail.com',
+      email: registeredUser.email.value,
       password: 'myPassword123',
     });
 

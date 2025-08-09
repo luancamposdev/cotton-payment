@@ -14,7 +14,10 @@ describe('UserEntity', () => {
     const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
+      avatarUrl: AvatarUrl.create(
+        'https://github.com/luancamposdev.png',
+        'Luan Campos',
+      ),
       passwordHash: hash,
       role: Role.CLIENT,
     });
@@ -36,12 +39,18 @@ describe('UserEntity', () => {
     const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
+      avatarUrl: AvatarUrl.create(
+        'https://github.com/luancamposdev.png',
+        'Luan Campos',
+      ),
       passwordHash: hash,
       role: Role.CLIENT,
     });
 
-    user.avatarUrl = AvatarUrl.create('https://cdn.example.com/luancampos.png');
+    user.avatarUrl = AvatarUrl.create(
+      'https://cdn.example.com/luancampos.png',
+      'Luan Campos',
+    );
 
     expect(user.avatarUrl.value).toBe('https://cdn.example.com/luancampos.png');
   });
