@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserEntity } from '@core/users/entities/user.entity';
 import { UserRepository } from '@core/users/repositories/user.repository';
 
 interface IDeleteUserRequest {
