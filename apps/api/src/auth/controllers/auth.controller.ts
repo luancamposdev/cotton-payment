@@ -33,6 +33,7 @@ export class AuthController {
         email: body.email,
         password: body.password,
         avatarUrl: body.avatarUrl,
+        role: body.role,
       });
 
       return { access_token: token, user: UserViewModel.toHTTP(user) };

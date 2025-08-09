@@ -14,6 +14,7 @@ interface RegisterUserRequest {
   email: string;
   password: string;
   avatarUrl?: string | null;
+  role: Role;
 }
 
 interface RegisterUserResponse {
@@ -33,6 +34,7 @@ export class RegisterUser {
     email,
     password,
     avatarUrl,
+    role,
   }: RegisterUserRequest): Promise<RegisterUserResponse> {
     const userExists = await this.userRepository.findByEmail(email);
     if (userExists) {
@@ -51,7 +53,7 @@ export class RegisterUser {
       email: userEmail,
       avatarUrl: userAvatarUrl,
       passwordHash: userPasswordHash,
-      role: Role.CLIENT,
+      role: role || Role.CLIENT,
     });
 
     await this.userRepository.create(user);
