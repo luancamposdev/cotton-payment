@@ -1,45 +1,55 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-
-import { AuthService } from '@/infrastructure/auth/auth.service';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { LocalAuthGuard } from '@/infrastructure/auth/passport/guards/local-auth.guard';
 import { JwtAuthGuard } from '@/infrastructure/auth/passport/guards/jwt-auth.guard';
-import { AuthResponseDto } from '@/auth/dto/auth-reponse.dto';
 import { RegisterRequestDto } from '@/auth/dto/register-request.dto';
-import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { UserViewModel } from '@/infrastructure/auth/mappers/user-view.model';
-
-import { UserEntity } from '@core/users/entities/user.entity';
-import { Name } from '@core/users/value-objects/name';
-import { AvatarUrl } from '@core/users/value-objects/avatar-url';
-import { Email } from '@core/shared/value-objects/email';
-import { Password } from '@core/shared/value-objects/password';
 import { CurrentUser } from '@/auth/current-user.decorator';
+import { AuthResponseDto } from '@/auth/dto/auth-reponse.dto';
+import { UserEntity } from '@core/users/entities/user.entity';
+import { AuthService } from '@/infrastructure/auth/auth.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService,
     private readonly registerUser: RegisterUser,
+    private readonly authService: AuthService,
   ) {}
 
   @Post('register')
   async register(@Body() body: RegisterRequestDto): Promise<AuthResponseDto> {
-    const { user } = await this.registerUser.execute({
-      name: Name.create(body.name),
-      email: Email.create(body.email),
-      avatarUrl: AvatarUrl.create(body.avatarUrl ?? ''),
-      password: Password.create(body.password),
-      role: body.role,
-    });
-    const token = this.authService.signJwt(user);
-    return { access_token: token, user: UserViewModel.toHTTP(user) };
+    try {
+      const { user, token } = await this.registerUser.execute({
+        name: body.name,
+        email: body.email,
+        password: body.password,
+        avatarUrl: body.avatarUrl,
+      });
+
+      return { access_token: token, user: UserViewModel.toHTTP(user) };
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new BadRequestException(error.message);
+      }
+      if (error instanceof Error) {
+        throw new BadRequestException(error.message);
+      }
+      throw error;
+    }
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Req() req: { user: UserEntity }): AuthResponseDto {
-    const token = this.authService.signJwt(req.user);
-    return { access_token: token, user: UserViewModel.toHTTP(req.user) };
+  login(@CurrentUser() user: UserEntity): AuthResponseDto {
+    const token = this.authService.signJwt(user);
+    return { access_token: token, user: UserViewModel.toHTTP(user) };
   }
 
   @UseGuards(JwtAuthGuard)

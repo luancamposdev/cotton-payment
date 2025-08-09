@@ -1,35 +1,56 @@
-import { Email } from '@core/shared/value-objects/email';
-import { UserEntity } from '@core/users/entities/user.entity';
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
 import { UserRepository } from '@core/users/repositories/user.repository';
-import { UnauthorizedException } from '@nestjs/common';
+import { UserEntity } from '@core/users/entities/user.entity';
 import { Password } from '@core/shared/value-objects/password';
 
+export class InvalidCredentialsError extends Error {
+  constructor() {
+    super('E-mail ou senha inválidos');
+    this.name = 'InvalidCredentialsError';
+  }
+}
+
 interface ILoginUserRequest {
-  email: Email;
-  password: Password;
+  email: string;
+  password: string;
 }
 
 interface ILoginUserResponse {
   user: UserEntity;
+  token: string;
 }
 
+@Injectable()
 export class LoginUseCase {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  async execute(request: ILoginUserRequest): Promise<ILoginUserResponse> {
-    const email = Email.create(request.email.value);
-    const user = await this.userRepository.findByEmail(email.value);
+  async execute({
+    email,
+    password,
+  }: ILoginUserRequest): Promise<ILoginUserResponse> {
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      throw new UnauthorizedException('E-mail ou senha inválidos');
+      throw new InvalidCredentialsError();
     }
 
-    const isValid = await user.passwordHash.compare(request.password);
+    const isValid = await user.passwordHash.compare(Password.create(password));
 
     if (!isValid) {
-      throw new UnauthorizedException('E-mail ou senha inválidos');
+      throw new InvalidCredentialsError();
     }
 
-    return { user };
+    const token = this.jwtService.sign({
+      sub: user.id,
+      email: user.email.value,
+      role: user.role,
+    });
+
+    return { user, token };
   }
 }

@@ -61,7 +61,7 @@ export class AuthService {
     user = new UserEntity({
       name: Name.create(name),
       email: Email.create(email),
-      avatarUrl: AvatarUrl.create(avatarUrl ?? ''),
+      avatarUrl: AvatarUrl.create(avatarUrl, name),
       passwordHash: await PasswordHash.fromPassword(
         Password.create(Math.random().toString(36).slice(2)),
       ),

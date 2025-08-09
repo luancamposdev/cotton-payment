@@ -35,7 +35,7 @@ export class UserViewModel {
       {
         name: Name.create(raw.name),
         email: Email.create(raw.email),
-        avatarUrl: AvatarUrl.create(raw.avatarUrl),
+        avatarUrl: AvatarUrl.create(raw.avatarUrl, raw.name),
         passwordHash: PasswordHash.fromHash(raw.passwordHash),
         role: raw.role as Role,
         deletedAccountAt: raw.deletedAccountAt,

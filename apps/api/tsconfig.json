@@ -23,7 +23,7 @@
       "@application/*": ["./src/application/*"],
       "@core/*": ["./src/core/*"],
       "@helpers/*": ["./src/helpers/*"],
-      "@infra/*": ["./src/infra/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
       "@test/*": ["./test/*"]
     }
   }

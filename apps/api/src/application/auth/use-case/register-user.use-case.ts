@@ -1,57 +1,62 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
-import { Email } from '@core/shared/value-objects/email';
-import { UserRepository } from '@core/users/repositories/user.repository';
-import { Role, UserEntity } from '@core/users/entities/user.entity';
-import { Password } from '@core/shared/value-objects/password';
-import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Name } from '@core/users/value-objects/name';
+import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
+import { Password } from '@core/shared/value-objects/password';
+import { UserEntity, Role } from '@core/users/entities/user.entity';
+import { UserRepository } from '@core/users/repositories/user.repository';
+import { PasswordHash } from '@core/shared/value-objects/password-hash';
+import { AuthService } from '@infrastructure/auth/auth.service';
 
-interface IRegisterUserRequest {
+interface RegisterUserRequest {
   name: string;
   email: string;
-  avatarUrl?: string | null;
   password: string;
+  avatarUrl?: string | null;
 }
 
-interface IRegisterUserResponse {
+interface RegisterUserResponse {
   user: UserEntity;
+  token: string;
 }
 
 @Injectable()
 export class RegisterUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly authService: AuthService,
+  ) {}
 
   async execute({
     name,
     email,
     password,
     avatarUrl,
-  }: IRegisterUserRequest): Promise<IRegisterUserResponse> {
+  }: RegisterUserRequest): Promise<RegisterUserResponse> {
     const userExists = await this.userRepository.findByEmail(email);
     if (userExists) {
-      throw new ConflictException('Usuário já existe.');
+      throw new Error('User already exists.');
     }
 
-    const userEmail = Email.create(email);
     const userName = Name.create(name);
+    const userEmail = Email.create(email);
     const userPasswordHash = await PasswordHash.fromPassword(
       Password.create(password),
     );
-
-    const userAvatar = AvatarUrl.create(avatarUrl, userEmail.value);
+    const userAvatarUrl = AvatarUrl.create(avatarUrl, userName.value);
 
     const user = new UserEntity({
       name: userName,
       email: userEmail,
-      avatarUrl: userAvatar,
+      avatarUrl: userAvatarUrl,
       passwordHash: userPasswordHash,
       role: Role.CLIENT,
     });
 
     await this.userRepository.create(user);
+    const token = this.authService.signJwt(user);
 
-    return { user };
+    return { user, token };
   }
 }
