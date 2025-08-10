@@ -5,10 +5,12 @@ import { UserRepository } from '@core/users/repositories/user.repository';
 import { Name } from '@core/users/value-objects/name';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 import { Role } from '@core/users/entities/user.entity';
+import { Email } from '@core/shared/value-objects/email';
 
 interface IUpdateUserRequest {
   userId: string;
   name?: string;
+  email?: string;
   avatarUrl?: string | null;
   role?: Role;
 }
@@ -24,6 +26,7 @@ export class UpdateUser {
   async execute({
     userId,
     name,
+    email,
     avatarUrl,
     role,
   }: IUpdateUserRequest): Promise<IUpdateUserResponse> {
@@ -33,6 +36,10 @@ export class UpdateUser {
 
     if (name) {
       user.name = Name.create(name);
+    }
+
+    if (email) {
+      user.email = Email.create(email);
     }
 
     if (avatarUrl) {

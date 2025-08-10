@@ -6,6 +6,7 @@ import { RegisterUser } from '@application/auth/use-case/register-user.use-case'
 import { AuthService } from '@infrastructure/auth/auth.service';
 import { DeleteUser } from '@application/user/use-case/delete-user.use-case';
 import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
+import { Role } from '@core/users/entities/user.entity';
 
 describe('Delete User', () => {
   let userRepository: InMemoryUserRepository;
@@ -33,6 +34,7 @@ describe('Delete User', () => {
       name: 'Luan Campos',
       email: 'luancampos@mail.com',
       password: 'myPassword123',
+      role: Role.CLIENT,
     });
 
     await deleteUser.execute({ userId: registeredUser.id });

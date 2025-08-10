@@ -73,9 +73,7 @@ export class PrismaUserRepository implements UserRepository {
   async save(user: UserEntity): Promise<void> {
     const raw = PrismaUserMapper.toPrisma(user);
     await this.prismaService.users.update({
-      where: {
-        email: raw.email,
-      },
+      where: { id: raw.id },
       data: { ...raw, avatarUrl: user.avatarUrl?.value ?? null },
     });
   }

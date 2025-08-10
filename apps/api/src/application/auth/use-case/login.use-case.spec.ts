@@ -6,6 +6,7 @@ import { RegisterUser } from '@application/auth/use-case/register-user.use-case'
 import { LoginUseCase } from '@application/auth/use-case/login.use-case';
 import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
 import { InvalidCredentialsError } from '@/application/auth/use-case/Errors/InvalidCredentialsError';
+import { Role } from '@core/users/entities/user.entity';
 
 describe('AuthService (integration-ish)', () => {
   let userRepository: InMemoryUserRepository;
@@ -34,6 +35,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luancampos@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
+      role: Role.CLIENT,
     });
 
     const result = await authService.validateCredentials(
@@ -51,6 +53,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luan@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
+      role: Role.CLIENT,
     });
 
     const result = loginUseCase.execute({
@@ -67,6 +70,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luanzinho@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
+      role: Role.CLIENT,
     });
 
     jest.spyOn(jwtService, 'sign').mockReturnValue('fixed-token');

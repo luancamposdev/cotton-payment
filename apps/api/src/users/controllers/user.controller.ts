@@ -24,6 +24,7 @@ export class UserController {
     const { user: updatedUser } = await this.updateUser.execute({
       userId: user.id,
       name: body.name,
+      email: body.email,
       avatarUrl: body.avatarUrl,
       role: body.role,
     });

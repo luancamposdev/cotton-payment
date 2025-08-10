@@ -23,7 +23,7 @@ export class PrismaUserMapper {
       id: user.id,
       name: user.name.value,
       email: user.email.value,
-      avatarUrl: user.avatarUrl,
+      avatarUrl: user.avatarUrl?.value,
       passwordHash: user.passwordHash.value(),
       role: user.role,
       deletedAccountAt: user.deleteAccountAt,
