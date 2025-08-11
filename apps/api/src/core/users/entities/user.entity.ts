@@ -7,6 +7,7 @@ import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Replace } from '@helpers/replace';
 
 export enum Role {
+  ADMIN = 'ADMIN',
   CLIENT = 'CLIENT',
   CREATOR = 'CREATOR',
 }

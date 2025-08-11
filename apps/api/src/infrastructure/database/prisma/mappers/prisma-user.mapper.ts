@@ -1,6 +1,7 @@
 import {
   Users as RawUsers,
   SocialLogin as RawSocialLogin,
+  Role as RawUserRole,
 } from '@prisma/client';
 
 import {
@@ -25,7 +26,7 @@ export class PrismaUserMapper {
       email: user.email.value,
       avatarUrl: user.avatarUrl?.value,
       passwordHash: user.passwordHash.value(),
-      role: user.role,
+      role: RawUserRole.CUSTOMER ?? user.role,
       deletedAccountAt: user.deleteAccountAt,
       createdAt: user.createdAt,
     };
