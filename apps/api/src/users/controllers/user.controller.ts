@@ -8,7 +8,7 @@ import { UserEntity } from '@core/users/entities/user.entity';
 import { UpdateUserDto } from '@/users/dto/UpdateuserDto';
 import { UserViewModel } from '@infrastructure/auth/mappers/user-view.model';
 
-@Controller('users/me')
+@Controller('users')
 @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(

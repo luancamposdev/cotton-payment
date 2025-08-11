@@ -30,6 +30,7 @@ model SocialLogin {
 }
 
 enum Role {
+  ADMIN
   CREATOR
-  CLIENT
+  CUSTOMER
 }
