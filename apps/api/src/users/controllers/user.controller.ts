@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Patch, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpStatus,
+  Patch,
+  Req,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
+import { Request } from 'express';
 
 import { JwtAuthGuard } from '@infrastructure/auth/passport/guards/jwt-auth.guard';
 import { UpdateUser } from '@application/user/use-case/update-user.use-case';
@@ -33,9 +43,26 @@ export class UserController {
   }
 
   @Delete()
-  async deleteAccount(@CurrentUser() user: UserEntity) {
+  async deleteAccount(@CurrentUser() user: UserEntity, @Req() req: Request) {
+    const authHeader = req.headers.authorization;
+
+    if (typeof authHeader !== 'string' || !authHeader.startsWith('Bearer ')) {
+      throw new UnauthorizedException('Token de autenticação inválido.');
+    }
+    const accessToken = authHeader.split(' ')[1];
+
+    if (!accessToken) {
+      throw new UnauthorizedException('Token de autenticação não fornecido.');
+    }
+
     await this.deleteUser.execute({
       userId: user.id,
+      accessToken,
     });
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Conta excluída com sucesso.',
+    };
   }
 }
