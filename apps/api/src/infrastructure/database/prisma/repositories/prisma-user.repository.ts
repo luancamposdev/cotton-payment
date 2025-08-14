@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
 import { UserRepository } from '@core/users/repositories/user.repository';
-import { ISocialLogin, UserEntity } from '@core/users/entities/user.entity';
+import {
+  ISocialLogin,
+  Role,
+  UserEntity,
+} from '@core/users/entities/user.entity';
 import { PrismaUserMapper } from '@/infrastructure/database/prisma/mappers/prisma-user.mapper';
 import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
 
@@ -13,6 +17,7 @@ export class PrismaUserRepository implements UserRepository {
       data: {
         ...PrismaUserMapper.toPrisma(user),
         avatarUrl: user.avatarUrl?.value ?? null,
+        role: user.role ?? Role.CLIENT,
         socialLogins: {
           create: (user.socialLogins || []).map((sl: ISocialLogin) => ({
             provider: sl.provider,

@@ -26,7 +26,7 @@ export class PrismaUserMapper {
       email: user.email.value,
       avatarUrl: user.avatarUrl?.value,
       passwordHash: user.passwordHash.value(),
-      role: RawUserRole.CUSTOMER ?? user.role,
+      role: user.role ?? RawUserRole.CUSTOMER,
       deletedAccountAt: user.deleteAccountAt,
       createdAt: user.createdAt,
     };
