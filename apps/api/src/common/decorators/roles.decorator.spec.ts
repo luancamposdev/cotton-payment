@@ -10,8 +10,8 @@ describe('Roles Decorator', () => {
 
     const roles = Reflect.getMetadata(
       ROLES_KEY,
-      TestClass.prototype,
-      'testMethod',
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      TestClass.prototype.testMethod,
     ) as Role[];
 
     expect(roles).toEqual([Role.ADMIN, Role.CUSTOMER]);
