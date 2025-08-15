@@ -32,13 +32,13 @@ describe('Register user', () => {
       email: 'luancampos@mail.com',
       avatarUrl: 'https://luancampos.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     expect(user).toBeDefined();
     expect(user.email.value).toBe('luancampos@mail.com');
     expect(user.name.value).toBe('Luan Campos');
-    expect(user.role).toBe(Role.CLIENT);
+    expect(user.role).toBe(Role.CUSTOMER);
     expect(
       await user.passwordHash.compare(Password.create('myPassword123')),
     ).toBeTruthy();
@@ -50,7 +50,7 @@ describe('Register user', () => {
       email: 'luancampos@mail.com',
       avatarUrl: 'https://luancampos.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     await expect(
@@ -59,7 +59,7 @@ describe('Register user', () => {
         email: 'luancampos@mail.com',
         avatarUrl: 'https://example.com/avatar.png',
         password: 'anotherPass',
-        role: Role.CLIENT,
+        role: Role.CUSTOMER,
       }),
     ).rejects.toThrow('User already exists.');
   });

@@ -8,7 +8,7 @@ import { Replace } from '@helpers/replace';
 
 export enum Role {
   ADMIN = 'ADMIN',
-  CLIENT = 'CUSTOMER',
+  CUSTOMER = 'CUSTOMER',
   CREATOR = 'CREATOR',
 }
 

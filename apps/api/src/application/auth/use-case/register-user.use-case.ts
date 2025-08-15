@@ -53,7 +53,7 @@ export class RegisterUser {
       email: userEmail,
       avatarUrl: userAvatarUrl,
       passwordHash: userPasswordHash,
-      role: role ?? Role.CLIENT,
+      role: role ?? Role.CUSTOMER,
     });
 
     await this.userRepository.create(user);

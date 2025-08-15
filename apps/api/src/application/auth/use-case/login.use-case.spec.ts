@@ -35,7 +35,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luancampos@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     const result = await authService.validateCredentials(
@@ -53,7 +53,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luan@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     const result = loginUseCase.execute({
@@ -70,7 +70,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luanzinho@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     jest.spyOn(jwtService, 'sign').mockReturnValue('fixed-token');

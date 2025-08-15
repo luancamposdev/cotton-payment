@@ -77,7 +77,7 @@ export class AuthService {
       passwordHash: await PasswordHash.fromPassword(
         Password.create(Math.random().toString(36).slice(2)),
       ),
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
       socialLogins: [{ provider, providerId }],
     });
 

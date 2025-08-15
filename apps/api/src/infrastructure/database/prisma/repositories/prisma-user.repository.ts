@@ -17,7 +17,7 @@ export class PrismaUserRepository implements UserRepository {
       data: {
         ...PrismaUserMapper.toPrisma(user),
         avatarUrl: user.avatarUrl?.value ?? null,
-        role: user.role ?? Role.CLIENT,
+        role: user.role ?? Role.CUSTOMER,
         socialLogins: {
           create: (user.socialLogins || []).map((sl: ISocialLogin) => ({
             provider: sl.provider,

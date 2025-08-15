@@ -23,5 +23,5 @@ export class RegisterRequestDto {
 
   @IsOptional()
   @IsEnum(Role)
-  role: Role.CLIENT;
+  role: Role.CUSTOMER;
 }

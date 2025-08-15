@@ -35,7 +35,7 @@ describe('Update user', () => {
       email: 'luancampos@mail.com',
       avatarUrl: 'https://gitub.com/luancamposdev.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     const { user: updatedUser } = await updateUser.execute({

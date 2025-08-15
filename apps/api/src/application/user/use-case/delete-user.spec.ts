@@ -20,13 +20,14 @@ describe('Delete User', () => {
     userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TEST_SECRET_KEY' });
     tokenBlacklistService = new TokenBlacklistService();
+    // Pass userRepository and authService to DeleteUser constructor
     authService = new AuthService(
       userRepository,
       jwtService,
       tokenBlacklistService,
     );
     registerUser = new RegisterUser(userRepository, authService);
-    deleteUser = new DeleteUser(userRepository);
+    deleteUser = new DeleteUser(userRepository, authService); // Pass authService here
   });
 
   it('Should be able to soft-delete a user', async () => {
@@ -34,10 +35,19 @@ describe('Delete User', () => {
       name: 'Luan Campos',
       email: 'luancampos@mail.com',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
-    await deleteUser.execute({ userId: registeredUser.id });
+    // Generate a dummy access token for the test
+    const dummyAccessToken = jwtService.sign(
+      { userId: registeredUser.id, role: registeredUser.role },
+      { expiresIn: '1h' },
+    );
+
+    await deleteUser.execute({
+      userId: registeredUser.id,
+      accessToken: dummyAccessToken, // Provide the access token
+    });
 
     const softDeletedUser = await userRepository.findById(registeredUser.id);
 
@@ -46,9 +56,17 @@ describe('Delete User', () => {
 
   it('Should throw a NotFoundException if user does not exist', async () => {
     const nonExistentUserId = 'non-existent-id';
+    // Generate a dummy access token, it doesn't matter for this specific test's outcome
+    const dummyAccessToken = jwtService.sign(
+      { userId: 'some-user-id', role: Role.CUSTOMER },
+      { expiresIn: '1h' },
+    );
 
     await expect(() =>
-      deleteUser.execute({ userId: nonExistentUserId }),
+      deleteUser.execute({
+        userId: nonExistentUserId,
+        accessToken: dummyAccessToken, // Provide the access token
+      }),
     ).rejects.toThrow(NotFoundException);
   });
 });
