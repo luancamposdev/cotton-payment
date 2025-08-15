@@ -9,7 +9,6 @@ import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.serv
 import { InvalidCredentialsError } from '@application/auth/use-case/Errors/InvalidCredentialsError';
 
 describe('AuthService (integration-ish)', () => {
-  let userRepository: InMemoryUserRepository;
   let jwtService: JwtService;
   let authService: AuthService;
   let registerUser: RegisterUser;
@@ -18,7 +17,7 @@ describe('AuthService (integration-ish)', () => {
   let tokenBlacklistService: TokenBlacklistService;
 
   beforeEach(async () => {
-    userRepository = new InMemoryUserRepository();
+    const userRepository = new InMemoryUserRepository();
     jwtService = new JwtService({ secret: 'TESTE_SECRET_KEY' });
     tokenBlacklistService = new TokenBlacklistService();
     authService = new AuthService(
@@ -35,7 +34,7 @@ describe('AuthService (integration-ish)', () => {
       email: 'luancampos@mail.com',
       avatarUrl: 'https://github.com/luancamposdev.png',
       password: 'myPassword123',
-      role: Role.CLIENT,
+      role: Role.CUSTOMER,
     });
 
     registeredUser = user;
