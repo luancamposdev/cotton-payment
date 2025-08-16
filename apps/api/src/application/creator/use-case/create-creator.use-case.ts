@@ -1,7 +1,7 @@
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
 import { CreateCreatorDto } from '@/creators/dto/create-creator.dto';
 import { CreatorsEntity } from '@core/creators/creators.entity';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CreateCreatorUseCase {
@@ -11,7 +11,7 @@ export class CreateCreatorUseCase {
     const existing = await this.creatorRepository.findByUserId(dto.userId);
 
     if (existing) {
-      throw new Error('Creator já cadastrado para este usuário');
+      throw new ConflictException('Creator já cadastrado para este usuário');
     }
 
     const creator = new CreatorsEntity({
