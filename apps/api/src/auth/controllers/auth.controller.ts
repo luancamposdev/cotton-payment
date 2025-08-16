@@ -9,14 +9,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import { LocalAuthGuard } from '@infrastructure/auth/passport/guards/local-auth.guard';
-import { JwtAuthGuard } from '@infrastructure/auth/passport/guards/jwt-auth.guard';
-import { RegisterRequestDto } from '@application/auth/dto/register-request.dto';
-import { UserViewModel } from '@infrastructure/auth/mappers/user-view.model';
-import { CurrentUser } from '@/auth/current-user.decorator';
-import { AuthResponseDto } from '@application/auth/dto/auth-reponse.dto';
+import { LocalAuthGuard } from '@/auth/passport/guards/local-auth.guard';
+import { JwtAuthGuard } from '@/auth/passport/guards/jwt-auth.guard';
+import { RegisterRequestDto } from '@/auth/dto/register-request.dto';
+import { UserViewModel } from '@/auth/mappers/user-view.model';
+import { CurrentUser } from '@/auth/decorators/current-user.decorator';
+import { AuthResponseDto } from '@/auth/dto/auth-reponse.dto';
 import { UserEntity } from '@core/users/entities/user.entity';
-import { AuthService } from '@infrastructure/auth/auth.service';
+import { AuthService } from '@/auth/services/auth.service';
 
 @Controller('auth')
 export class AuthController {

@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 
-import { JwtAuthGuard } from '@infrastructure/auth/passport/guards/jwt-auth.guard';
-import { CurrentUser } from '@/auth/current-user.decorator';
+import { JwtAuthGuard } from '@/auth/passport/guards/jwt-auth.guard';
+import { CurrentUser } from '@/auth/decorators/current-user.decorator';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { UpdateUserDto } from '@/users/dto/UpdateuserDto';
-import { UserViewModel } from '@infrastructure/auth/mappers/user-view.model';
+import { UserViewModel } from '@/auth/mappers/user-view.model';
 import { UsersService } from '@/users/services/user.service';
 
 @Controller('users')

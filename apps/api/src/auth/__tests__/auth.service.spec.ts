@@ -1,11 +1,11 @@
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { JwtService } from '@nestjs/jwt';
 
-import { AuthService } from '@infrastructure/auth/auth.service';
+import { AuthService } from '@/auth/services/auth.service';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { LoginUseCase } from '@application/auth/use-case/login.use-case';
 import { Role, UserEntity } from '@core/users/entities/user.entity';
-import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
+import { TokenBlacklistService } from '@/auth/services/token-blacklist.service';
 import { InvalidCredentialsError } from '@application/auth/use-case/Errors/InvalidCredentialsError';
 
 describe('AuthService (integration-ish)', () => {

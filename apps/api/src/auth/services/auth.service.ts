@@ -8,7 +8,7 @@ import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 import { PasswordHash } from '@core/shared/value-objects/password-hash';
-import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
+import { TokenBlacklistService } from '@/auth/services/token-blacklist.service';
 
 export type OAuthProvider = 'google' | 'github';
 

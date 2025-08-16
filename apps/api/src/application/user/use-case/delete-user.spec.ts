@@ -3,9 +3,9 @@ import { JwtService } from '@nestjs/jwt';
 
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import { AuthService } from '@infrastructure/auth/auth.service';
+import { AuthService } from '@/auth/services/auth.service';
 import { DeleteUser } from '@application/user/use-case/delete-user.use-case';
-import { TokenBlacklistService } from '@infrastructure/auth/token-blacklist.service';
+import { TokenBlacklistService } from '@/auth/services/token-blacklist.service';
 import { Role } from '@core/users/entities/user.entity';
 
 describe('Delete User', () => {

@@ -7,7 +7,7 @@ import { Password } from '@core/shared/value-objects/password';
 import { UserEntity, Role } from '@core/users/entities/user.entity';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { PasswordHash } from '@core/shared/value-objects/password-hash';
-import { AuthService } from '@infrastructure/auth/auth.service';
+import { AuthService } from '@/auth/services/auth.service';
 
 interface RegisterUserRequest {
   name: string;

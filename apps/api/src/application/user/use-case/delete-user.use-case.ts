@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserRepository } from '@core/users/repositories/user.repository';
-import { AuthService } from '@infrastructure/auth/auth.service';
+import { AuthService } from '@/auth/services/auth.service';
 
 interface IDeleteUserRequest {
   userId: string;
