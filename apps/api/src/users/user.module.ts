@@ -6,11 +6,13 @@ import { UserRepository } from '@core/users/repositories/user.repository';
 import { PrismaUserRepository } from '@infrastructure/database/prisma/repositories/prisma-user.repository';
 import { UpdateUser } from '@application/user/use-case/update-user.use-case';
 import { CommonModule } from '@/common/common.module';
+import { UsersService } from '@/users/services/user.service';
 
 @Module({
   imports: [AuthModule, CommonModule],
   controllers: [UserController],
   providers: [
+    UsersService,
     UpdateUser,
     DeleteUser,
     {
