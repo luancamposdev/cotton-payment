@@ -1,7 +1,9 @@
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
-import { CreateCreatorDto } from '@application/creator/dto/create-creator.dto';
+import { CreateCreatorDto } from '@/creators/dto/create-creator.dto';
 import { CreatorsEntity } from '@core/creators/creators.entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CreateCreatorUseCase {
   constructor(private readonly creatorRepository: CreatorRepository) {}
 

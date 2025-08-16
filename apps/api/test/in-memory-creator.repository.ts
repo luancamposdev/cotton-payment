@@ -1,5 +1,7 @@
 import { CreatorsEntity } from '@core/creators/creators.entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class InMemoryCreatorRepository {
   private creators: CreatorsEntity[] = [];
 
