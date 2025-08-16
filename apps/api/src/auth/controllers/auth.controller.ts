@@ -11,10 +11,10 @@ import {
 import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
 import { LocalAuthGuard } from '@infrastructure/auth/passport/guards/local-auth.guard';
 import { JwtAuthGuard } from '@infrastructure/auth/passport/guards/jwt-auth.guard';
-import { RegisterRequestDto } from '@/auth/dto/register-request.dto';
+import { RegisterRequestDto } from '@application/auth/dto/register-request.dto';
 import { UserViewModel } from '@infrastructure/auth/mappers/user-view.model';
 import { CurrentUser } from '@/auth/current-user.decorator';
-import { AuthResponseDto } from '@/auth/dto/auth-reponse.dto';
+import { AuthResponseDto } from '@application/auth/dto/auth-reponse.dto';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { AuthService } from '@infrastructure/auth/auth.service';
 

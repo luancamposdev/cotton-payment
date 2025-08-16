@@ -15,7 +15,7 @@ import { UpdateUser } from '@application/user/use-case/update-user.use-case';
 import { DeleteUser } from '@application/user/use-case/delete-user.use-case';
 import { CurrentUser } from '@/auth/current-user.decorator';
 import { UserEntity } from '@core/users/entities/user.entity';
-import { UpdateUserDto } from '@/users/dto/UpdateuserDto';
+import { UpdateUserDto } from '@application/user/dto/UpdateuserDto';
 import { UserViewModel } from '@infrastructure/auth/mappers/user-view.model';
 
 @Controller('users')
