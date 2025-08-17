@@ -1,7 +1,4 @@
-import {
-  Creator as RawCreator,
-  CreatorSocialLink as RawSocialLink,
-} from '@prisma/client';
+import { CreatorSocialLink as RawSocialLink } from '@prisma/client';
 import { CreatorsEntity } from '@core/creators/creators.entity';
 import {
   SocialLink,
