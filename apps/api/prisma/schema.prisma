@@ -7,8 +7,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/* =========================
+   ENUMS
+========================= */
+
+enum Role {
+  ADMIN
+  CREATOR
+  CUSTOMER
+}
+
+enum AddressType {
+  BILLING
+  SHIPPING
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYPAL
+  PICPAY
+  MERCADOPAGO
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PayoutStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+/* =========================
+   USERS & AUTH
+========================= */
+
 model Users {
-  id               String        @id
+  id               String        @id @default(cuid())
   name             String
   email            String        @unique
   avatarUrl        String?
@@ -17,6 +56,16 @@ model Users {
   socialLogins     SocialLogin[]
   deletedAccountAt DateTime?
   createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  creatorProfile  Creator?
+  customerProfile Customer?
+
+  addresses Address[]
+  consents  Consent[]
+  auditLogs AuditLog[]
+
+  @@index([role])
 }
 
 model SocialLogin {
@@ -27,10 +76,191 @@ model SocialLogin {
   user       Users  @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerId])
+  @@index([userId])
 }
 
-enum Role {
-  ADMIN
-  CREATOR
-  CUSTOMER
+/* =========================
+   CREATOR
+========================= */
+
+model Creator {
+  id           String               @id @default(cuid())
+  userId       String               @unique
+  user         Users                @relation(fields: [userId], references: [id])
+  bio          String               @default("")
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  payoutConfig CreatorPayoutConfig?
+  socialLinks  CreatorSocialLink[]
+  orders       Order[]
+}
+
+model CreatorSocialLink {
+  id        String  @id @default(cuid())
+  creatorId String
+  provider  String
+  url       String
+  creator   Creator @relation(fields: [creatorId], references: [id])
+
+  @@index([creatorId])
+  @@unique([creatorId, provider])
+}
+
+model CreatorPayoutConfig {
+  id         String          @id @default(cuid())
+  creatorId  String          @unique
+  provider   PaymentProvider
+  externalId String
+  metadata   Json?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  creator Creator  @relation(fields: [creatorId], references: [id])
+  payouts Payout[]
+}
+
+/* =========================
+   CUSTOMER
+========================= */
+
+model Customer {
+  id               String          @id @default(cuid())
+  userId           String          @unique
+  user             Users           @relation(fields: [userId], references: [id])
+  defaultAddress   Address?        @relation("CustomerDefaultAddress", fields: [defaultAddressId], references: [id])
+  defaultAddressId String?         @unique
+  paymentMethods   PaymentMethod[]
+  orders           Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/* =========================
+   ADDRESS
+========================= */
+
+model Address {
+  id         String      @id @default(cuid())
+  userId     String
+  user       Users       @relation(fields: [userId], references: [id])
+  type       AddressType
+  street     String
+  number     String?
+  complement String?
+  district   String?
+  city       String
+  state      String
+  postalCode String
+  country    String      @default("BR")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  Customer Customer? @relation("CustomerDefaultAddress")
+
+  @@index([userId, type])
+}
+
+/* =========================
+   PAGAMENTOS
+========================= */
+
+model PaymentMethod {
+  id            String          @id @default(cuid())
+  customerId    String
+  customer      Customer        @relation(fields: [customerId], references: [id])
+  provider      PaymentProvider
+  providerToken String
+  brand         String?
+  last4         String?
+  expMonth      Int?
+  expYear       Int?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([customerId])
+  @@index([provider])
+}
+
+model Order {
+  id           String        @id @default(cuid())
+  customerId   String
+  customer     Customer      @relation(fields: [customerId], references: [id])
+  creatorId    String?
+  creator      Creator?      @relation(fields: [creatorId], references: [id])
+  amountCents  Int
+  currency     String        @default("BRL")
+  description  String?
+  status       PaymentStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+
+  @@index([customerId])
+  @@index([creatorId])
+}
+
+model Transaction {
+  id           String          @id @default(cuid())
+  orderId      String
+  order        Order           @relation(fields: [orderId], references: [id])
+  provider     PaymentProvider
+  providerTxId String          @unique
+  status       PaymentStatus
+  amountCents  Int
+  currency     String          @default("BRL")
+  rawPayload   Json?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  @@index([orderId])
+  @@index([provider, providerTxId])
+}
+
+model Payout {
+  id                    String              @id @default(cuid())
+  creatorPayoutConfigId String
+  payoutConfig          CreatorPayoutConfig @relation(fields: [creatorPayoutConfigId], references: [id])
+  status                PayoutStatus        @default(PENDING)
+  amountCents           Int
+  currency              String              @default("BRL")
+  scheduledAt           DateTime?
+  processedAt           DateTime?
+  providerPayoutId      String?             @unique
+  rawPayload            Json?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@index([creatorPayoutConfigId, status])
+}
+
+/* =========================
+   LGPD: CONSENT & AUDIT
+========================= */
+
+model Consent {
+  id        String    @id @default(cuid())
+  userId    String
+  user      Users     @relation(fields: [userId], references: [id])
+  purpose   String
+  granted   Boolean   @default(true)
+  grantedAt DateTime  @default(now())
+  revokedAt DateTime?
+
+  @@unique([userId, purpose])
+  @@index([userId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      Users?   @relation(fields: [userId], references: [id])
+  actor     String?
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, action])
 }
