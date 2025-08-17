@@ -25,20 +25,28 @@ export interface IUser {
   avatarUrl: AvatarUrl | null;
   passwordHash: PasswordHash;
   role: Role;
-  socialLogins?: ISocialLogin[];
   deletedAccountAt?: Date | null;
   createdAt: Date;
+  updatedAt: Date;
+
+  socialLogins?: ISocialLogin[];
+  creatorProfile?: { id: string };
+  customerProfile?: { id: string };
 }
 
 export class UserEntity {
   private readonly _id: string;
   private props: IUser;
 
-  constructor(props: Replace<IUser, { createdAt?: Date }>, id?: string) {
+  constructor(
+    props: Replace<IUser, { createdAt?: Date; updatedAt?: Date }>,
+    id?: string,
+  ) {
     this._id = id ?? randomUUID();
     this.props = {
       ...props,
       createdAt: props.createdAt ?? new Date(),
+      updatedAt: props.updatedAt ?? new Date(),
     };
   }
 
@@ -96,6 +104,10 @@ export class UserEntity {
 
   public get createdAt(): Date {
     return this.props.createdAt;
+  }
+
+  public get updatedAt(): Date {
+    return this.props.updatedAt;
   }
 
   public addSocialLogin(login: ISocialLogin) {

@@ -26,6 +26,7 @@ describe('UserEntity', () => {
     expect(await user.passwordHash.compare(password)).toBe(true);
     expect(user.role).toBe(Role.CUSTOMER);
     expect(user.createdAt).toBeInstanceOf(Date);
+    expect(user.updatedAt).toBeInstanceOf(Date);
     expect(user.deleteAccountAt).toBeUndefined();
   });
 
