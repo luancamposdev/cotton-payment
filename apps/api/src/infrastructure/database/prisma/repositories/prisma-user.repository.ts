@@ -33,6 +33,7 @@ export class PrismaUserRepository implements UserRepository {
       where: {
         email: email,
       },
+      include: { socialLogins: true },
     });
 
     if (!user) return null;
@@ -43,6 +44,7 @@ export class PrismaUserRepository implements UserRepository {
   async findById(id: string): Promise<UserEntity | null> {
     const user = await this.prismaService.users.findFirstOrThrow({
       where: { id },
+      include: { socialLogins: true },
     });
 
     if (!user) {
@@ -79,7 +81,28 @@ export class PrismaUserRepository implements UserRepository {
     const raw = PrismaUserMapper.toPrisma(user);
     await this.prismaService.users.update({
       where: { id: raw.id },
-      data: { ...raw, avatarUrl: user.avatarUrl?.value ?? null },
+      data: {
+        ...raw,
+        avatarUrl: user.avatarUrl?.value ?? null,
+        updatedAt: new Date(),
+      },
     });
+
+    for (const sl of user.socialLogins) {
+      await this.prismaService.socialLogin.upsert({
+        where: {
+          provider_providerId: {
+            provider: sl.provider,
+            providerId: sl.providerId,
+          },
+        },
+        create: {
+          provider: sl.provider,
+          providerId: sl.providerId,
+          userId: user.id,
+        },
+        update: {},
+      });
+    }
   }
 }

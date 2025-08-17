@@ -13,11 +13,13 @@ import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
+import { Injectable } from '@nestjs/common';
 
 type RawUserWithSocial = RawUsers & {
   socialLogins?: RawSocialLogin[];
 };
 
+@Injectable()
 export class PrismaUserMapper {
   static toPrisma(user: UserEntity) {
     return {
