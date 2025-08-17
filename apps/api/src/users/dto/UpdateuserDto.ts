@@ -4,6 +4,8 @@ import {
   IsUrl,
   IsNotEmpty,
   IsEmail,
+  IsEnum,
+  NotEquals,
 } from 'class-validator';
 
 import { Role } from '@core/users/entities/user.entity';
@@ -29,5 +31,8 @@ export class UpdateUserDto {
   @IsNotEmpty()
   avatarUrl?: string;
 
-  role?: Role;
+  @IsOptional()
+  @IsEnum(Role)
+  @NotEquals(Role.ADMIN, { message: 'Você não é um administrador' })
+  role: Role.CUSTOMER;
 }
