@@ -4,18 +4,11 @@ import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrl } from '@core/users/value-objects/avatar-url';
 import { Password } from '@core/shared/value-objects/password';
-import { UserEntity, Role } from '@core/users/entities/user.entity';
+import { Role, UserEntity } from '@core/users/entities/user.entity';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { PasswordHash } from '@core/shared/value-objects/password-hash';
 import { AuthService } from '@/auth/services/auth.service';
-
-interface RegisterUserRequest {
-  name: string;
-  email: string;
-  password: string;
-  avatarUrl?: string | null;
-  role: Role;
-}
+import { RegisterRequestDto } from '@/auth/dto/register-request.dto';
 
 interface RegisterUserResponse {
   user: UserEntity;
@@ -35,7 +28,7 @@ export class RegisterUser {
     password,
     avatarUrl,
     role,
-  }: RegisterUserRequest): Promise<RegisterUserResponse> {
+  }: RegisterRequestDto): Promise<RegisterUserResponse> {
     const userExists = await this.userRepository.findByEmail(email);
     if (userExists) {
       throw new Error('User already exists.');

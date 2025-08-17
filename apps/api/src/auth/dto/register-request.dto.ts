@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
   MinLength,
+  NotEquals,
 } from 'class-validator';
 
 export class RegisterRequestDto {
@@ -23,5 +24,6 @@ export class RegisterRequestDto {
 
   @IsOptional()
   @IsEnum(Role)
+  @NotEquals(Role.ADMIN, { message: 'Você não pode se registrar como admin' })
   role: Role.CUSTOMER;
 }

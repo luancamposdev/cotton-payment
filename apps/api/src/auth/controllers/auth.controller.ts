@@ -26,14 +26,14 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() body: RegisterRequestDto): Promise<AuthResponseDto> {
+  async register(@Body() dto: RegisterRequestDto): Promise<AuthResponseDto> {
     try {
       const { user, token } = await this.registerUser.execute({
-        name: body.name,
-        email: body.email,
-        password: body.password,
-        avatarUrl: body.avatarUrl,
-        role: body.role,
+        name: dto.name,
+        email: dto.email,
+        password: dto.password,
+        avatarUrl: dto.avatarUrl,
+        role: dto.role,
       });
 
       return { access_token: token, user: UserViewModel.toHTTP(user) };
