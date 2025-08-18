@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 
 import { CreateCreatorDto } from '@/creators/dto/create-creator.dto';
 import { CreatorsEntity } from '@core/creators/creators.entity';
@@ -23,8 +23,9 @@ export class CreatorsController {
     return await this.creatorsService.create(dto);
   }
 
-  @Get(':id')
-  async findById(@Param('id') id: string): Promise<CreatorsEntity> {
-    return this.creatorsService.findById(id);
+  @Get()
+  @Roles(Role.CREATOR)
+  async findByUserId(@CurrentUser() user: UserEntity): Promise<CreatorsEntity> {
+    return this.creatorsService.findCreatorByUserId(user.id);
   }
 }

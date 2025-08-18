@@ -1,4 +1,10 @@
-export type SocialProvider = 'youtube' | 'instagram' | 'linkedin' | 'tiktok';
+export type SocialProvider =
+  | 'youtube'
+  | 'instagram'
+  | 'linkedin'
+  | 'tiktok'
+  | 'twitter'
+  | 'github';
 
 export class SocialLink {
   private readonly _url: string;
@@ -9,20 +15,18 @@ export class SocialLink {
     instagram: 'instagram.com',
     linkedin: 'linkedin.com',
     tiktok: 'tiktok.com',
+    twitter: 'twitter.com',
+    github: 'github.com',
   };
 
-  constructor(provider: SocialProvider, url: string) {
-    this._provider = provider;
+  constructor(url: string) {
+    if (!this.isValidUrl(url)) throw new Error('URL inválida');
 
-    if (!this.isValidUrl(url)) {
-      throw new Error('URL inválida');
-    }
-
-    if (!this.isValidProviderUrl(provider, url)) {
-      throw new Error(`URL não corresponde ao provedor ${provider}`);
-    }
+    const provider = this.getProviderFromUrl(url);
+    if (!provider) throw new Error('Provider não suportado');
 
     this._url = url;
+    this._provider = provider;
   }
 
   private isValidUrl(url: string): boolean {
@@ -34,15 +38,18 @@ export class SocialLink {
     }
   }
 
-  private isValidProviderUrl(provider: SocialProvider, url: string): boolean {
-    const domain = SocialLink.providerDomains[provider];
-    return new URL(url).hostname.includes(domain);
+  private getProviderFromUrl(url: string): SocialProvider | null {
+    const hostname = new URL(url).hostname;
+    return (
+      (Object.entries(SocialLink.providerDomains).find(([key, domain]) =>
+        hostname.includes(domain),
+      )?.[0] as SocialProvider) || null
+    );
   }
 
   get value(): string {
     return this._url;
   }
-
   get provider(): SocialProvider {
     return this._provider;
   }

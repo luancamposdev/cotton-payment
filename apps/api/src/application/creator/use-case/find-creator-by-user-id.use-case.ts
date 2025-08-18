@@ -1,11 +1,12 @@
 import { CreatorsEntity } from '@core/creators/creators.entity';
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 interface FindCreatorByUserIdRequest {
   userId: string;
 }
 
+@Injectable()
 export class FindCreatorByUserIdUseCase {
   constructor(private readonly creatorRepository: CreatorRepository) {}
   async execute({

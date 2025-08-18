@@ -2,6 +2,7 @@ import { CreatorRepository } from '@core/creators/repositories/creator.repositor
 import { CreateCreatorDto } from '@/creators/dto/create-creator.dto';
 import { CreatorsEntity } from '@core/creators/creators.entity';
 import { ConflictException, Injectable } from '@nestjs/common';
+import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 
 @Injectable()
 export class CreateCreatorUseCase {
@@ -14,10 +15,14 @@ export class CreateCreatorUseCase {
       throw new ConflictException('Creator já cadastrado para este usuário');
     }
 
+    const socialLinksVO: SocialLink[] = (dto.socialLinks ?? []).map(
+      (url) => new SocialLink(url),
+    );
+
     const creator = new CreatorsEntity({
       userId: dto.userId,
       bio: dto.bio,
-      socialLinks: dto.socialLinks ?? [],
+      socialLinks: socialLinksVO,
     });
 
     await this.creatorRepository.create(creator);

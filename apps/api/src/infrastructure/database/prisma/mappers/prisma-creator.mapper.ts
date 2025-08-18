@@ -1,9 +1,6 @@
 import { CreatorSocialLink as RawSocialLink } from '@prisma/client';
 import { CreatorsEntity } from '@core/creators/creators.entity';
-import {
-  SocialLink,
-  SocialProvider,
-} from '@core/creators/value-objects/social-link.vo';
+import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 import { Injectable } from '@nestjs/common';
 
 type RawCreatorWithLinks = {
@@ -37,9 +34,7 @@ export class PrismaCreatorMapper {
         userId: raw.userId,
         bio: raw.bio,
         socialLinks: raw.socialLinks
-          ? raw.socialLinks.map(
-              (sl) => new SocialLink(sl.provider as SocialProvider, sl.url),
-            )
+          ? raw.socialLinks.map((sl) => new SocialLink(sl.url))
           : [],
       },
       raw.id,
