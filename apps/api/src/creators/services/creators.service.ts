@@ -1,21 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
+
 import { CreateCreatorDto } from '../dto/create-creator.dto';
-import { FindCreatorByIdUseCase } from '@application/creator/use-case/find-creator-by-id.use-case';
 import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
+import { FindCreatorByUserIdUseCase } from '@application/creator/use-case/find-creator-by-user-id.use-case';
 
 @Injectable()
 export class CreateCreatorsService {
   constructor(
     private readonly createCreatorUseCase: CreateCreatorUseCase,
-    private readonly findCreatorById: FindCreatorByIdUseCase,
+    private readonly findCreatorByUserIdUseCase: FindCreatorByUserIdUseCase,
   ) {}
 
   async create(dto: CreateCreatorDto) {
     return this.createCreatorUseCase.execute(dto);
   }
 
-  async findById(id: string): Promise<CreatorsEntity> {
-    return this.findCreatorById.execute(id);
+  async findCreatorByUserId(userId: string): Promise<CreatorsEntity> {
+    return this.findCreatorByUserIdUseCase.execute({ userId });
   }
 }
