@@ -14,7 +14,7 @@ describe('Find creator byUserId', () => {
     const dto = {
       userId: '123456',
       bio: 'Eu sou um criador',
-      socialLinks: [new SocialLink('youtube', 'https://youtube.com/meu-canal')],
+      socialLinks: [new SocialLink('https://youtube.com/meu-canal').value],
     };
 
     await createCreatorUseCase.execute(dto);

@@ -41,7 +41,7 @@ export class SocialLink {
   private getProviderFromUrl(url: string): SocialProvider | null {
     const hostname = new URL(url).hostname;
     return (
-      (Object.entries(SocialLink.providerDomains).find(([key, domain]) =>
+      (Object.entries(SocialLink.providerDomains).find(([domain]) =>
         hostname.includes(domain),
       )?.[0] as SocialProvider) || null
     );

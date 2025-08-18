@@ -19,11 +19,6 @@ export class PrismaCreatorRepository implements CreatorRepository {
       );
     }
 
-    const socialLinks = creator.socialLinks.map((sl) => ({
-      provider: sl.provider,
-      url: sl.value,
-    }));
-
     await this.prismaService.creator.create({
       data: PrismaCreatorMapper.toPrisma(creator),
       include: { socialLinks: true },
