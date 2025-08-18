@@ -49,14 +49,4 @@ export class PrismaCreatorRepository implements CreatorRepository {
       },
     });
   }
-
-  async findById(id: string): Promise<CreatorsEntity | null> {
-    const raw = await this.prismaService.creator.findUnique({
-      where: { id },
-      include: { socialLinks: true },
-    });
-
-    if (!raw) return null;
-    return PrismaCreatorMapper.toDomain(raw);
-  }
 }
