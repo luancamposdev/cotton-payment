@@ -1,0 +1,21 @@
+import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreatorRepository } from '@core/creators/repositories/creator.repository';
+import { NotFoundException } from '@nestjs/common';
+
+interface FindCreatorByUserIdRequest {
+  userId: string;
+}
+
+export class FindCreatorByUserIdUseCase {
+  constructor(private readonly creatorRepository: CreatorRepository) {}
+  async execute({
+    userId,
+  }: FindCreatorByUserIdRequest): Promise<CreatorsEntity> {
+    const creator = await this.creatorRepository.findByUserId(userId);
+
+    if (!creator)
+      throw new NotFoundException(`User with userId ${userId} not found`);
+
+    return creator;
+  }
+}
