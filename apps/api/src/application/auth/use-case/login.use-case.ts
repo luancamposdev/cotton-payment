@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { Password } from '@core/shared/value-objects/password';
-import { InvalidCredentialsError } from '@application/auth/use-case/Errors/InvalidCredentialsError';
+import { InvalidCredentialsError } from '@application/auth/use-case/errors/InvalidCredentialsError';
 
 interface ILoginUserRequest {
   email: string;

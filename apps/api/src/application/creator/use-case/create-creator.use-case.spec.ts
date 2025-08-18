@@ -5,7 +5,7 @@ import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 describe('Creator creator useCase', () => {
   it('Should return the creator creator', async () => {
     const creatorRepository = new InMemoryCreatorRepository();
-    const createUserUseCase = new CreateCreatorUseCase(creatorRepository);
+    const createCreatorUseCase = new CreateCreatorUseCase(creatorRepository);
 
     const dto = {
       userId: '123456',
@@ -13,7 +13,7 @@ describe('Creator creator useCase', () => {
       socialLinks: [new SocialLink('youtube', 'https://youtube.com/meu-canal')],
     };
 
-    const creator = await createUserUseCase.execute(dto);
+    const creator = await createCreatorUseCase.execute(dto);
 
     expect(creator).toBeTruthy();
     expect(creator.socialLinks).toHaveLength(1);
