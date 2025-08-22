@@ -1,7 +1,6 @@
 import {
   Users as RawUsers,
   SocialLogin as RawSocialLogin,
-  Role as RawUserRole,
 } from '@prisma/client';
 
 import {
@@ -13,23 +12,24 @@ import { PasswordHash } from '@core/users/value-objects/password-hash';
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
 import { AvatarUrlVo } from '@core/users/value-objects/avatar-url.vo';
-import { Injectable } from '@nestjs/common';
+import { GenerateAvatarUrl } from '@helpers/generateAvatarUrl';
 
 type RawUserWithSocial = RawUsers & {
   socialLogins?: RawSocialLogin[];
 };
 
-@Injectable()
-export class PrismaUserMapper {
-  static toPrisma(user: UserEntity) {
+export class UserViewModel {
+  static toHTTP(user: UserEntity) {
+    const avatarUrl =
+      user.avatarUrl?.value ||
+      GenerateAvatarUrl.generateAvatarUrl(user.name.value);
+
     return {
       id: user.id,
       name: user.name.value,
       email: user.email.value,
-      avatarUrl: user.avatarUrl?.value,
-      passwordHash: user.passwordHash.value(),
-      role: user.role ?? RawUserRole.CUSTOMER,
-      deletedAccountAt: user.deleteAccountAt,
+      avatarUrl: avatarUrl,
+      role: user.role,
       createdAt: user.createdAt,
     };
   }
@@ -42,7 +42,6 @@ export class PrismaUserMapper {
         avatarUrl: AvatarUrlVo.create(raw.avatarUrl),
         passwordHash: PasswordHash.fromHash(raw.passwordHash),
         role: raw.role as Role,
-        deletedAccountAt: raw.deletedAccountAt,
         createdAt: raw.createdAt,
         socialLogins: [],
       },
@@ -56,8 +55,6 @@ export class PrismaUserMapper {
           providerId: sl.providerId,
         });
       });
-
-      return user;
     }
 
     return user;

@@ -1,4 +1,4 @@
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 

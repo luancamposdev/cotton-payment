@@ -1,6 +1,6 @@
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
-import { CreateCreatorDto } from '@/creators/dto/create-creator.dto';
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreateCreatorDto } from '@/interfaces/creators/dto/create-creator.dto';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 

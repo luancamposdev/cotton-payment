@@ -1,5 +1,5 @@
 import { CreatorSocialLink as RawSocialLink } from '@prisma/client';
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 import { Injectable } from '@nestjs/common';
 

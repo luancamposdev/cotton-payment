@@ -2,15 +2,15 @@ import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
-import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import { AuthService } from '@/auth/services/auth.service';
-import { DeleteUser } from '@application/user/use-case/delete-user.use-case';
-import { TokenBlacklistService } from '@/auth/services/token-blacklist.service';
+import { RegisterUser } from '@application/auth/use-cases/register-user.use-case';
+import { AuthService } from '@infrastructure/auth/services/auth.service';
+import { DeleteUserUseCase } from '@application/user/use-case/delete-user.use-case';
+import { TokenBlacklistService } from '@infrastructure/auth/services/token-blacklist.service';
 import { Role } from '@core/users/entities/user.entity';
 
 describe('Delete User', () => {
   let userRepository: InMemoryUserRepository;
-  let deleteUser: DeleteUser;
+  let deleteUser: DeleteUserUseCase;
   let registerUser: RegisterUser;
   let authService: AuthService;
   let jwtService: JwtService;
@@ -27,7 +27,7 @@ describe('Delete User', () => {
       tokenBlacklistService,
     );
     registerUser = new RegisterUser(userRepository, authService);
-    deleteUser = new DeleteUser(userRepository, authService); // Pass authService here
+    deleteUser = new DeleteUserUseCase(userRepository, authService); // Pass authService here
   });
 
   it('Should be able to soft-delete a user', async () => {
@@ -38,7 +38,6 @@ describe('Delete User', () => {
       role: Role.CUSTOMER,
     });
 
-    // Generate a dummy access token for the test
     const dummyAccessToken = jwtService.sign(
       { userId: registeredUser.id, role: registeredUser.role },
       { expiresIn: '1h' },

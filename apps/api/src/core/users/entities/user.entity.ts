@@ -2,8 +2,8 @@ import { randomUUID } from 'node:crypto';
 
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
-import { AvatarUrl } from '@core/users/value-objects/avatar-url';
-import { PasswordHash } from '@core/shared/value-objects/password-hash';
+import { AvatarUrlVo } from '@core/users/value-objects/avatar-url.vo';
+import { PasswordHash } from '@core/users/value-objects/password-hash';
 import { Replace } from '@helpers/replace';
 
 export enum Role {
@@ -22,7 +22,7 @@ export interface ISocialLogin {
 export interface IUser {
   name: Name;
   email: Email;
-  avatarUrl: AvatarUrl | null;
+  avatarUrl: AvatarUrlVo | null;
   passwordHash: PasswordHash;
   role: Role;
   deletedAccountAt?: Date | null;
@@ -70,11 +70,11 @@ export class UserEntity {
     return this.props.email;
   }
 
-  public set avatarUrl(avatarUrl: AvatarUrl | null) {
+  public set avatarUrl(avatarUrl: AvatarUrlVo | null) {
     this.props.avatarUrl = avatarUrl;
   }
 
-  public get avatarUrl(): AvatarUrl | null {
+  public get avatarUrl(): AvatarUrlVo | null {
     return this.props.avatarUrl;
   }
 

@@ -3,9 +3,9 @@ import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { Role, UserEntity } from '@core/users/entities/user.entity';
 import { Name } from '@core/users/value-objects/name';
 import { Email } from '@core/shared/value-objects/email';
-import { AvatarUrl } from '@core/users/value-objects/avatar-url';
-import { Password } from '@core/shared/value-objects/password';
-import { PasswordHash } from '@core/shared/value-objects/password-hash';
+import { AvatarUrlVo } from '@core/users/value-objects/avatar-url.vo';
+import { Password } from '@core/users/value-objects/password';
+import { PasswordHash } from '@core/users/value-objects/password-hash';
 
 describe('FindUserByEmailUseCase', () => {
   it('Should return an user', async () => {
@@ -18,7 +18,7 @@ describe('FindUserByEmailUseCase', () => {
     const user = new UserEntity({
       name: Name.create('Luan Campos'),
       email: Email.create('luancampos@mail.com'),
-      avatarUrl: AvatarUrl.create('https://github.com/luancamposdev.png'),
+      avatarUrl: AvatarUrlVo.create('https://github.com/luancamposdev.png'),
       passwordHash,
       role: Role.CREATOR,
     });

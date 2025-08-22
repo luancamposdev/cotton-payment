@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserRepository } from '@core/users/repositories/user.repository';
-import { AuthService } from '@/auth/services/auth.service';
+import { AuthService } from '@infrastructure/auth/services/auth.service';
 
 interface IDeleteUserRequest {
   userId: string;
@@ -14,7 +14,7 @@ interface IDeleteUserRequest {
 type IDeleteUserResponse = void;
 
 @Injectable()
-export class DeleteUser {
+export class DeleteUserUseCase {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly authService: AuthService,

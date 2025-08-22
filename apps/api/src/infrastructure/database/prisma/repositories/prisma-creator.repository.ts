@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 import { PrismaCreatorMapper } from '@infrastructure/database/prisma/mappers/prisma-creator.mapper';
 
@@ -28,11 +28,14 @@ export class PrismaCreatorRepository implements CreatorRepository {
   async findByUserId(userId: string): Promise<CreatorsEntity | null> {
     const raw = await this.prismaService.creator.findUnique({
       where: { userId },
-      include: { socialLinks: true },
+      include: { socialLinks: true, user: true },
     });
 
     if (!raw) return null;
-    return PrismaCreatorMapper.toDomain(raw);
+    return PrismaCreatorMapper.toDomain({
+      ...raw,
+      userId: raw.user.id,
+    });
   }
 
   async save(creator: CreatorsEntity): Promise<void> {

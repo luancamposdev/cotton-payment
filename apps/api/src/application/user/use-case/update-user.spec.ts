@@ -3,10 +3,10 @@ import { JwtService } from '@nestjs/jwt';
 
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { UpdateUser } from '@application/user/use-case/update-user.use-case';
-import { RegisterUser } from '@application/auth/use-case/register-user.use-case';
-import { AuthService } from '@/auth/services/auth.service';
+import { RegisterUser } from '@application/auth/use-cases/register-user.use-case';
+import { AuthService } from '@infrastructure/auth/services/auth.service';
 import { Role } from '@core/users/entities/user.entity';
-import { TokenBlacklistService } from '@/auth/services/token-blacklist.service';
+import { TokenBlacklistService } from '@infrastructure/auth/services/token-blacklist.service';
 
 describe('Update user', () => {
   let userRepository: InMemoryUserRepository;

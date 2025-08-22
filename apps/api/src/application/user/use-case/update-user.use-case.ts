@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserEntity } from '@core/users/entities/user.entity';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { Name } from '@core/users/value-objects/name';
-import { AvatarUrl } from '@core/users/value-objects/avatar-url';
+import { AvatarUrlVo } from '@core/users/value-objects/avatar-url.vo';
 import { Role } from '@core/users/entities/user.entity';
 import { Email } from '@core/shared/value-objects/email';
 
@@ -15,12 +15,8 @@ interface IUpdateUserRequest {
   role?: Role;
 }
 
-interface IUpdateUserResponse {
-  user: UserEntity;
-}
-
 @Injectable()
-export class UpdateUser {
+export class UpdateUserUseCase {
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute({
@@ -29,7 +25,7 @@ export class UpdateUser {
     email,
     avatarUrl,
     role,
-  }: IUpdateUserRequest): Promise<IUpdateUserResponse> {
+  }: IUpdateUserRequest): Promise<UserEntity> {
     const user = await this.userRepository.findById(userId);
 
     if (!user) throw new NotFoundException('Usuário não encontrado.');
@@ -43,7 +39,7 @@ export class UpdateUser {
     }
 
     if (avatarUrl) {
-      user.avatarUrl = AvatarUrl.create(avatarUrl);
+      user.avatarUrl = AvatarUrlVo.create(avatarUrl);
     }
 
     if (role) {
@@ -52,6 +48,6 @@ export class UpdateUser {
 
     await this.userRepository.save(user);
 
-    return { user };
+    return user;
   }
 }
