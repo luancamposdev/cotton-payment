@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { CreateCreatorDto } from '@/interfaces/creators/dto/create-creator.dto';
 import { CreatorsEntity } from '@core/creators/entities/creators.entity';
@@ -9,12 +9,15 @@ import { Role, UserEntity } from '@core/users/entities/user.entity';
 import { Roles } from '@infrastructure/common/decorators/roles.decorator';
 import { FindCreatorByUserIdUseCase } from '@application/creator/use-case/find-creator-by-user-id.use-case';
 import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
+import { UpdateCreatorDto } from '@/interfaces/creators/dto/update.creator.dto';
+import { UpdateCreatorUseCase } from '@application/creator/use-case/update-creator.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('creators')
 export class CreatorsController {
   constructor(
     private readonly createCreatorUseCase: CreateCreatorUseCase,
+    private readonly updateCreatorUseCase: UpdateCreatorUseCase,
     private readonly findCreatorByUserIdUseCase: FindCreatorByUserIdUseCase,
   ) {}
   @Post()
@@ -27,6 +30,20 @@ export class CreatorsController {
     const { creator } = await this.createCreatorUseCase.execute(dto);
 
     return creator;
+  }
+
+  @Patch()
+  @Roles(Role.CREATOR)
+  async update(
+    @Body() dto: UpdateCreatorDto,
+    @CurrentUser() user: UserEntity,
+  ): Promise<CreatorsEntity> {
+    return this.updateCreatorUseCase
+      .execute({
+        userId: user.id,
+        ...dto,
+      })
+      .then((result) => result.creator);
   }
 
   @Get()
