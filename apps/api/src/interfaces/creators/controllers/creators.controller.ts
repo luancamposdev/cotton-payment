@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { CreateCreatorDto } from '@/interfaces/creators/dto/create-creator.dto';
-import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
 import { CurrentUser } from '@infrastructure/auth/decorators/current-user.decorator';
