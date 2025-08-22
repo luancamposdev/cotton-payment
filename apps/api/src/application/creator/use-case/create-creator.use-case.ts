@@ -1,6 +1,6 @@
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
-import { CreateCreatorDto } from '@/creators/dto/create-creator.dto';
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreateCreatorDto } from '@/interfaces/creators/dto/create-creator.dto';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 
@@ -8,7 +8,7 @@ import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 export class CreateCreatorUseCase {
   constructor(private readonly creatorRepository: CreatorRepository) {}
 
-  async execute(dto: CreateCreatorDto): Promise<CreatorsEntity> {
+  async execute(dto: CreateCreatorDto): Promise<{ creator: CreatorsEntity }> {
     const existing = await this.creatorRepository.findByUserId(dto.userId);
 
     if (existing) {
@@ -27,6 +27,6 @@ export class CreateCreatorUseCase {
 
     await this.creatorRepository.create(creator);
 
-    return creator;
+    return { creator };
   }
 }

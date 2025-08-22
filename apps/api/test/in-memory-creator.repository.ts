@@ -1,4 +1,4 @@
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

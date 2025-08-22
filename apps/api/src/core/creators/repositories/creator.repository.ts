@@ -1,4 +1,4 @@
-import { CreatorsEntity } from '@core/creators/creators.entity';
+import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 
 export abstract class CreatorRepository {
   abstract create(creator: CreatorsEntity): Promise<void>;

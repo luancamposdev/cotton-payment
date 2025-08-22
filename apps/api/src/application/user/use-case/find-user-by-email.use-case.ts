@@ -12,7 +12,7 @@ interface FindUserByEmailResponse {
 }
 
 @Injectable()
-export class FindUserByEmail {
+export class FindUserByEmailUseCase {
   constructor(private readonly userRepository: UserRepository) {}
   async execute(
     request: FindUserByEmailRequest,

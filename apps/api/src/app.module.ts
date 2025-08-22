@@ -1,10 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AuthModule } from '@/auth/auth.module';
+import { AuthModule } from '@/interfaces/auth/auth.module';
 import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
-import { UserModule } from '@/users/user.module';
-import { CreatorsModule } from '@/creators/creators.module';
+import { UserModule } from '@/interfaces/users/user.module';
+import { CreatorsModule } from '@/interfaces/creators/creators.module';
 
 @Global()
 @Module({
