@@ -11,6 +11,10 @@ import { FindCreatorByUserIdUseCase } from '@application/creator/use-case/find-c
 import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
 import { UpdateCreatorDto } from '@/interfaces/creators/dto/update.creator.dto';
 import { UpdateCreatorUseCase } from '@application/creator/use-case/update-creator.use-case';
+import {
+  CreatorView,
+  CreatorViewModel,
+} from '@/interfaces/creators/creator.view.model';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('creators')
@@ -25,11 +29,11 @@ export class CreatorsController {
   async create(
     @Body() dto: CreateCreatorDto,
     @CurrentUser() user: UserEntity,
-  ): Promise<CreatorsEntity> {
+  ): Promise<CreatorView> {
     dto.userId = user.id;
     const { creator } = await this.createCreatorUseCase.execute(dto);
 
-    return creator;
+    return CreatorViewModel.toHTTP(creator);
   }
 
   @Patch()
@@ -37,22 +41,22 @@ export class CreatorsController {
   async update(
     @Body() dto: UpdateCreatorDto,
     @CurrentUser() user: UserEntity,
-  ): Promise<CreatorsEntity> {
-    return this.updateCreatorUseCase
-      .execute({
-        userId: user.id,
-        ...dto,
-      })
-      .then((result) => result.creator);
+  ): Promise<CreatorView> {
+    const { creator } = await this.updateCreatorUseCase.execute({
+      userId: user.id,
+      ...dto,
+    });
+
+    return CreatorViewModel.toHTTP(creator);
   }
 
   @Get()
   @Roles(Role.CREATOR)
-  async findByUserId(@CurrentUser() user: UserEntity): Promise<CreatorsEntity> {
+  async findByUserId(@CurrentUser() user: UserEntity): Promise<CreatorView> {
     const { creator } = await this.findCreatorByUserIdUseCase.execute({
       userId: user.id,
     });
 
-    return creator;
+    return CreatorViewModel.toHTTP(creator);
   }
 }

@@ -5,11 +5,13 @@ import { CreateCreatorUseCase } from '@application/creator/use-case/create-creat
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
 import { FindCreatorByUserIdUseCase } from '@application/creator/use-case/find-creator-by-user-id.use-case';
 import { PrismaCreatorRepository } from '@infrastructure/database/prisma/repositories/prisma-creator.repository';
+import { UpdateCreatorUseCase } from '@application/creator/use-case/update-creator.use-case';
 
 @Module({
   controllers: [CreatorsController],
   providers: [
     CreateCreatorUseCase,
+    UpdateCreatorUseCase,
     FindCreatorByUserIdUseCase,
     {
       provide: CreatorRepository,
