@@ -21,15 +21,15 @@ describe('Creator creator useCase', () => {
 
   it('Do not create a duplicate creator for the same userId', async () => {
     const creatorRepository = new InMemoryCreatorRepository();
-    const createUserUseCase = new CreateCreatorUseCase(creatorRepository);
+    const createCreatorUseCase = new CreateCreatorUseCase(creatorRepository);
 
     const dto = {
       userId: 'user-123',
     };
 
-    await createUserUseCase.execute(dto);
+    await createCreatorUseCase.execute(dto);
 
-    await expect(createUserUseCase.execute(dto)).rejects.toThrow(
+    await expect(createCreatorUseCase.execute(dto)).rejects.toThrow(
       'Creator já cadastrado para este usuário',
     );
   });
