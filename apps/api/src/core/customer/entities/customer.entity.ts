@@ -31,9 +31,7 @@ export class CustomerEntity {
     return this.props.defaultAddressId;
   }
 
-  public set defaultAddressId(
-    defaultAddressId: string | null | undefined,
-  ): void {
+  public set defaultAddressId(defaultAddressId: string | null | undefined) {
     this.props.defaultAddressId = defaultAddressId;
     this.props.updatedAt = new Date();
   }
