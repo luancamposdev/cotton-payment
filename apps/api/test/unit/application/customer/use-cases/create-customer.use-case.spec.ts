@@ -1,8 +1,8 @@
 import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 
-describe('Creator Customer useCase', () => {
-  it('Should return the creator creator', async () => {
+describe('Create Customer useCase', () => {
+  it('Should return the customer', async () => {
     const customerRepository = new InMemoryCustomerRepository();
     const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
 
@@ -17,7 +17,7 @@ describe('Creator Customer useCase', () => {
     expect(customer.defaultAddressId).toBe('address-1234567');
   });
 
-  it('Do not create a duplicate creator for the same userId', async () => {
+  it('Do not create a duplicate customer for the same userId', async () => {
     const customerRepository = new InMemoryCustomerRepository();
     const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
 
