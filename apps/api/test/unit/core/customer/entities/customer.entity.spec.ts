@@ -17,15 +17,17 @@ describe('Customer Entity', () => {
     expect(customer.defaultAddressId).toBe('address-456');
   });
 
-  it('Should allow updating the defaultAddressId', () => {
-    const props: ICustomer = {
-      userId: 'userId-123',
+  it('Should allow updating the defaultAddressId', async () => {
+    const customerProps: ICustomer = {
+      userId: 'user-123',
       defaultAddressId: 'address-456',
     };
 
-    const customer = new CustomerEntity(props);
+    const customer = new CustomerEntity(customerProps);
 
     const previousUpdatedAt = customer.updatedAt;
+
+    await new Promise((resolve) => setTimeout(resolve, 1));
 
     customer.defaultAddressId = 'new-address-789';
 
