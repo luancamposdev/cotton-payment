@@ -5,7 +5,7 @@ import { CreateCustomerUseCase } from '@application/customer/use-case/create-cus
 import { UpdateCustomerUseCase } from '@application/customer/use-case/update-customer.use-case';
 import { FindCustomerByUserIdUseCase } from '@application/customer/use-case/find-customer-by-user-id.use-case';
 import { CustomerRepository } from '@core/customer/repository/customer.repository';
-import { PrismaCustomerMapper } from '@infrastructure/database/prisma/mappers/prisma-customer.mapper';
+import { PrismaCustomerRepository } from '@infrastructure/database/prisma/repositories/prisma-customer.repository';
 
 @Module({
   controllers: [CustomersController],
@@ -15,7 +15,7 @@ import { PrismaCustomerMapper } from '@infrastructure/database/prisma/mappers/pr
     FindCustomerByUserIdUseCase,
     {
       provide: CustomerRepository,
-      useClass: PrismaCustomerMapper,
+      useClass: PrismaCustomerRepository,
     },
   ],
 })
