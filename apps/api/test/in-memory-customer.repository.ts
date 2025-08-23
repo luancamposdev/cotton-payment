@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CustomerEntity } from '@core/customer/entities/customer.entity';
 
 @Injectable()
-export class InMemoryCreatorRepository {
+export class InMemoryCustomerRepository {
   private customer: CustomerEntity[] = [];
 
   // eslint-disable-next-line @typescript-eslint/require-await
