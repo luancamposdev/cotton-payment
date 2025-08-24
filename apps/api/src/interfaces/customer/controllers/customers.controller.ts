@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { Role, UserEntity } from '@core/users/entities/user.entity';
-import { AddressEntity } from '@core/addresses/entities/address.entity';
 
 import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
 import { UpdateCustomerUseCase } from '@application/customer/use-case/update-customer.use-case';
