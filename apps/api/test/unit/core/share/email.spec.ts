@@ -9,11 +9,15 @@ describe('Email', () => {
 
   it('Should be able throws error for invalid email', () => {
     expect(() => Email.create('invalid-email')).toThrow(
-      'Email address is invalid',
+      'Email addresses is invalid',
     );
-    expect(() => Email.create('luan@.com')).toThrow('Email address is invalid');
-    expect(() => Email.create('')).toThrow('Email address is invalid');
-    expect(() => Email.create('luan@com')).toThrow('Email address is invalid');
+    expect(() => Email.create('luan@.com')).toThrow(
+      'Email addresses is invalid',
+    );
+    expect(() => Email.create('')).toThrow('Email addresses is invalid');
+    expect(() => Email.create('luan@com')).toThrow(
+      'Email addresses is invalid',
+    );
   });
 
   it('lança erro para valores nulos ou indefinidos', () => {
