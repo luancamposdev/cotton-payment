@@ -13,7 +13,7 @@ export class AvatarUrlVo {
     const trimmedUrl = url.trim();
 
     if (!this.isValid(trimmedUrl)) {
-      throw new Error('URL inválida.');
+      throw new Error('Invalid URL.');
     }
 
     return new AvatarUrlVo(trimmedUrl);
