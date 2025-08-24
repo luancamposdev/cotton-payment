@@ -17,7 +17,7 @@ interface IAddress {
   street: string;
   number?: string | null;
   complement?: string | null;
-  district: string;
+  district?: string | null;
   state: string;
   city: string;
   postalCode: PostalCodeVo;
@@ -47,6 +47,7 @@ export class AddressEntity {
       ...props,
       postalCode: new PostalCodeVo(props.postalCode),
       country: new CountryVo(props.country ?? 'BR'),
+      district: props.district ?? null,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
     };
@@ -96,7 +97,7 @@ export class AddressEntity {
     this.touch();
   }
 
-  get district(): string | undefined {
+  get district(): string | null | undefined {
     return this.props.district;
   }
 
