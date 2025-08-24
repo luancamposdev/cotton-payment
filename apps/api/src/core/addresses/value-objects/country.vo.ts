@@ -1,3 +1,5 @@
+import { InvalidClassException } from '@nestjs/core/errors/exceptions';
+
 export class CountryVo {
   private readonly value: string;
 
@@ -11,7 +13,9 @@ export class CountryVo {
 
   static validateValue(value: string) {
     if (value.length !== 2) {
-      throw new Error('Country must be a 2-letter ISO 3166-1 alpha-2 code.');
+      throw new InvalidClassException(
+        'Country must be a 2-letter ISO 3166-1 alpha-2 code.',
+      );
     }
 
     return value.replace('-', '');
