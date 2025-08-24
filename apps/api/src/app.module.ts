@@ -6,6 +6,7 @@ import { PrismaService } from '@/infrastructure/database/prisma/prisma.service';
 import { UserModule } from '@/interfaces/users/user.module';
 import { CreatorsModule } from '@/interfaces/creators/creators.module';
 import { CustomerModule } from '@/interfaces/customer/customer.module';
+import { AddressModule } from '@/interfaces/addresses/address.module';
 
 @Global()
 @Module({
@@ -15,6 +16,7 @@ import { CustomerModule } from '@/interfaces/customer/customer.module';
     UserModule,
     CreatorsModule,
     CustomerModule,
+    AddressModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],
