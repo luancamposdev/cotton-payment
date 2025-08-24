@@ -48,10 +48,10 @@ class DemoController {
     return { ok: true, access: 'admin' };
   }
 
-  @Get('customer-or-admin')
+  @Get('customers-or-admin')
   @Roles(Role.CUSTOMER, Role.ADMIN)
   customerOrAdmin() {
-    return { ok: true, access: 'customer-or-admin' };
+    return { ok: true, access: 'customers-or-admin' };
   }
 }
 
@@ -116,18 +116,18 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
       .expect(403);
   });
 
-  it('GET /demo/customer-or-admin permite acesso com role CUSTOMER', async () => {
+  it('GET /demo/customers-or-admin permite acesso com role CUSTOMER', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/customer-or-admin')
       .set('x-role', 'CUSTOMER')
       .expect(200)
       .expect(({ body }) => {
-        expect(body).toEqual({ ok: true, access: 'customer-or-admin' });
+        expect(body).toEqual({ ok: true, access: 'customers-or-admin' });
       });
   });
 
-  it('GET /demo/customer-or-admin permite acesso com role ADMIN', async () => {
+  it('GET /demo/customers-or-admin permite acesso com role ADMIN', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/customer-or-admin')
@@ -135,7 +135,7 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
       .expect(200);
   });
 
-  it('GET /demo/customer-or-admin nega acesso sem user', async () => {
+  it('GET /demo/customers-or-admin nega acesso sem user', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/customer-or-admin')
