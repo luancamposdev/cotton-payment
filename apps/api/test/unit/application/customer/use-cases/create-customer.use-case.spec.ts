@@ -2,22 +2,22 @@ import { CreateCustomerUseCase } from '@application/customer/use-case/create-cus
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 
 describe('Create Customer useCase', () => {
-  it('Should return the customer', async () => {
+  it('Should return the customers', async () => {
     const customerRepository = new InMemoryCustomerRepository();
     const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
 
     const dto = {
       userId: 'userId-123456',
-      defaultAddressId: 'address-1234567',
+      defaultAddressId: 'addresses-1234567',
     };
 
     const { customer } = await createCustomerUseCase.execute(dto);
 
     expect(customer).toBeTruthy();
-    expect(customer.defaultAddressId).toBe('address-1234567');
+    expect(customer.defaultAddressId).toBe('addresses-1234567');
   });
 
-  it('Do not create a duplicate customer for the same userId', async () => {
+  it('Do not create a duplicate customers for the same userId', async () => {
     const customerRepository = new InMemoryCustomerRepository();
     const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
 
