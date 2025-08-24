@@ -9,13 +9,13 @@ describe('SocialLink', () => {
     expect(link.provider).toBe('youtube');
   });
 
-  it('deve lançar erro se a URL for inválida', () => {
-    expect(() => new SocialLink('url-invalida')).toThrow('URL inválida');
+  it('Should be able return an error', () => {
+    expect(() => new SocialLink('invalid-url')).toThrow('Invalid URL');
   });
 
-  it('deve lançar erro se a URL não corresponder ao provedor', () => {
+  it('Should be able return error if url not equal provider', () => {
     expect(() => new SocialLink('https://notasupported.com/perfil')).toThrow(
-      'Provider não suportado',
+      'Provider does not supported',
     );
   });
 });
