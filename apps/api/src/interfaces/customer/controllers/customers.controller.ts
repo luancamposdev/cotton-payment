@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 
 import { Role, UserEntity } from '@core/users/entities/user.entity';
+import { AddressEntity } from '@core/addresses/entities/address.entity';
 
 import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
 import { UpdateCustomerUseCase } from '@application/customer/use-case/update-customer.use-case';
@@ -18,6 +19,7 @@ import {
   CustomerView,
   CustomerViewModel,
 } from '@/interfaces/customer/customer.view.model';
+import { AddressViewModel } from '@/interfaces/addresses/address.view.model';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('customers')
@@ -27,6 +29,7 @@ export class CustomersController {
     private readonly updateCustomerUseCase: UpdateCustomerUseCase,
     private readonly findCustomerByUserIdUseCase: FindCustomerByUserIdUseCase,
   ) {}
+
   @Post()
   @Roles(Role.CUSTOMER)
   async create(
@@ -36,7 +39,10 @@ export class CustomersController {
     dto.userId = user.id;
     const { customer } = await this.createCustomerUseCase.execute(dto);
 
-    return CustomerViewModel.toHTTP(customer);
+    const address = customer.defaultAddress
+      ? AddressViewModel.toHTTP(customer.defaultAddress)
+      : null;
+    return CustomerViewModel.toHTTP(customer, address);
   }
 
   @Patch()
@@ -50,7 +56,10 @@ export class CustomersController {
       defaultAddressId: dto.defaultAddressId,
     });
 
-    return CustomerViewModel.toHTTP(customer);
+    const address = customer.defaultAddress
+      ? AddressViewModel.toHTTP(customer.defaultAddress)
+      : null;
+    return CustomerViewModel.toHTTP(customer, address);
   }
 
   @Get()
@@ -60,6 +69,9 @@ export class CustomersController {
       userId: user.id,
     });
 
-    return CustomerViewModel.toHTTP(customer);
+    const address = customer.defaultAddress
+      ? AddressViewModel.toHTTP(customer.defaultAddress)
+      : null;
+    return CustomerViewModel.toHTTP(customer, address);
   }
 }
