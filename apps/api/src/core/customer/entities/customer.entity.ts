@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto';
+import { AddressEntity } from '@core/addresses/entities/address.entity';
 
 export interface ICustomer {
   userId: string;
   defaultAddressId?: string | null;
+  defaultAddress?: AddressEntity | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -34,6 +36,10 @@ export class CustomerEntity {
   public set defaultAddressId(defaultAddressId: string | null | undefined) {
     this.props.defaultAddressId = defaultAddressId;
     this.props.updatedAt = new Date();
+  }
+
+  get defaultAddress() {
+    return this.props.defaultAddress ?? null;
   }
 
   public get createdAt(): Date {
