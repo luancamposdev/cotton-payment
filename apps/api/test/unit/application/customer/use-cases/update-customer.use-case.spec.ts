@@ -7,25 +7,25 @@ describe('Customer Update Use Case', () => {
   const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
   const updateCustomerUseCase = new UpdateCustomerUseCase(customerRepository);
 
-  it('should update customer details', async () => {
+  it('should update customers details', async () => {
     const dto = {
       userId: 'user-joao',
-      defaultAddressId: 'my-address-id',
+      defaultAddressId: 'my-addresses-id',
     };
 
     await createCustomerUseCase.execute(dto);
 
     const { customer } = await updateCustomerUseCase.execute({
       userId: 'user-joao',
-      defaultAddressId: 'my-address-id',
+      defaultAddressId: 'my-addresses-id',
     });
 
     expect(customer).toBeTruthy();
     expect(customer.userId).toBe('user-joao');
-    expect(customer.defaultAddressId).toBe('my-address-id');
+    expect(customer.defaultAddressId).toBe('my-addresses-id');
   });
 
-  it('should throw NotFoundException if customer does not exist', async () => {
+  it('should throw NotFoundException if customers does not exist', async () => {
     await expect(
       updateCustomerUseCase.execute({
         userId: 'non-existent-user',
