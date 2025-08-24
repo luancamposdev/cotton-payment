@@ -4,7 +4,7 @@ import { PostalCodeVo } from '@core/addresses/value-objects/postal-code.vo';
 import { CountryVo } from '@core/addresses/value-objects/country.vo';
 import { Replace } from '@helpers/replace';
 
-enum AddressType {
+export enum AddressType {
   RESIDENTIAL = 'RESIDENTIAL',
   COMMERCIAL = 'COMMERCIAL',
   SHIPPING = 'SHIPPING',
