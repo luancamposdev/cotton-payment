@@ -1,8 +1,9 @@
 import { AddressRepository } from '@core/addresses/repository/address.repository';
 import { CreateAddressDto } from '@/interfaces/addresses/dto/create-address.dto';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AddressEntity } from '@core/addresses/entities/address.entity';
 
+@Injectable()
 export class CreateAddressUseCase {
   constructor(private readonly addressRepository: AddressRepository) {}
 
