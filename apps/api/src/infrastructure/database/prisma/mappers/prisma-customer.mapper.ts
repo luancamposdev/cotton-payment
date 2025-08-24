@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { CustomerEntity } from '@core/customer/entities/customer.entity';
-import { PrismaAddressMapper, RawAddress } from './prisma-address.mapper';
+import { RawAddress } from './prisma-address.mapper';
 
 type RawCustomer = {
   id: string;
