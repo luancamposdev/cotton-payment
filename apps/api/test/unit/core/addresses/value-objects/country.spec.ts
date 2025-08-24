@@ -1,4 +1,4 @@
-import { CountryVo } from '@core/address/value-objects/country.vo';
+import { CountryVo } from '@core/addresses/value-objects/country.vo';
 
 describe('Country', () => {
   it('Should be able to create a country with a valid 2-letter ISO code', () => {
