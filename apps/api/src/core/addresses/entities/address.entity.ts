@@ -35,9 +35,9 @@ export class AddressEntity {
       IAddress,
       {
         postalCode: string;
-        country?: string;
-        createdAt: Date;
-        updatedAt: Date;
+        country?: string | null;
+        createdAt?: Date;
+        updatedAt?: Date;
       }
     >,
     id?: string,
