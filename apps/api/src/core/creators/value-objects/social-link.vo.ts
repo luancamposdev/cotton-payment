@@ -20,10 +20,10 @@ export class SocialLink {
   };
 
   constructor(url: string) {
-    if (!this.isValidUrl(url)) throw new Error('URL inválida');
+    if (!this.isValidUrl(url)) throw new Error('Invalid URL');
 
     const provider = this.getProviderFromUrl(url);
-    if (!provider) throw new Error('Provider não suportado');
+    if (!provider) throw new Error('Provider does not supported');
 
     this._url = url;
     this._provider = provider;
