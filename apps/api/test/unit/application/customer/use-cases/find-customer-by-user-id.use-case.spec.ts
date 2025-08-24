@@ -3,7 +3,7 @@ import { CreateCustomerUseCase } from '@application/customer/use-case/create-cus
 import { FindCustomerByUserIdUseCase } from '@application/customer/use-case/find-customer-by-user-id.use-case';
 
 describe('Find creator byUserId', () => {
-  it('Should return customer by userId', async () => {
+  it('Should return customers by userId', async () => {
     const customerRepository = new InMemoryCustomerRepository();
     const createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
     const findCustomerByUserIdUseCase = new FindCustomerByUserIdUseCase(
@@ -12,7 +12,7 @@ describe('Find creator byUserId', () => {
 
     const dto = {
       userId: '123456',
-      defaultAddressId: 'address-1234567',
+      defaultAddressId: 'addresses-1234567',
     };
 
     await createCustomerUseCase.execute(dto);
@@ -24,10 +24,10 @@ describe('Find creator byUserId', () => {
     expect(customer).toBeTruthy();
     expect(customer).toBeDefined();
     expect(customer.userId).toBe('123456');
-    expect(customer.defaultAddressId).toBe('address-1234567');
+    expect(customer.defaultAddressId).toBe('addresses-1234567');
   });
 
-  it('should throw an error if no customer is found by userId', async () => {
+  it('should throw an error if no customers is found by userId', async () => {
     const customerRepository = new InMemoryCustomerRepository();
     const findCustomerByUserIdUseCase = new FindCustomerByUserIdUseCase(
       customerRepository,
