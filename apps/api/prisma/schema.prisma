@@ -7,9 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/* =========================
-   ENUMS
-========================= */
+/**
+ * =========================
+ * ENUMS
+ * =========================
+ */
 
 enum Role {
   ADMIN
@@ -18,8 +20,10 @@ enum Role {
 }
 
 enum AddressType {
-  BILLING
+  RESIDENTIAL
+  COMMERCIAL
   SHIPPING
+  BILLING
 }
 
 enum PaymentProvider {
@@ -42,9 +46,11 @@ enum PayoutStatus {
   FAILED
 }
 
-/* =========================
-   USERS & AUTH
-========================= */
+/**
+ * =========================
+ * USERS & AUTH
+ * =========================
+ */
 
 model Users {
   id               String        @id @default(cuid())
@@ -79,9 +85,11 @@ model SocialLogin {
   @@index([userId])
 }
 
-/* =========================
-   CREATOR
-========================= */
+/**
+ * =========================
+ * CREATOR
+ * =========================
+ */
 
 model Creator {
   id           String               @id @default(cuid())
@@ -102,8 +110,8 @@ model CreatorSocialLink {
   url       String
   creator   Creator @relation(fields: [creatorId], references: [id])
 
-  @@index([creatorId])
   @@unique([creatorId, provider])
+  @@index([creatorId])
 }
 
 model CreatorPayoutConfig {
@@ -119,9 +127,11 @@ model CreatorPayoutConfig {
   payouts Payout[]
 }
 
-/* =========================
-   CUSTOMER
-========================= */
+/**
+ * =========================
+ * CUSTOMER
+ * =========================
+ */
 
 model Customer {
   id               String          @id @default(cuid())
@@ -136,9 +146,11 @@ model Customer {
   updatedAt DateTime @updatedAt
 }
 
-/* =========================
-   ADDRESS
-========================= */
+/**
+ * =========================
+ * ADDRESS
+ * =========================
+ */
 
 model Address {
   id         String      @id @default(cuid())
@@ -161,9 +173,11 @@ model Address {
   @@index([userId, type])
 }
 
-/* =========================
-   PAGAMENTOS
-========================= */
+/**
+ * =========================
+ * PAGAMENTOS
+ * =========================
+ */
 
 model PaymentMethod {
   id            String          @id @default(cuid())
@@ -234,9 +248,11 @@ model Payout {
   @@index([creatorPayoutConfigId, status])
 }
 
-/* =========================
-   LGPD: CONSENT & AUDIT
-========================= */
+/**
+ * =========================
+ * LGPD: CONSENT & AUDIT
+ * =========================
+ */
 
 model Consent {
   id        String    @id @default(cuid())
