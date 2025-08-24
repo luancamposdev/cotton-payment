@@ -7,20 +7,20 @@ describe('Customer Entity', () => {
   it('should create a customers entity with provided props', () => {
     const props: ICustomer = {
       userId: 'userId-123',
-      defaultAddressId: 'addresses-456',
+      defaultAddressId: 'address-456',
     };
 
     const customer = new CustomerEntity(props);
 
     expect(customer).toBeTruthy();
     expect(customer.userId).toBe('userId-123');
-    expect(customer.defaultAddressId).toBe('addresses-456');
+    expect(customer.defaultAddressId).toBe('address-456');
   });
 
   it('Should allow updating the defaultAddressId', async () => {
     const customerProps: ICustomer = {
       userId: 'user-123',
-      defaultAddressId: 'addresses-456',
+      defaultAddressId: 'address-456',
     };
 
     const customer = new CustomerEntity(customerProps);
@@ -29,9 +29,9 @@ describe('Customer Entity', () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1));
 
-    customer.defaultAddressId = 'new-addresses-789';
+    customer.defaultAddressId = 'new-address-789';
 
-    expect(customer.defaultAddressId).toBe('new-addresses-789');
+    expect(customer.defaultAddressId).toBe('new-address-789');
     expect(customer.updatedAt.getTime()).toBeGreaterThan(
       previousUpdatedAt.getTime(),
     );
