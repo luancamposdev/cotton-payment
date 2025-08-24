@@ -83,6 +83,7 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
   });
 
   it('GET /demo/open allows access without role', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/open')
       .expect(200)
@@ -92,10 +93,12 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
   });
 
   it('GET /demo/admin denies access without user', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer()).get('/demo/admin').expect(403);
   });
 
   it('GET /demo/admin allows access with role ADMIN', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/admin')
       .set('x-role', 'ADMIN')
@@ -106,6 +109,7 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
   });
 
   it('GET /demo/admin denies access with role CUSTOMER', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/admin')
       .set('x-role', 'CUSTOMER')
@@ -113,6 +117,7 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
   });
 
   it('GET /demo/customers-or-admin allows access with role CUSTOMER', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/customers-or-admin')
       .set('x-role', 'CUSTOMER')
@@ -123,6 +128,7 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
   });
 
   it('GET /demo/customers-or-admin allows access with role ADMIN', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/customers-or-admin')
       .set('x-role', 'ADMIN')
@@ -133,6 +139,7 @@ describe('RBAC e2e (Roles decorator + RolesGuard)', () => {
   });
 
   it('GET /demo/customers-or-admin denies access without user', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/demo/customers-or-admin')
       .expect(403);
