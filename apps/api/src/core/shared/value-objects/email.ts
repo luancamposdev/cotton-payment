@@ -7,7 +7,7 @@ export class Email {
 
   static create(email: string): Email {
     if (!Email.isValid(email)) {
-      throw new Error('Email address is invalid');
+      throw new Error('Email addresses is invalid');
     }
     return new Email(email.trim().toLowerCase());
   }
