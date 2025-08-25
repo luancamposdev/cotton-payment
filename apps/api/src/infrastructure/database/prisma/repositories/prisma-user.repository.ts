@@ -42,7 +42,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async findById(id: string): Promise<UserEntity | null> {
-    const user = await this.prismaService.users.findFirstOrThrow({
+    const user = await this.prismaService.users.findUnique({
       where: { id },
       include: { socialLogins: true },
     });
