@@ -18,7 +18,6 @@ import {
   CustomerView,
   CustomerViewModel,
 } from '@/interfaces/customer/customer.view.model';
-import { AddressViewModel } from '@/interfaces/addresses/address.view.model';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('customers')
@@ -38,10 +37,7 @@ export class CustomersController {
     dto.userId = user.id;
     const { customer } = await this.createCustomerUseCase.execute(dto);
 
-    const address = customer.defaultAddress
-      ? AddressViewModel.toHTTP(customer.defaultAddress)
-      : null;
-    return CustomerViewModel.toHTTP(customer, address);
+    return CustomerViewModel.toHTTP(customer);
   }
 
   @Patch()
@@ -55,10 +51,7 @@ export class CustomersController {
       defaultAddressId: dto.defaultAddressId,
     });
 
-    const address = customer.defaultAddress
-      ? AddressViewModel.toHTTP(customer.defaultAddress)
-      : null;
-    return CustomerViewModel.toHTTP(customer, address);
+    return CustomerViewModel.toHTTP(customer);
   }
 
   @Get()
@@ -68,9 +61,6 @@ export class CustomersController {
       userId: user.id,
     });
 
-    const address = customer.defaultAddress
-      ? AddressViewModel.toHTTP(customer.defaultAddress)
-      : null;
-    return CustomerViewModel.toHTTP(customer, address);
+    return CustomerViewModel.toHTTP(customer);
   }
 }

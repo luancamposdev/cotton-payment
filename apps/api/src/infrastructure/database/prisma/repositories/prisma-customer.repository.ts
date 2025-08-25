@@ -4,7 +4,6 @@ import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 import { CustomerRepository } from '@core/customer/repository/customer.repository';
 import { CustomerEntity } from '@core/customer/entities/customer.entity';
 import { PrismaCustomerMapper } from '@infrastructure/database/prisma/mappers/prisma-customer.mapper';
-import { PrismaAddressMapper } from '@infrastructure/database/prisma/mappers/prisma-address.mapper';
 
 @Injectable()
 export class PrismaCustomerRepository implements CustomerRepository {
@@ -37,9 +36,6 @@ export class PrismaCustomerRepository implements CustomerRepository {
       {
         userId: raw.userId,
         defaultAddressId: raw.defaultAddressId,
-        defaultAddress: raw.defaultAddress
-          ? PrismaAddressMapper.toDomain(raw.defaultAddress)
-          : null,
       },
       raw.id,
     );
