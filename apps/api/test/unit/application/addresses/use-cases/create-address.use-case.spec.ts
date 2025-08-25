@@ -55,8 +55,6 @@ describe('Create Address Use Case', () => {
       postalCode: '87654-321',
     };
 
-    console.log('Address:', addressRepository.addresses);
-
     await expect(createAddressUseCase.execute(dto)).rejects.toThrow(
       BadRequestException,
     );
