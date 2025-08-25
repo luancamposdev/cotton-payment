@@ -5,7 +5,7 @@ import { CustomerEntity } from '@core/customer/entities/customer.entity';
 
 interface IUpdateCustomerRequest {
   userId: string;
-  defaultAddressId?: string | null;
+  defaultAddressId: string | null;
 }
 
 @Injectable()
@@ -18,14 +18,10 @@ export class UpdateCustomerUseCase {
     const customer = await this.customerRepository.findByUserId(userId);
 
     if (!customer) {
-      throw new NotFoundException(`Customer with userId ${userId} not found`);
-    }
-
-    if (!customer) {
       throw new NotFoundException('Customer not found for this user.');
     }
 
-    if (defaultAddressId !== undefined) {
+    if (defaultAddressId !== null) {
       customer.defaultAddressId = defaultAddressId;
     }
 

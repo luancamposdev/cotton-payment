@@ -2,7 +2,7 @@ import { CustomerEntity } from '@core/customer/entities/customer.entity';
 
 export interface CustomerView {
   id: string;
-  defaultAddressId?: string | null;
+  defaultAddressId: string | null;
 }
 
 export class CustomerViewModel {

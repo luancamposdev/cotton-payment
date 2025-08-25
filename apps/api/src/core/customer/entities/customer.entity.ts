@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 export interface ICustomer {
   userId: string;
-  defaultAddressId?: string | null;
+  defaultAddressId: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -14,6 +14,7 @@ export class CustomerEntity {
     this._id = id ?? randomUUID();
     this.props = {
       ...props,
+      defaultAddressId: props.defaultAddressId ?? null,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
     };
@@ -27,13 +28,12 @@ export class CustomerEntity {
     return this.props.userId;
   }
 
-  public get defaultAddressId(): string | null | undefined {
-    return this.props.defaultAddressId;
+  public get defaultAddressId(): string | null {
+    return this.props.defaultAddressId ?? null;
   }
 
-  public set defaultAddressId(defaultAddressId: string | null | undefined) {
+  public set defaultAddressId(defaultAddressId: string | null) {
     this.props.defaultAddressId = defaultAddressId;
-    this.props.updatedAt = new Date();
   }
 
   public get createdAt(): Date {

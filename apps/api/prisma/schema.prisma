@@ -134,13 +134,15 @@ model CreatorPayoutConfig {
  */
 
 model Customer {
-  id               String          @id @default(cuid())
-  userId           String          @unique
-  user             Users           @relation(fields: [userId], references: [id])
-  defaultAddress   Address?        @relation("CustomerDefaultAddress", fields: [defaultAddressId], references: [id])
-  defaultAddressId String?         @unique
-  paymentMethods   PaymentMethod[]
-  orders           Order[]
+  id     String @id @default(cuid())
+  userId String @unique
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  defaultAddressId String?  @unique
+  defaultAddress   Address? @relation("CustomerDefaultAddress", fields: [defaultAddressId], references: [id], onDelete: SetNull)
+
+  paymentMethods PaymentMethod[]
+  orders         Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -153,9 +155,10 @@ model Customer {
  */
 
 model Address {
-  id         String      @id @default(cuid())
-  userId     String
-  user       Users       @relation(fields: [userId], references: [id])
+  id     String @id @default(cuid())
+  userId String
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   type       AddressType
   street     String
   number     String?
@@ -165,10 +168,11 @@ model Address {
   state      String
   postalCode String
   country    String      @default("BR")
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
 
   Customer Customer? @relation("CustomerDefaultAddress")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId, type])
 }
