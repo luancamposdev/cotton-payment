@@ -23,6 +23,7 @@ describe('Create Customer useCase', () => {
 
     const dto = {
       userId: 'user-123',
+      defaultAddressId: 'addresses-1234567',
     };
 
     await createCustomerUseCase.execute(dto);

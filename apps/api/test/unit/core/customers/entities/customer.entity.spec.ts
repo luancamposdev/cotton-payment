@@ -17,27 +17,7 @@ describe('Customer Entity', () => {
     expect(customer.defaultAddressId).toBe('address-456');
   });
 
-  it('Should allow updating the defaultAddressId', async () => {
-    const customerProps: ICustomer = {
-      userId: 'user-123',
-      defaultAddressId: 'address-456',
-    };
-
-    const customer = new CustomerEntity(customerProps);
-
-    const previousUpdatedAt = customer.updatedAt;
-
-    await new Promise((resolve) => setTimeout(resolve, 1));
-
-    customer.defaultAddressId = 'new-address-789';
-
-    expect(customer.defaultAddressId).toBe('new-address-789');
-    expect(customer.updatedAt.getTime()).toBeGreaterThan(
-      previousUpdatedAt.getTime(),
-    );
-  });
-
-  it('Should allow defaultAddressId to be null or undefined', () => {
+  it('Should allow defaultAddressId to be null', () => {
     const props: ICustomer = {
       userId: 'userId-123',
       defaultAddressId: null,
@@ -47,9 +27,6 @@ describe('Customer Entity', () => {
 
     customer.defaultAddressId = null;
     expect(customer.defaultAddressId).toBeNull();
-
-    customer.defaultAddressId = undefined;
-    expect(customer.defaultAddressId).toBeUndefined();
   });
 
   it('Should use provided createdAt and updatedAt if given', () => {

@@ -31,6 +31,6 @@ describe('Customer Update Use Case', () => {
         userId: 'non-existent-user',
         defaultAddressId: 'This should fail',
       }),
-    ).rejects.toThrow('Customer with userId non-existent-user not found');
+    ).rejects.toThrow('Customer not found for this user');
   });
 });
