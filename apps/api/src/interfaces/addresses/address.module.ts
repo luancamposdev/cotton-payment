@@ -6,6 +6,7 @@ import { AddressRepository } from '@core/addresses/repository/address.repository
 import { PrismaAddressRepository } from '@infrastructure/database/prisma/repositories/prisma-address.repository';
 import { FindAddressByIdUseCase } from '@application/address/find-address-by-id.use-case';
 import { FindAddressesByUserIdUseCase } from '@application/address/find-addresses-by-user-id.use-case';
+import { UpdateAddressUseCase } from '@application/address/update-address.use-case';
 
 @Module({
   controllers: [AddressController],
@@ -13,6 +14,7 @@ import { FindAddressesByUserIdUseCase } from '@application/address/find-addresse
     CreateAddressUseCase,
     FindAddressByIdUseCase,
     FindAddressesByUserIdUseCase,
+    UpdateAddressUseCase,
     {
       provide: AddressRepository,
       useClass: PrismaAddressRepository,
