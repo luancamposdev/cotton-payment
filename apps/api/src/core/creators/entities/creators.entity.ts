@@ -37,23 +37,30 @@ export class CreatorsEntity {
     return this.props.bio;
   }
 
-  public set bio(bio: string) {
-    this.props.bio = bio;
+  public get socialLinks(): ReadonlyArray<SocialLink> {
+    return [...this.props.socialLinks];
   }
 
-  public addSocialLink(link: SocialLink) {
+  public updateBio(newBio: string): void {
+    if (newBio.length > 200) {
+      throw new Error('Bio cannot exceed 200 characters.');
+    }
+    this.props.bio = newBio;
+  }
+
+  public addSocialLink(link: SocialLink): void {
     if (!this.props.socialLinks.some((l) => l.equals(link))) {
       this.props.socialLinks.push(link);
     }
   }
 
-  public removeSocialLink(link: SocialLink) {
+  public removeSocialLink(link: SocialLink): void {
     this.props.socialLinks = this.props.socialLinks.filter(
       (l) => !l.equals(link),
     );
   }
 
-  public get socialLinks(): ReadonlyArray<SocialLink> {
-    return [...this.props.socialLinks];
+  public replaceSocialLinks(links: SocialLink[]): void {
+    this.props.socialLinks = links;
   }
 }

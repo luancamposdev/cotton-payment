@@ -43,7 +43,7 @@ export class CreatorsController {
   ): Promise<CreatorView> {
     const { creator } = await this.updateCreatorUseCase.execute({
       userId: user.id,
-      ...dto,
+      dto,
     });
 
     return CreatorViewModel.toHTTP(creator);

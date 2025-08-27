@@ -1,40 +1,33 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { CreatorsEntity } from '@core/creators/entities/creators.entity';
 import { CreatorRepository } from '@core/creators/repositories/creator.repository';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { UpdateCreatorDto } from '@/interfaces/creators/dto/update.creator.dto';
 import { SocialLink } from '@core/creators/value-objects/social-link.vo';
-
-interface IUpdateCreatorRequest {
-  userId: string;
-  bio?: string;
-  socialLinks?: string[];
-}
 
 @Injectable()
 export class UpdateCreatorUseCase {
   constructor(private readonly creatorRepository: CreatorRepository) {}
   async execute({
     userId,
-    bio,
-    socialLinks,
-  }: IUpdateCreatorRequest): Promise<{ creator: CreatorsEntity }> {
+    dto,
+  }: {
+    userId: string;
+    dto: UpdateCreatorDto;
+  }): Promise<{ creator: CreatorsEntity }> {
     const creator = await this.creatorRepository.findByUserId(userId);
-
-    if (!creator) {
-      throw new NotFoundException(`Creator with userId ${userId} not found`);
-    }
 
     if (!creator) {
       throw new NotFoundException('Creator not found for this user.');
     }
 
-    if (bio !== undefined) {
-      creator.bio = bio;
+    if (dto.bio !== undefined) {
+      creator.updateBio(dto.bio);
     }
 
-    if (socialLinks) {
-      creator.socialLinks.forEach((link) => creator.removeSocialLink(link));
-
-      socialLinks.forEach((url) => creator.addSocialLink(new SocialLink(url)));
+    if (dto.socialLinks !== undefined && dto.socialLinks.length > 0) {
+      const links = dto.socialLinks.map((url) => new SocialLink(url));
+      creator.replaceSocialLinks(links);
     }
 
     await this.creatorRepository.save(creator);
