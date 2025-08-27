@@ -18,11 +18,13 @@ describe('Creator Update Use Case', () => {
 
     const { creator } = await updateCreatorUseCase.execute({
       userId: 'user-joao',
-      bio: 'Meu nome é João e sou developer',
-      socialLinks: [
-        'https://youtube.com/meu-canal',
-        'https://linkedin.com/in/meu-perfil',
-      ],
+      dto: {
+        bio: 'Meu nome é João e sou developer',
+        socialLinks: [
+          'https://youtube.com/meu-canal',
+          'https://linkedin.com/in/meu-perfil',
+        ],
+      },
     });
 
     expect(creator).toBeTruthy();
@@ -39,8 +41,10 @@ describe('Creator Update Use Case', () => {
     await expect(
       updateCreatorUseCase.execute({
         userId: 'non-existent-user',
-        bio: 'This should fail',
+        dto: {
+          bio: 'Meu nome é João e sou developer',
+        },
       }),
-    ).rejects.toThrow('Creator with userId non-existent-user not found');
+    ).rejects.toThrow('Creator not found for this user.');
   });
 });
