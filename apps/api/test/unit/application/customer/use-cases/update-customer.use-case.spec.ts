@@ -1,6 +1,7 @@
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
 import { UpdateCustomerUseCase } from '@application/customer/use-case/update-customer.use-case';
+import { UpdateCustomerDto } from '@/interfaces/customer/dto/update.customer.dto';
 
 describe('Customer Update Use Case', () => {
   const customerRepository = new InMemoryCustomerRepository();
@@ -15,9 +16,13 @@ describe('Customer Update Use Case', () => {
 
     await createCustomerUseCase.execute(dto);
 
+    const updateDTO: UpdateCustomerDto = {
+      defaultAddressId: 'my-addresses-id',
+    };
+
     const { customer } = await updateCustomerUseCase.execute({
       userId: 'user-joao',
-      defaultAddressId: 'my-addresses-id',
+      dto: updateDTO,
     });
 
     expect(customer).toBeTruthy();
@@ -26,10 +31,14 @@ describe('Customer Update Use Case', () => {
   });
 
   it('should throw NotFoundException if customers does not exist', async () => {
+    const updateDTO: UpdateCustomerDto = {
+      defaultAddressId: 'my-addresses-id',
+    };
+
     await expect(
       updateCustomerUseCase.execute({
         userId: 'non-existent-user',
-        defaultAddressId: 'This should fail',
+        dto: updateDTO,
       }),
     ).rejects.toThrow('Customer not found for this user');
   });
