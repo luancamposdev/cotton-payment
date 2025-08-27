@@ -48,7 +48,7 @@ export class CustomersController {
   ): Promise<CustomerView> {
     const { customer } = await this.updateCustomerUseCase.execute({
       userId: user.id,
-      defaultAddressId: dto.defaultAddressId,
+      dto,
     });
 
     return CustomerViewModel.toHTTP(customer);
