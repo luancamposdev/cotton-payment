@@ -1,17 +1,27 @@
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+
 import { AddressRepository } from '@core/addresses/repository/address.repository';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class DeleteAddressUseCase {
   constructor(private readonly addressRepository: AddressRepository) {}
 
-  async execute(id: string): Promise<void> {
+  async execute(id: string): Promise<{ statusCode: number; message: string }> {
     const address = await this.addressRepository.findById(id);
 
     if (!address) {
-      throw new Error(`Address with id ${id} not found`);
+      throw new NotFoundException(`Address with id ${id} not found`);
     }
 
     await this.addressRepository.delete(id);
+
+    return {
+      statusCode: 200,
+      message: 'Endereço excluído com sucesso.',
+    };
   }
 }
