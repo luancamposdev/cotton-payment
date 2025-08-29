@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Delete,
+  HttpStatus,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
@@ -69,5 +70,10 @@ export class AddressController {
     const { id } = params;
 
     await this.deleteAddress.execute(id);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Endereço excluído com sucesso.',
+    };
   }
 }
