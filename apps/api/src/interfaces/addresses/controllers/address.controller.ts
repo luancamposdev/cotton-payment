@@ -6,6 +6,7 @@ import {
   UseGuards,
   Param,
   Patch,
+  Delete,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
@@ -18,6 +19,7 @@ import { FindAddressByIdUseCase } from '@application/address/find-address-by-id.
 import { FindAddressesByUserIdUseCase } from '@application/address/find-addresses-by-user-id.use-case';
 import { UpdateAddressDto } from '@/interfaces/addresses/dto/update-address.dto';
 import { UpdateAddressUseCase } from '@application/address/update-address.use-case';
+import { DeleteAddressUseCase } from '@application/address/delete-address.use-case';
 
 @UseGuards(JwtAuthGuard)
 @Controller('addresses')
@@ -27,6 +29,7 @@ export class AddressController {
     private readonly findById: FindAddressByIdUseCase,
     private readonly findAddressesByUserId: FindAddressesByUserIdUseCase,
     private readonly updateAddress: UpdateAddressUseCase,
+    private readonly deleteAddress: DeleteAddressUseCase,
   ) {}
   @Post()
   async create(@Body() dto: CreateAddressDto, @CurrentUser() user: UserEntity) {
@@ -59,5 +62,12 @@ export class AddressController {
     const { address } = await this.updateAddress.execute(dto, id);
 
     return AddressViewModel.toHTTP(address);
+  }
+
+  @Delete(':id')
+  async delete(@Param() params: { id: string }) {
+    const { id } = params;
+
+    await this.deleteAddress.execute(id);
   }
 }
