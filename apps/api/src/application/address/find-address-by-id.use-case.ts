@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { AddressRepository } from '@core/addresses/repository/address.repository';
 import { AddressEntity } from '@core/addresses/entities/address.entity';
 
