@@ -46,6 +46,14 @@ enum PayoutStatus {
   FAILED
 }
 
+enum SubscriptionStatus {
+  ACTIVE
+  PENDING
+  CANCELED
+  EXPIRED
+  TRIAL
+}
+
 /**
  * =========================
  * USERS & AUTH
@@ -92,15 +100,16 @@ model SocialLogin {
  */
 
 model Creator {
-  id           String               @id @default(cuid())
-  userId       String               @unique
-  user         Users                @relation(fields: [userId], references: [id])
-  bio          String               @default("")
-  createdAt    DateTime             @default(now())
-  updatedAt    DateTime             @updatedAt
-  payoutConfig CreatorPayoutConfig?
-  socialLinks  CreatorSocialLink[]
-  orders       Order[]
+  id               String               @id @default(cuid())
+  userId           String               @unique
+  user             Users                @relation(fields: [userId], references: [id])
+  bio              String               @default("")
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  payoutConfig     CreatorPayoutConfig?
+  socialLinks      CreatorSocialLink[]
+  orders           Order[]
+  SubscriptionPlan SubscriptionPlan[]
 }
 
 model CreatorSocialLink {
@@ -144,8 +153,9 @@ model Customer {
   paymentMethods PaymentMethod[]
   orders         Order[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Subscription Subscription[]
 }
 
 /**
@@ -283,4 +293,44 @@ model AuditLog {
   createdAt DateTime @default(now())
 
   @@index([userId, action])
+}
+
+/**
+ * =========================
+ * SUBSCRIPTION
+ * =========================
+ */
+
+model SubscriptionPlan {
+  id          String   @id @default(cuid())
+  creatorId   String
+  creator     Creator  @relation(fields: [creatorId], references: [id])
+  name        String
+  description String?
+  priceCents  Int
+  currency    String   @default("BRL")
+  interval    String // e.g. "MONTHLY", "YEARLY"
+  trialDays   Int? // se tiver período de trial
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id         String             @id @default(cuid())
+  customerId String
+  customer   Customer           @relation(fields: [customerId], references: [id])
+  planId     String
+  plan       SubscriptionPlan   @relation(fields: [planId], references: [id])
+  status     SubscriptionStatus @default(PENDING)
+  startDate  DateTime           @default(now())
+  endDate    DateTime?
+  renewalAt  DateTime?
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@index([customerId])
+  @@index([planId])
+  @@index([status])
 }
