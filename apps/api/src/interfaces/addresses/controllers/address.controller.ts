@@ -8,6 +8,7 @@ import {
   Patch,
   Delete,
   HttpStatus,
+  BadRequestException,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
@@ -41,39 +42,28 @@ export class AddressController {
   }
 
   @Get(':id')
-  async find(@Param() params: { id: string }) {
-    const { id } = params;
+  async find(@Param('id') id: string) {
     const { address } = await this.findById.execute(id);
 
     return AddressViewModel.toHTTP(address);
   }
 
   @Get()
-  async findAll(@CurrentUser() user: UserEntity) {
-    const { id } = user;
+  async findAll(@CurrentUser() { id }: UserEntity) {
     const { addresses } = await this.findAddressesByUserId.execute({ id });
 
     return addresses.map((address) => AddressViewModel.toHTTP(address));
   }
 
   @Patch(':id')
-  async update(@Body() dto: UpdateAddressDto, @Param() params: { id: string }) {
-    const { id } = params;
-
+  async update(@Body() dto: UpdateAddressDto, @Param('id') id: string) {
     const { address } = await this.updateAddress.execute(dto, id);
 
     return AddressViewModel.toHTTP(address);
   }
 
   @Delete(':id')
-  async delete(@Param() params: { id: string }) {
-    const { id } = params;
-
-    await this.deleteAddress.execute(id);
-
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'Endereço excluído com sucesso.',
-    };
+  async delete(@Param('id') id: string) {
+    return await this.deleteAddress.execute(id);
   }
 }
