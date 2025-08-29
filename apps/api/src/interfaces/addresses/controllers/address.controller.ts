@@ -7,8 +7,6 @@ import {
   Param,
   Patch,
   Delete,
-  HttpStatus,
-  BadRequestException,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
