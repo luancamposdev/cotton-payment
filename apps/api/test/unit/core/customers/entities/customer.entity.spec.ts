@@ -8,6 +8,8 @@ describe('Customer Entity', () => {
     const props: ICustomer = {
       userId: 'userId-123',
       defaultAddressId: 'address-456',
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     const customer = new CustomerEntity(props);
@@ -21,6 +23,8 @@ describe('Customer Entity', () => {
     const props: ICustomer = {
       userId: 'userId-123',
       defaultAddressId: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     const customer = new CustomerEntity(props);
