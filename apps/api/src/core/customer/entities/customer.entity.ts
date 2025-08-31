@@ -3,8 +3,8 @@ import { randomUUID } from 'node:crypto';
 export interface ICustomer {
   userId: string;
   defaultAddressId: string | null;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class CustomerEntity {
@@ -37,10 +37,10 @@ export class CustomerEntity {
   }
 
   public get createdAt(): Date {
-    return this.props.createdAt!;
+    return this.props.createdAt;
   }
 
   public get updatedAt(): Date {
-    return this.props.updatedAt!;
+    return this.props.updatedAt;
   }
 }
