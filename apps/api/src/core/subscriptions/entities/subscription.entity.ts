@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Replace } from '@helpers/replace';
 
-import { SubscriptionStatusVO } from '@core/subscription-plans/value-objects/subscription/subscription-status.vo';
+import { SubscriptionStatusVO } from '@core/subscriptions/value-objects/subscription-status.vo';
 
 export interface ISubscription {
   customerId: string;

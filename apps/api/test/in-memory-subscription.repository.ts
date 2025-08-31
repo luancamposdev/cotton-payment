@@ -1,5 +1,5 @@
-import { SubscriptionRepository } from '@core/subscription-plans/repositories/subscription.repository';
-import { SubscriptionEntity } from '@core/subscription-plans/entities/subscription.entity';
+import { SubscriptionRepository } from '@core/subscriptions/repositories/subscription.repository';
+import { SubscriptionEntity } from '@core/subscriptions/entities/subscription.entity';
 
 export class InMemorySubscriptionRepository implements SubscriptionRepository {
   private subscriptions: SubscriptionEntity[] = [];

@@ -1,4 +1,4 @@
-import { CurrencyVO } from '@core/subscription-plans/value-objects/shared/currency.vo';
+import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-plan/currency.vo';
 
 describe('CurrencyVO', () => {
   it('should create a valid currency', () => {

@@ -1,4 +1,4 @@
-import { SubscriptionEntity } from '@core/subscription-plans/entities/subscription.entity';
+import { SubscriptionEntity } from '@core/subscriptions/entities/subscription.entity';
 
 export abstract class SubscriptionRepository {
   abstract create(subscription: SubscriptionEntity): Promise<void>;

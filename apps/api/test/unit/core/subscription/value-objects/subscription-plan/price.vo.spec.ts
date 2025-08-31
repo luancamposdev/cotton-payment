@@ -1,4 +1,4 @@
-import { PriceVO } from '@core/subscription-plans/value-objects/shared/price.vo';
+import { PriceVO } from '@core/subscription-plans/value-objects/subscription-plan/price.vo';
 
 describe('PriceVO', () => {
   it('should create a valid price', () => {
