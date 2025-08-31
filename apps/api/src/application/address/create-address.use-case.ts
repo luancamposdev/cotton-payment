@@ -1,13 +1,30 @@
 import { AddressRepository } from '@core/addresses/repository/address.repository';
-import { CreateAddressDto } from '@/interfaces/addresses/dto/create-address.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AddressEntity } from '@core/addresses/entities/address.entity';
+import {
+  AddressEntity,
+  AddressType,
+} from '@core/addresses/entities/address.entity';
+
+interface ICreateAddressRequest {
+  userId: string;
+  type: AddressType;
+  street: string;
+  number?: string;
+  complement?: string;
+  district: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country?: string;
+}
 
 @Injectable()
 export class CreateAddressUseCase {
   constructor(private readonly addressRepository: AddressRepository) {}
 
-  async execute(dto: CreateAddressDto): Promise<{ address: AddressEntity }> {
+  async execute(
+    dto: ICreateAddressRequest,
+  ): Promise<{ address: AddressEntity }> {
     const existing = await this.addressRepository.findManyByUserId(dto.userId);
 
     if (existing.length >= 5) {
