@@ -3,8 +3,8 @@ import { randomUUID } from 'node:crypto';
 import { Replace } from '@helpers/replace';
 
 import { SubscriptionNameVo } from '@core/subscription-plans/value-objects/subscription-plan/subscription-name.vo';
-import { PriceVO } from '@core/subscription-plans/value-objects/subscription-plan/price.vo';
-import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-plan/currency.vo';
+import { PriceVO } from '@core/subscription-plans/value-objects/shared/price.vo';
+import { CurrencyVO } from '@core/subscription-plans/value-objects/shared/currency.vo';
 import { BillingIntervalVO } from '@core/subscription-plans/value-objects/subscription-plan/billing-interval.vo';
 import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription-plan/trial-days.vo';
 
