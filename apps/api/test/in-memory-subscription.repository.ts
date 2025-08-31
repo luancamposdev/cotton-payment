@@ -19,14 +19,10 @@ export class InMemorySubscriptionRepository implements SubscriptionRepository {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async findByCustomerId(
-    customerId: string,
-  ): Promise<SubscriptionEntity[] | null> {
-    const subscription = this.subscriptions.filter(
+  async findByCustomerId(customerId: string): Promise<SubscriptionEntity[]> {
+    return this.subscriptions.filter(
       (subscription) => subscription.customerId === customerId,
     );
-
-    return subscription ?? null;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
