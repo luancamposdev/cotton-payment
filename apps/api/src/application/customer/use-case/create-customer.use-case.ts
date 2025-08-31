@@ -18,6 +18,8 @@ export class CreateCustomerUseCase {
     const customer = new CustomerEntity({
       userId: dto.userId,
       defaultAddressId: dto.defaultAddressId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     });
 
     await this.customerRepository.create(customer);
