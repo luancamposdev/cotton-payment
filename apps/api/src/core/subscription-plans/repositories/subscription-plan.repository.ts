@@ -6,4 +6,6 @@ export abstract class SubscriptionPlanRepository {
   abstract findByCreatorId(
     creatorId: string,
   ): Promise<SubscriptionPlanEntity[]>;
+  abstract save(subscriptionPlan: SubscriptionPlanEntity): Promise<void>;
+  abstract delete(id: string): Promise<void>;
 }
