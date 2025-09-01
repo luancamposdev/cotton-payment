@@ -1,6 +1,6 @@
 import { SubscriptionPlanEntity } from '@core/subscription-plans/entities/subscription-plan.entity';
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-pan/create-subscription-plan.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
 
 describe('CreateSubscriptionPlanUseCase', () => {
   it('should create a subscription plan successfully', async () => {
