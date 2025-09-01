@@ -8,6 +8,7 @@ import { PrismaCustomerMapper } from '@infrastructure/database/prisma/mappers/pr
 @Injectable()
 export class PrismaCustomerRepository implements CustomerRepository {
   constructor(private readonly prismaService: PrismaService) {}
+
   async create(customer: CustomerEntity): Promise<void> {
     const userExists = await this.prismaService.users.findUnique({
       where: { id: customer.userId },
@@ -24,10 +25,9 @@ export class PrismaCustomerRepository implements CustomerRepository {
     });
   }
 
-  async findByUserId(userId: string): Promise<CustomerEntity | null> {
+  async findById(id: string): Promise<CustomerEntity | null> {
     const raw = await this.prismaService.customer.findUnique({
-      where: { userId },
-      include: { defaultAddress: true },
+      where: { id },
     });
 
     if (!raw) return null;
@@ -36,6 +36,26 @@ export class PrismaCustomerRepository implements CustomerRepository {
       {
         userId: raw.userId,
         defaultAddressId: raw.defaultAddressId,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
+      },
+      raw.id,
+    );
+  }
+
+  async findByUserId(userId: string): Promise<CustomerEntity | null> {
+    const raw = await this.prismaService.customer.findUnique({
+      where: { userId },
+    });
+
+    if (!raw) return null;
+
+    return new CustomerEntity(
+      {
+        userId: raw.userId,
+        defaultAddressId: raw.defaultAddressId,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       raw.id,
     );
