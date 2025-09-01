@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Patch,
+  Post,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 
 import { Role, UserEntity } from '@core/users/entities/user.entity';
 
@@ -18,14 +26,16 @@ import {
   CustomerView,
   CustomerViewModel,
 } from '@/interfaces/customer/customer.view.model';
+import { FindCustomerByIdUseCase } from '@application/customer/use-case/find-customer-by-id.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(
     private readonly createCustomerUseCase: CreateCustomerUseCase,
-    private readonly updateCustomerUseCase: UpdateCustomerUseCase,
+    private readonly findCustomerByIdUseCase: FindCustomerByIdUseCase,
     private readonly findCustomerByUserIdUseCase: FindCustomerByUserIdUseCase,
+    private readonly updateCustomerUseCase: UpdateCustomerUseCase,
   ) {}
 
   @Post()
@@ -40,16 +50,10 @@ export class CustomersController {
     return CustomerViewModel.toHTTP(customer);
   }
 
-  @Patch()
+  @Get(':id')
   @Roles(Role.CUSTOMER)
-  async update(
-    @Body() dto: UpdateCustomerDto,
-    @CurrentUser() user: UserEntity,
-  ): Promise<CustomerView> {
-    const { customer } = await this.updateCustomerUseCase.execute({
-      userId: user.id,
-      dto,
-    });
+  async findById(@Param('id') id: string): Promise<CustomerView> {
+    const { customer } = await this.findCustomerByIdUseCase.execute({ id });
 
     return CustomerViewModel.toHTTP(customer);
   }
@@ -59,6 +63,20 @@ export class CustomersController {
   async findByUserId(@CurrentUser() user: UserEntity): Promise<CustomerView> {
     const { customer } = await this.findCustomerByUserIdUseCase.execute({
       userId: user.id,
+    });
+
+    return CustomerViewModel.toHTTP(customer);
+  }
+
+  @Patch()
+  @Roles(Role.CUSTOMER)
+  async update(
+    @Body() dto: UpdateCustomerDto,
+    @CurrentUser() user: UserEntity,
+  ): Promise<CustomerView> {
+    const { customer } = await this.updateCustomerUseCase.execute({
+      userId: user.id,
+      dto,
     });
 
     return CustomerViewModel.toHTTP(customer);
