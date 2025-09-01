@@ -49,9 +49,11 @@ describe('CreateSubscriptionPlanUseCase', () => {
     const request = {
       creatorId: 'user-456',
       name: 'Pro Plan',
+      description: null,
       price: 4999,
       currency: 'BRL',
       billingInterval: 'YEARLY' as const,
+      trialDays: null,
     };
 
     const result = await createSubscriptionPlanUseCase.execute(request);
