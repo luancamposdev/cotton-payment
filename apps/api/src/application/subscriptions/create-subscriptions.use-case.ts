@@ -15,7 +15,7 @@ interface ICreateSubscriptionResponse {
   subscription: SubscriptionEntity;
 }
 
-export class CreateSubscriptionsUseCase {
+export class CreateSubscriptionUseCase {
   constructor(
     private readonly subscriptionsRepository: SubscriptionRepository,
     private readonly customerRepository: CustomerRepository,
@@ -27,13 +27,13 @@ export class CreateSubscriptionsUseCase {
   ): Promise<ICreateSubscriptionResponse> {
     const { customerId, planId } = request;
 
-    const customer = await this.customerRepository.findByUserId(customerId);
+    const customer = await this.customerRepository.findById(customerId);
 
     if (!customer) {
       throw new NotFoundException('Customer not found');
     }
 
-    const plan = await this.subscriptionPlanRepository.findByCreatorId(planId);
+    const plan = await this.subscriptionPlanRepository.findById(planId);
 
     if (!plan) {
       throw new NotFoundException('Subscription plan not found');
@@ -42,7 +42,7 @@ export class CreateSubscriptionsUseCase {
     const subscription = new SubscriptionEntity({
       customerId: customerId,
       planId: planId,
-      status: new SubscriptionStatusVO('PENDING'),
+      subscriptionStatus: new SubscriptionStatusVO('PENDING'),
       startDate: new Date(),
       endDate: null,
       renewalAt: null,
