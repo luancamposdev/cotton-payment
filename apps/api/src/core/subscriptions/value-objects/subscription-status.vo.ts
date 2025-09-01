@@ -16,7 +16,7 @@ export class SubscriptionStatusVO {
 
     const upper = status.toUpperCase();
 
-    if (SubscriptionStatusVO.allowedStatuses.includes(upper)) {
+    if (!SubscriptionStatusVO.allowedStatuses.includes(upper)) {
       throw new Error(
         `Invalid subscription status. Allowed values are: ${SubscriptionStatusVO.allowedStatuses.join(', ')}.`,
       );
