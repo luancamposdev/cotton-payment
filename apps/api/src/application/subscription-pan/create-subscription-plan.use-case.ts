@@ -12,11 +12,11 @@ import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription
 interface ICreateSubscriptionPlanRequest {
   creatorId: string;
   name: string;
-  description?: string;
+  description: string | null;
   price: number;
   currency: string;
   billingInterval: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
-  trialDays?: number;
+  trialDays: number | null;
 }
 
 interface ICreateSubscriptionPlanResponse {
@@ -49,7 +49,7 @@ export class CreateSubscriptionPlanUseCase {
       price: new PriceVO(price),
       currency: new CurrencyVO(currency),
       billingInterval: new BillingIntervalVO(billingInterval),
-      trialDays: trialDays !== undefined ? new TrialDaysVO(trialDays) : null,
+      trialDays: trialDays !== null ? new TrialDaysVO(trialDays) : null,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
