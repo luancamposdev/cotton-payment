@@ -6,13 +6,16 @@ import { UpdateCustomerUseCase } from '@application/customer/use-case/update-cus
 import { FindCustomerByUserIdUseCase } from '@application/customer/use-case/find-customer-by-user-id.use-case';
 import { CustomerRepository } from '@core/customer/repository/customer.repository';
 import { PrismaCustomerRepository } from '@infrastructure/database/prisma/repositories/prisma-customer.repository';
+import { FindCustomerByIdUseCase } from '@application/customer/use-case/find-customer-by-id.use-case';
 
 @Module({
   controllers: [CustomersController],
   providers: [
     CreateCustomerUseCase,
-    UpdateCustomerUseCase,
+    FindCustomerByIdUseCase,
     FindCustomerByUserIdUseCase,
+    UpdateCustomerUseCase,
+
     {
       provide: CustomerRepository,
       useClass: PrismaCustomerRepository,
