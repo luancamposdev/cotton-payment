@@ -6,6 +6,8 @@ type RawCustomer = {
   id: string;
   userId: string;
   defaultAddressId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 @Injectable()
@@ -23,6 +25,8 @@ export class PrismaCustomerMapper {
       {
         userId: raw.userId,
         defaultAddressId: raw.defaultAddressId,
+        createdAt: raw.createdAt,
+        updatedAt: raw.updatedAt,
       },
       raw.id,
     );
