@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { SubscriptionRepository } from '@core/subscriptions/repositories/subscription.repository';
 import { SubscriptionEntity } from '@core/subscriptions/entities/subscription.entity';
@@ -15,6 +15,7 @@ interface ICreateSubscriptionResponse {
   subscription: SubscriptionEntity;
 }
 
+@Injectable()
 export class CreateSubscriptionUseCase {
   constructor(
     private readonly subscriptionsRepository: SubscriptionRepository,
