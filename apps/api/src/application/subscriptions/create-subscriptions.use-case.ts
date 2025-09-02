@@ -43,7 +43,7 @@ export class CreateSubscriptionUseCase {
     const subscription = new SubscriptionEntity({
       customerId: customerId,
       planId: planId,
-      subscriptionStatus: new SubscriptionStatusVO('PENDING'),
+      status: new SubscriptionStatusVO('PENDING'),
       startDate: new Date(),
       endDate: null,
       renewalAt: null,

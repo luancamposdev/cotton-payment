@@ -8,16 +8,26 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+
 import { DeleteSubscriptionPlanUseCase } from '@application/subscription-plan/delete-subscription-plan.use-case';
-import { CreateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/create-subscription-plan.dto';
 import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
-import { SubscriptionPlanViewModel } from '@/interfaces/subscription-plan/subscription-plan.view.model';
 import { FindSubscriptionPlanUseCase } from '@application/subscription-plan/find-subscription-plan.use-case';
 import { FindSubscriptionPlansByCreatorUseCase } from '@application/subscription-plan/find-subscription-plan-by-creator.use-case';
-import { UpdateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/update-subscription-plan.dto';
 import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/update-subscription-plan.use-case';
 
+import { CreateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/create-subscription-plan.dto';
+import { UpdateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/update-subscription-plan.dto';
+
+import { SubscriptionPlanViewModel } from '@/interfaces/subscription-plan/subscription-plan.view.model';
+
+import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
+import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
+import { Roles } from '@infrastructure/common/decorators/roles.decorator';
+import { Role } from '@core/users/entities/user.entity';
+
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('subscription-plans')
 export class SubscriptionPlanController {
   constructor(
@@ -29,6 +39,7 @@ export class SubscriptionPlanController {
   ) {}
 
   @Post()
+  @Roles(Role.CREATOR)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() dto: CreateSubscriptionPlanDto) {
     const { subscriptionPlan } =
@@ -55,6 +66,7 @@ export class SubscriptionPlanController {
     );
   }
 
+  @Roles(Role.CREATOR)
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -66,6 +78,7 @@ export class SubscriptionPlanController {
     return SubscriptionPlanViewModel.toHTTP(subscriptionPlan);
   }
 
+  @Roles(Role.CREATOR)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id') id: string): Promise<void> {

@@ -8,6 +8,7 @@ import { CreatorsModule } from '@/interfaces/creators/creators.module';
 import { CustomerModule } from '@/interfaces/customer/customer.module';
 import { AddressModule } from '@/interfaces/addresses/address.module';
 import { SubscriptionPlanModule } from '@/interfaces/subscription-plan/subscription-plan.module';
+import { SubscriptionModule } from '@/interfaces/subscription/subscription.module';
 
 @Global()
 @Module({
@@ -19,6 +20,7 @@ import { SubscriptionPlanModule } from '@/interfaces/subscription-plan/subscript
     CustomerModule,
     AddressModule,
     SubscriptionPlanModule,
+    SubscriptionModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],

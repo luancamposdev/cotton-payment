@@ -6,7 +6,7 @@ import { SubscriptionStatusVO } from '@core/subscriptions/value-objects/subscrip
 export interface ISubscription {
   customerId: string;
   planId: string;
-  subscriptionStatus: SubscriptionStatusVO;
+  status: SubscriptionStatusVO;
   startDate: Date;
   endDate: Date | null;
   renewalAt: Date | null;
@@ -49,10 +49,10 @@ export class SubscriptionEntity {
   }
 
   get status(): SubscriptionStatusVO {
-    return this.props.subscriptionStatus;
+    return this.props.status;
   }
   set status(value: SubscriptionStatusVO) {
-    this.props.subscriptionStatus = value;
+    this.props.status = value;
     this.touch();
   }
 
