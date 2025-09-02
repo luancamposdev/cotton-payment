@@ -7,9 +7,17 @@ import {
   IsPositive,
   IsInt,
   Min,
+  ArrayNotEmpty,
+  IsArray,
+  ArrayUnique,
 } from 'class-validator';
 
-export type BillingInterval = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+export enum BillingInterval {
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  YEARLY = 'YEARLY',
+}
 
 export class CreateSubscriptionPlanDto {
   @IsString()
@@ -22,9 +30,9 @@ export class CreateSubscriptionPlanDto {
 
   @IsString()
   @IsOptional()
-  description: string | null;
+  description?: string | null;
 
-  @IsNumber()
+  @IsNumber({ allowNaN: false, allowInfinity: false })
   @IsPositive()
   price: number;
 
@@ -32,11 +40,18 @@ export class CreateSubscriptionPlanDto {
   @IsNotEmpty()
   currency: string;
 
-  @IsEnum(['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY'])
+  @IsEnum(BillingInterval)
   billingInterval: BillingInterval;
 
   @IsInt()
   @IsOptional()
   @Min(0)
-  trialDays: number | null;
+  trialDays?: number | null;
+
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsString({ each: true })
+  @IsOptional()
+  features?: string[];
 }

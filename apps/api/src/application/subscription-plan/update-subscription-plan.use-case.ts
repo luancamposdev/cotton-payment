@@ -8,6 +8,7 @@ import { PriceVO } from '@core/subscription-plans/value-objects/subscription-pla
 import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-plan/currency.vo';
 import { BillingIntervalVO } from '@core/subscription-plans/value-objects/subscription-plan/billing-interval.vo';
 import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription-plan/trial-days.vo';
+import { FeaturesVO } from '@core/subscription-plans/value-objects/subscription-plan/features.vo';
 
 @Injectable()
 export class UpdateSubscriptionPlanUseCase {
@@ -34,8 +35,10 @@ export class UpdateSubscriptionPlanUseCase {
         billingInterval: new BillingIntervalVO(dto.billingInterval),
       }),
       ...(dto.trialDays !== undefined && {
-        trialDays: new TrialDaysVO(dto.trialDays!),
+        trialDays:
+          dto.trialDays !== null ? new TrialDaysVO(dto.trialDays) : null,
       }),
+      ...(dto.features && { features: new FeaturesVO(dto.features) }),
     };
 
     subscriptionPlan.updatePlan(updatedData);

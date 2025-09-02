@@ -54,6 +54,11 @@ enum SubscriptionStatus {
   TRIAL
 }
 
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+}
+
 /**
  * =========================
  * USERS & AUTH
@@ -302,17 +307,18 @@ model AuditLog {
  */
 
 model SubscriptionPlan {
-  id              String   @id @default(cuid())
+  id              String          @id @default(cuid())
   creatorId       String
-  creator         Creator  @relation(fields: [creatorId], references: [id])
+  creator         Creator         @relation(fields: [creatorId], references: [id])
   name            String
   description     String?
   price           Int
-  currency        String   @default("BRL")
-  billingInterval String // e.g. "MONTHLY", "YEARLY"
-  trialDays       Int? // se tiver período de trial
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  currency        String          @default("BRL")
+  billingInterval BillingInterval
+  trialDays       Int?
+  features        Json
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
   subscriptions Subscription[]
 }

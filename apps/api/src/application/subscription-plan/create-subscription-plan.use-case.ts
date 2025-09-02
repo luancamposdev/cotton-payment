@@ -18,6 +18,7 @@ interface ICreateSubscriptionPlanRequest {
   currency: string;
   billingInterval: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
   trialDays: number | null;
+  features: string[];
 }
 
 interface ICreateSubscriptionPlanResponse {
@@ -41,6 +42,7 @@ export class CreateSubscriptionPlanUseCase {
       currency,
       billingInterval,
       trialDays,
+      features,
     } = request;
 
     const subscriptionPlan = new SubscriptionPlanEntity({
@@ -51,12 +53,7 @@ export class CreateSubscriptionPlanUseCase {
       currency: new CurrencyVO(currency),
       billingInterval: new BillingIntervalVO(billingInterval),
       trialDays: trialDays !== null ? new TrialDaysVO(trialDays) : null,
-      features: new FeaturesVO([
-        'Acesso a todos os módulos',
-        'Suporte 24/7',
-        'Relatórios avançados com BI',
-        'Usuários ilimitados',
-      ]),
+      features: new FeaturesVO(features),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
