@@ -7,6 +7,7 @@ import { UserModule } from '@/interfaces/users/user.module';
 import { CreatorsModule } from '@/interfaces/creators/creators.module';
 import { CustomerModule } from '@/interfaces/customer/customer.module';
 import { AddressModule } from '@/interfaces/addresses/address.module';
+import { SubscriptionPlanModule } from '@/interfaces/subscription-plan/subscription-plan.module';
 
 @Global()
 @Module({
@@ -17,6 +18,7 @@ import { AddressModule } from '@/interfaces/addresses/address.module';
     CreatorsModule,
     CustomerModule,
     AddressModule,
+    SubscriptionPlanModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],
