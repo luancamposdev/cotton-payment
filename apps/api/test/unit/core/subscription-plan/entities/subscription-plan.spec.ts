@@ -4,6 +4,7 @@ import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-
 import { BillingIntervalVO } from '@core/subscription-plans/value-objects/subscription-plan/billing-interval.vo';
 import { SubscriptionPlanEntity } from '@core/subscription-plans/entities/subscription-plan.entity';
 import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription-plan/trial-days.vo';
+import { FeaturesVO } from '@core/subscription-plans/value-objects/subscription-plan/features.vo';
 
 describe('SubscriptionPlanVO', () => {
   it('should create a subscription plan entity with correct values', () => {
@@ -12,7 +13,12 @@ describe('SubscriptionPlanVO', () => {
     const currency = new CurrencyVO('brl');
     const billingInterval = new BillingIntervalVO('MONTHLY');
     const trialDays = new TrialDaysVO(14);
-
+    const features = new FeaturesVO([
+      'Acesso a todos os módulos',
+      'Suporte 24/7',
+      'Relatórios avançados com BI',
+      'Usuários ilimitados',
+    ]);
     const subscriptionPlan = new SubscriptionPlanEntity({
       creatorId: 'creator-123',
       name: subscriptionName,
@@ -21,6 +27,7 @@ describe('SubscriptionPlanVO', () => {
       currency,
       billingInterval,
       trialDays: trialDays,
+      features: features,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -47,6 +54,12 @@ describe('SubscriptionPlanVO', () => {
       currency: new CurrencyVO('BRL'),
       billingInterval: new BillingIntervalVO('MONTHLY'),
       trialDays: new TrialDaysVO(14),
+      features: new FeaturesVO([
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ]),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -65,6 +78,12 @@ describe('SubscriptionPlanVO', () => {
       currency: new CurrencyVO('BRL'),
       billingInterval: new BillingIntervalVO('MONTHLY'),
       trialDays: new TrialDaysVO(7),
+      features: new FeaturesVO([
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ]),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -83,6 +102,12 @@ describe('SubscriptionPlanVO', () => {
       currency: new CurrencyVO('BRL'),
       billingInterval: new BillingIntervalVO('MONTHLY'),
       trialDays: new TrialDaysVO(7),
+      features: new FeaturesVO([
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ]),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -101,6 +126,12 @@ describe('SubscriptionPlanVO', () => {
       billingInterval: new BillingIntervalVO('MONTHLY'),
       description: null,
       trialDays: null,
+      features: new FeaturesVO([
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ]),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

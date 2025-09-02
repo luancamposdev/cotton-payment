@@ -8,6 +8,7 @@ import { SubscriptionNameVo } from '@core/subscription-plans/value-objects/subsc
 import { PriceVO } from '@core/subscription-plans/value-objects/subscription-plan/price.vo';
 import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-plan/currency.vo';
 import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription-plan/trial-days.vo';
+import { FeaturesVO } from '@core/subscription-plans/value-objects/subscription-plan/features.vo';
 
 interface ICreateSubscriptionPlanRequest {
   creatorId: string;
@@ -50,6 +51,12 @@ export class CreateSubscriptionPlanUseCase {
       currency: new CurrencyVO(currency),
       billingInterval: new BillingIntervalVO(billingInterval),
       trialDays: trialDays !== null ? new TrialDaysVO(trialDays) : null,
+      features: new FeaturesVO([
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ]),
       createdAt: new Date(),
       updatedAt: new Date(),
     });

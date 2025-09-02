@@ -7,6 +7,7 @@ import { PriceVO } from '@core/subscription-plans/value-objects/subscription-pla
 import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-plan/currency.vo';
 import { BillingIntervalVO } from '@core/subscription-plans/value-objects/subscription-plan/billing-interval.vo';
 import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription-plan/trial-days.vo';
+import { FeaturesVO } from '@core/subscription-plans/value-objects/subscription-plan/features.vo';
 
 export interface ISubscriptionPlan {
   creatorId: string;
@@ -16,6 +17,7 @@ export interface ISubscriptionPlan {
   currency: CurrencyVO;
   billingInterval: BillingIntervalVO;
   trialDays: TrialDaysVO | null;
+  features: FeaturesVO;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -94,6 +96,15 @@ export class SubscriptionPlanEntity {
   }
   set trialDays(value: TrialDaysVO | null) {
     this.props.trialDays = value;
+    this.touch();
+  }
+
+  get features(): FeaturesVO {
+    return this.props.features;
+  }
+
+  set features(value: FeaturesVO) {
+    this.props.features = value;
     this.touch();
   }
 

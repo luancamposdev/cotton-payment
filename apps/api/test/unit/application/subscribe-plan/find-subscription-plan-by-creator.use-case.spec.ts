@@ -7,6 +7,7 @@ import { PriceVO } from '@core/subscription-plans/value-objects/subscription-pla
 import { CurrencyVO } from '@core/subscription-plans/value-objects/subscription-plan/currency.vo';
 import { BillingIntervalVO } from '@core/subscription-plans/value-objects/subscription-plan/billing-interval.vo';
 import { TrialDaysVO } from '@core/subscription-plans/value-objects/subscription-plan/trial-days.vo';
+import { FeaturesVO } from '@core/subscription-plans/value-objects/subscription-plan/features.vo';
 
 describe('FindPlansByCreatorUseCase', () => {
   it('should return all plans for a given creator', async () => {
@@ -24,6 +25,12 @@ describe('FindPlansByCreatorUseCase', () => {
         billingInterval: new BillingIntervalVO('MONTHLY'),
         description: 'Plan A description',
         trialDays: new TrialDaysVO(7),
+        features: new FeaturesVO([
+          'Acesso a todos os módulos',
+          'Suporte 24/7',
+          'Relatórios avançados com BI',
+          'Usuários ilimitados',
+        ]),
         createdAt: new Date(),
         updatedAt: new Date(),
       }),
@@ -38,6 +45,12 @@ describe('FindPlansByCreatorUseCase', () => {
         billingInterval: new BillingIntervalVO('MONTHLY'),
         description: 'Plan B description',
         trialDays: null,
+        features: new FeaturesVO([
+          'Acesso a todos os módulos',
+          'Suporte 24/7',
+          'Relatórios avançados com BI',
+          'Usuários ilimitados',
+        ]),
         createdAt: new Date(),
         updatedAt: new Date(),
       }),
