@@ -302,17 +302,17 @@ model AuditLog {
  */
 
 model SubscriptionPlan {
-  id          String   @id @default(cuid())
-  creatorId   String
-  creator     Creator  @relation(fields: [creatorId], references: [id])
-  name        String
-  description String?
-  priceCents  Int
-  currency    String   @default("BRL")
-  interval    String // e.g. "MONTHLY", "YEARLY"
-  trialDays   Int? // se tiver período de trial
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              String   @id @default(cuid())
+  creatorId       String
+  creator         Creator  @relation(fields: [creatorId], references: [id])
+  name            String
+  description     String?
+  price           Int
+  currency        String   @default("BRL")
+  billingInterval String // e.g. "MONTHLY", "YEARLY"
+  trialDays       Int? // se tiver período de trial
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   subscriptions Subscription[]
 }
