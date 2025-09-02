@@ -49,9 +49,9 @@ describe('FindPlansByCreatorUseCase', () => {
 
     console.log(result);
 
-    expect(result.subscriptionPlan).toHaveLength(2);
-    expect(result.subscriptionPlan[0]).toBeInstanceOf(SubscriptionPlanEntity);
-    expect(result.subscriptionPlan[1]).toBeInstanceOf(SubscriptionPlanEntity);
+    expect(result.subscriptionPlans).toHaveLength(2);
+    expect(result.subscriptionPlans[0]).toBeInstanceOf(SubscriptionPlanEntity);
+    expect(result.subscriptionPlans[1]).toBeInstanceOf(SubscriptionPlanEntity);
   });
 
   it('should throw NotFoundException if no plans found', async () => {
