@@ -22,7 +22,7 @@ export class UpdateSubscriptionPlanUseCase {
     const subscriptionPlan = await this.subscriptionPlanRepository.findById(id);
 
     if (!subscriptionPlan) {
-      throw new NotFoundException(`Subscription plan with id ${id} not found`);
+      throw new NotFoundException(`Não encontrado o plano com o id ${id}`);
     }
 
     const updatedData = {

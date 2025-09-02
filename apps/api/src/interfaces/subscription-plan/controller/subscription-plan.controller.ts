@@ -38,7 +38,7 @@ export class SubscriptionPlanController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findById(@Param('id') id: string) {
     const { subscriptionPlan } = await this.findSubscriptionPlanUseCase.execute(
       { id },
     );

@@ -20,12 +20,13 @@ export class FindSubscriptionPlansByCreatorUseCase {
   async execute(
     request: IFindPlansByCreatorRequest,
   ): Promise<IFindPlansByCreatorResponse> {
+    const { creatorId } = request;
     const subscriptionPlans =
-      await this.subscriptionPlanRepository.findByCreatorId(request.creatorId);
+      await this.subscriptionPlanRepository.findByCreatorId(creatorId);
 
     if (!subscriptionPlans || subscriptionPlans.length === 0) {
       throw new NotFoundException(
-        `No subscription plans found for creator ${request.creatorId}`,
+        `Nenhum plano encontrado para o criador ${creatorId}`,
       );
     }
 
