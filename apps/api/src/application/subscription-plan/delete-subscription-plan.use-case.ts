@@ -12,7 +12,7 @@ export class DeleteSubscriptionPlanUseCase {
     const subscriptionPlan = await this.subscriptionPlanRepository.findById(id);
 
     if (!subscriptionPlan)
-      throw new NotFoundException(`Plano não encontrado para o id: ${id}`);
+      throw new NotFoundException(`Plano não encontrado para o id: ${id}.`);
 
     await this.subscriptionPlanRepository.delete(id);
   }

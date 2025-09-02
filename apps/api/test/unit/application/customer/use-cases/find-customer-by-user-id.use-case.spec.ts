@@ -37,6 +37,6 @@ describe('Find creator byUserId', () => {
 
     await expect(
       findCustomerByUserIdUseCase.execute({ userId }),
-    ).rejects.toThrow(`User with userId ${userId} not found`);
+    ).rejects.toThrow('Não foi encontrado o cliente');
   });
 });

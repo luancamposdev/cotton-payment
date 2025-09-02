@@ -45,6 +45,6 @@ describe('Creator Update Use Case', () => {
           bio: 'Meu nome é João e sou developer',
         },
       }),
-    ).rejects.toThrow('Creator not found for this user.');
+    ).rejects.toThrow('Criador não encontrado para este usuário.');
   });
 });

@@ -46,6 +46,6 @@ describe('FindSubscriptionPlanUseCase', () => {
 
     await expect(
       findSubscriptionPlanUseCase.execute({ id: 'invalid-id' }),
-    ).rejects.toThrow('Subscription plan with id invalid-id not found');
+    ).rejects.toThrow('Plano não encontrado.');
   });
 });

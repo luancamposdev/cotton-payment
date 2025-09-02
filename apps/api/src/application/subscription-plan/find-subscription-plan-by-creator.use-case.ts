@@ -25,9 +25,7 @@ export class FindSubscriptionPlansByCreatorUseCase {
       await this.subscriptionPlanRepository.findByCreatorId(creatorId);
 
     if (!subscriptionPlans || subscriptionPlans.length === 0) {
-      throw new NotFoundException(
-        `Nenhum plano encontrado para o criador ${creatorId}`,
-      );
+      throw new NotFoundException(`Nenhum plano encontrado para este criador.`);
     }
 
     return { subscriptionPlans };

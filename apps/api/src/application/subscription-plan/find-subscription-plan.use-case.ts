@@ -24,8 +24,7 @@ export class FindSubscriptionPlanUseCase {
 
     const subscriptionPlan = await this.subscriptionPlanRepository.findById(id);
 
-    if (!subscriptionPlan)
-      throw new NotFoundException(`Plano com id ${id} não encontrado`);
+    if (!subscriptionPlan) throw new NotFoundException(`Plano não encontrado.`);
 
     return { subscriptionPlan };
   }

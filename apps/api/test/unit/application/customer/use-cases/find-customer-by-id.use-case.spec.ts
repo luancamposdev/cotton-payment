@@ -34,7 +34,7 @@ describe('Find creator by id', () => {
     const id = '123456';
 
     await expect(findCustomerByIdUseCase.execute({ id })).rejects.toThrow(
-      `Customer with ${id} not found`,
+      'Não foi encontrado o cliente',
     );
   });
 });

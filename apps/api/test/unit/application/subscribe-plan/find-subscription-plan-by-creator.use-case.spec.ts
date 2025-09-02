@@ -62,8 +62,6 @@ describe('FindPlansByCreatorUseCase', () => {
 
     await expect(
       findPlansByCreatorUseCase.execute({ creatorId: 'non-existent-creator' }),
-    ).rejects.toThrow(
-      'No subscription plans found for creator non-existent-creator',
-    );
+    ).rejects.toThrow('Nenhum plano encontrado para este criador.');
   });
 });

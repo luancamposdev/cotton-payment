@@ -61,6 +61,6 @@ describe('Register user', () => {
         password: 'anotherPass',
         role: Role.CUSTOMER,
       }),
-    ).rejects.toThrow('User already exists.');
+    ).rejects.toThrow('Usuário já esta cadastrado.');
   });
 });

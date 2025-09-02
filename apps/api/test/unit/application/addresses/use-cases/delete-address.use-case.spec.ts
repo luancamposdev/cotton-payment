@@ -34,7 +34,7 @@ describe('DeleteAddressUseCase', () => {
     const addressId = 'non-existent-address-id';
 
     await expect(deleteAddressUseCase.execute(addressId)).rejects.toThrow(
-      `Address with id ${addressId} not found`,
+      `Endereço não encontrado.`,
     );
   });
 });

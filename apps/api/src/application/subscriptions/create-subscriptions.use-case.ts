@@ -31,13 +31,13 @@ export class CreateSubscriptionUseCase {
     const customer = await this.customerRepository.findById(customerId);
 
     if (!customer) {
-      throw new NotFoundException('Customer not found');
+      throw new NotFoundException('Cliente não encontrado.');
     }
 
     const plan = await this.subscriptionPlanRepository.findById(planId);
 
     if (!plan) {
-      throw new NotFoundException('Subscription plan not found');
+      throw new NotFoundException(`Plano não encontrado.`);
     }
 
     const subscription = new SubscriptionEntity({

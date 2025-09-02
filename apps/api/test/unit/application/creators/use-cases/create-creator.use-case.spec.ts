@@ -30,7 +30,7 @@ describe('Creator creator useCase', () => {
     await createCreatorUseCase.execute(dto);
 
     await expect(createCreatorUseCase.execute(dto)).rejects.toThrow(
-      'Creator já cadastrado para este usuário',
+      'Criador já cadastrado para este usuário',
     );
   });
 });

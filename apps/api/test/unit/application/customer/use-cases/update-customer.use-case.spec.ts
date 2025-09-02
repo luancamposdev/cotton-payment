@@ -40,6 +40,6 @@ describe('Customer Update Use Case', () => {
         userId: 'non-existent-user',
         dto: updateDTO,
       }),
-    ).rejects.toThrow('Customer not found for this user');
+    ).rejects.toThrow('Cliente não encontrado para este usuário');
   });
 });

@@ -54,6 +54,6 @@ describe('SubscriptionPlan Update Use Case', () => {
 
     await expect(
       updateUseCase.execute('non-existent-plan', updateDTO),
-    ).rejects.toThrow('Subscription plan with id non-existent-plan not found');
+    ).rejects.toThrow('Plano não encontrado.');
   });
 });

@@ -72,7 +72,7 @@ describe('CreateSubscriptionsUseCase', () => {
         customerId: 'invalid',
         planId: 'valid-plan',
       }),
-    ).rejects.toThrow('Customer not found');
+    ).rejects.toThrow('Cliente não encontrado.');
   });
 
   it('should throw if plan does not exist', async () => {
@@ -98,6 +98,6 @@ describe('CreateSubscriptionsUseCase', () => {
         customerId: customer.id,
         planId: 'invalid',
       }),
-    ).rejects.toThrow('Subscription plan not found');
+    ).rejects.toThrow('Plano não encontrado.');
   });
 });
