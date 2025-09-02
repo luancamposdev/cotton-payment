@@ -31,7 +31,7 @@ export class RegisterUser {
   }: RegisterRequestDto): Promise<RegisterUserResponse> {
     const userExists = await this.userRepository.findByEmail(email);
     if (userExists) {
-      throw new Error('User already exists.');
+      throw new Error('Usuário já esta cadastrado.');
     }
 
     const userName = Name.create(name);

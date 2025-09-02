@@ -10,7 +10,7 @@ export class FindAddressByIdUseCase {
     const address = await this.addressRepository.findById(id);
 
     if (!address) {
-      throw new NotFoundException('Address not found');
+      throw new NotFoundException('Endereço não encontrado.');
     }
 
     return { address };

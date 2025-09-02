@@ -12,7 +12,7 @@ export class CreateCreatorUseCase {
     const existing = await this.creatorRepository.findByUserId(dto.userId);
 
     if (existing) {
-      throw new ConflictException('Creator já cadastrado para este usuário');
+      throw new ConflictException('Criador já cadastrado para este usuário');
     }
 
     const socialLinksVO: SocialLink[] = (dto.socialLinks ?? []).map(

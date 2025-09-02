@@ -15,7 +15,9 @@ export class FindCreatorByUserIdUseCase {
     const creator = await this.creatorRepository.findByUserId(userId);
 
     if (!creator)
-      throw new NotFoundException(`User with userId ${userId} not found`);
+      throw new NotFoundException(
+        `Não foi encontrado o criador para o id ${userId}`,
+      );
 
     return { creator };
   }

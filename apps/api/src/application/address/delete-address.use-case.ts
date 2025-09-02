@@ -10,7 +10,7 @@ export class DeleteAddressUseCase {
     const address = await this.addressRepository.findById(id);
 
     if (!address) {
-      throw new NotFoundException(`Address with id ${id} not found`);
+      throw new NotFoundException(`Endereço com id ${id} não encontrado.`);
     }
 
     await this.addressRepository.delete(id);

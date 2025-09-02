@@ -15,7 +15,7 @@ export class UpdateAddressUseCase {
     const address = await this.addressRepository.findById(id);
 
     if (!address) {
-      throw new NotFoundException('Address does not exist');
+      throw new NotFoundException('Endereço não existe.');
     }
 
     Object.assign(address, dto);

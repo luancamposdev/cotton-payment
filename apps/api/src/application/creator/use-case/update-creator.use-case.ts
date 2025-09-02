@@ -18,7 +18,7 @@ export class UpdateCreatorUseCase {
     const creator = await this.creatorRepository.findByUserId(userId);
 
     if (!creator) {
-      throw new NotFoundException('Creator not found for this user.');
+      throw new NotFoundException('Criador não encontrado para este usuário.');
     }
 
     if (dto.bio !== undefined) {
