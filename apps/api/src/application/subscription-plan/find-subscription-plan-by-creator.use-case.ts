@@ -8,7 +8,7 @@ interface IFindPlansByCreatorRequest {
 }
 
 interface IFindPlansByCreatorResponse {
-  subscriptionPlan: SubscriptionPlanEntity[];
+  subscriptionPlans: SubscriptionPlanEntity[];
 }
 
 @Injectable()
@@ -20,15 +20,15 @@ export class FindSubscriptionPlansByCreatorUseCase {
   async execute(
     request: IFindPlansByCreatorRequest,
   ): Promise<IFindPlansByCreatorResponse> {
-    const subscriptionPlan =
+    const subscriptionPlans =
       await this.subscriptionPlanRepository.findByCreatorId(request.creatorId);
 
-    if (!subscriptionPlan || subscriptionPlan.length === 0) {
+    if (!subscriptionPlans || subscriptionPlans.length === 0) {
       throw new NotFoundException(
         `No subscription plans found for creator ${request.creatorId}`,
       );
     }
 
-    return { subscriptionPlan };
+    return { subscriptionPlans };
   }
 }
