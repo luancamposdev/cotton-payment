@@ -1,7 +1,8 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { SubscriptionPlanRepository } from '@core/subscription-plans/repositories/subscription-plan.repository';
 
+@Injectable()
 export class DeleteSubscriptionPlanUseCase {
   constructor(
     private readonly subscriptionPlanRepository: SubscriptionPlanRepository,
