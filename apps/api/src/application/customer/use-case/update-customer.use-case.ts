@@ -17,7 +17,7 @@ export class UpdateCustomerUseCase {
     const customer = await this.customerRepository.findByUserId(userId);
 
     if (!customer) {
-      throw new NotFoundException('Customer not found for this user.');
+      throw new NotFoundException('Cliente não encontrado para este usuário.');
     }
 
     Object.assign(customer, dto);

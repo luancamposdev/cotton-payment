@@ -15,7 +15,10 @@ export class FindCustomerByIdUseCase {
   }: FindCustomerByUserIdRequest): Promise<{ customer: CustomerEntity }> {
     const customer = await this.customerRepository.findById(id);
 
-    if (!customer) throw new NotFoundException(`Customer with ${id} not found`);
+    if (!customer)
+      throw new NotFoundException(
+        `Não foi encontrado o cliente com o id ${id}`,
+      );
 
     return { customer };
   }
