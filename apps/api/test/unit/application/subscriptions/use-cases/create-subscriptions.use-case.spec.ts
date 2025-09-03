@@ -36,6 +36,12 @@ describe('CreateSubscriptionsUseCase', () => {
       billingInterval: 'MONTHLY',
       description: null,
       trialDays: null,
+      features: [
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ],
     });
 
     const result = await createSubscriptionUseCase.execute({

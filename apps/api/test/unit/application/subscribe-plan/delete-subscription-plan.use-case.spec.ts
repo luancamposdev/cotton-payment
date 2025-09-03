@@ -8,6 +8,13 @@ describe('SubscriptionPlan Delete Use Case', () => {
   let createUseCase: CreateSubscriptionPlanUseCase;
   let deleteUseCase: DeleteSubscriptionPlanUseCase;
 
+  const defaultFeatures = [
+    'Acesso a todos os módulos',
+    'Suporte 24/7',
+    'Relatórios avançados com BI',
+    'Usuários ilimitados',
+  ];
+
   beforeEach(() => {
     subscriptionPlanRepository = new InMemorySubscriptionPlanRepository();
     createUseCase = new CreateSubscriptionPlanUseCase(
@@ -27,6 +34,7 @@ describe('SubscriptionPlan Delete Use Case', () => {
       currency: 'USD',
       billingInterval: 'MONTHLY' as const,
       trialDays: 7,
+      features: defaultFeatures,
     };
 
     const { subscriptionPlan } = await createUseCase.execute(createDTO);

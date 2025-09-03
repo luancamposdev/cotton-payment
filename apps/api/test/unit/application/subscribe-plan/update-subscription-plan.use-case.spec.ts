@@ -1,14 +1,20 @@
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-
 import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
 import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/update-subscription-plan.use-case';
-
 import { UpdateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/update-subscription-plan.dto';
+import { BillingInterval } from '@/interfaces/subscription-plan/dto/create-subscription-plan.dto';
 
 describe('SubscriptionPlan Update Use Case', () => {
   const repository = new InMemorySubscriptionPlanRepository();
   const createUseCase = new CreateSubscriptionPlanUseCase(repository);
   const updateUseCase = new UpdateSubscriptionPlanUseCase(repository);
+
+  const defaultFeatures = [
+    'Acesso a todos os módulos',
+    'Suporte 24/7',
+    'Relatórios avançados com BI',
+    'Usuários ilimitados',
+  ];
 
   it('should update subscription plan details', async () => {
     const createDTO = {
@@ -19,6 +25,7 @@ describe('SubscriptionPlan Update Use Case', () => {
       currency: 'USD',
       billingInterval: 'MONTHLY' as const,
       trialDays: 7,
+      features: defaultFeatures,
     };
 
     const { subscriptionPlan } = await createUseCase.execute(createDTO);
@@ -28,8 +35,9 @@ describe('SubscriptionPlan Update Use Case', () => {
       description: 'Updated description',
       price: 200,
       currency: 'EUR',
-      billingInterval: 'YEARLY',
+      billingInterval: 'YEARLY' as BillingInterval,
       trialDays: 14,
+      features: ['Novo recurso 1', 'Novo recurso 2'],
     };
 
     const { subscriptionPlan: updated } = await updateUseCase.execute(
@@ -45,6 +53,7 @@ describe('SubscriptionPlan Update Use Case', () => {
     expect(updated.currency.value).toBe('EUR');
     expect(updated.billingInterval.value).toBe('YEARLY');
     expect(updated.trialDays?.value).toBe(14);
+    expect(updated.features.value).toEqual(updateDTO.features);
   });
 
   it('should throw NotFoundException if subscription plan does not exist', async () => {

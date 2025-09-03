@@ -17,6 +17,12 @@ describe('CreateSubscriptionPlanUseCase', () => {
       currency: 'BRL',
       billingInterval: 'MONTHLY' as const,
       trialDays: 7,
+      features: [
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ],
     };
 
     const { subscriptionPlan } =
@@ -32,6 +38,7 @@ describe('CreateSubscriptionPlanUseCase', () => {
       request.billingInterval,
     );
     expect(subscriptionPlan.trialDays?.value).toBe(request.trialDays);
+    expect(subscriptionPlan.features.value).toEqual(request.features);
 
     const persisted = await subscriptionPlanRepository.findById(
       subscriptionPlan.id,
@@ -54,6 +61,12 @@ describe('CreateSubscriptionPlanUseCase', () => {
       currency: 'BRL',
       billingInterval: 'YEARLY' as const,
       trialDays: null,
+      features: [
+        'Acesso a todos os módulos',
+        'Suporte 24/7',
+        'Relatórios avançados com BI',
+        'Usuários ilimitados',
+      ],
     };
 
     const result = await createSubscriptionPlanUseCase.execute(request);
@@ -61,5 +74,6 @@ describe('CreateSubscriptionPlanUseCase', () => {
     expect(result.subscriptionPlan).toBeInstanceOf(SubscriptionPlanEntity);
     expect(result.subscriptionPlan.description).toBeNull();
     expect(result.subscriptionPlan.trialDays).toBeNull();
+    expect(result.subscriptionPlan.features.value).toEqual(request.features);
   });
 });
