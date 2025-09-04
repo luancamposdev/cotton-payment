@@ -8,6 +8,7 @@ export class SubscriptionViewModel {
       planId: subscription.planId,
       status: subscription.status.value,
       startDate: subscription.startDate,
+      trialEndsAt: subscription.trialEndsAt,
       endDate: subscription.endDate,
       renewalAt: subscription.renewalAt,
       createdAt: subscription.createdAt,
