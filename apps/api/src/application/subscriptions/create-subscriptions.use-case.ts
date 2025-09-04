@@ -1,10 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 import { SubscriptionRepository } from '@core/subscriptions/repositories/subscription.repository';
 import { SubscriptionEntity } from '@core/subscriptions/entities/subscription.entity';
 import { CustomerRepository } from '@core/customer/repository/customer.repository';
 import { SubscriptionPlanRepository } from '@core/subscription-plans/repositories/subscription-plan.repository';
-import { SubscriptionStatusVO } from '@core/subscriptions/value-objects/subscription-status.vo';
 
 interface ICreateSubscriptionRequest {
   customerId: string;
@@ -29,27 +27,12 @@ export class CreateSubscriptionUseCase {
     const { customerId, planId } = request;
 
     const customer = await this.customerRepository.findById(customerId);
-
-    if (!customer) {
-      throw new NotFoundException('Cliente não encontrado.');
-    }
+    if (!customer) throw new NotFoundException('Cliente não encontrado.');
 
     const plan = await this.subscriptionPlanRepository.findById(planId);
+    if (!plan) throw new NotFoundException('Plano não encontrado.');
 
-    if (!plan) {
-      throw new NotFoundException(`Plano não encontrado.`);
-    }
-
-    const subscription = new SubscriptionEntity({
-      customerId: customerId,
-      planId: planId,
-      status: new SubscriptionStatusVO('PENDING'),
-      startDate: new Date(),
-      endDate: null,
-      renewalAt: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
+    const subscription = SubscriptionEntity.createFromPlan(customer.id, plan);
 
     await this.subscriptionsRepository.create(subscription);
 
