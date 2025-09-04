@@ -13,12 +13,14 @@ import { PrismaSubscriptionRepository } from '@infrastructure/database/prisma/re
 import { PrismaCustomerRepository } from '@infrastructure/database/prisma/repositories/prisma-customer.repository';
 import { PrismaSubscriptionPlanRepository } from '@infrastructure/database/prisma/repositories/prisma-subscription-plan.repository';
 import { FindSubscriptionByCustomerUseCase } from '@application/subscriptions/find-subscription-by-customer.use-case';
+import { UpdateSubscriptionUseCase } from '@application/subscriptions/update-subscription.use-case';
 
 @Module({
   controllers: [SubscriptionController],
   providers: [
     CreateSubscriptionUseCase,
     FindSubscriptionByCustomerUseCase,
+    UpdateSubscriptionUseCase,
     {
       provide: SubscriptionRepository,
       useClass: PrismaSubscriptionRepository,
