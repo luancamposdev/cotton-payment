@@ -2,7 +2,7 @@ import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription
 import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
 import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/update-subscription-plan.use-case';
 import { UpdateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/update-subscription-plan.dto';
-import { BillingInterval } from '@/interfaces/subscription-plan/dto/create-subscription-plan.dto';
+import { BillingInterval } from '@prisma/client';
 
 describe('SubscriptionPlan Update Use Case', () => {
   const repository = new InMemorySubscriptionPlanRepository();
