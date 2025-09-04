@@ -1,23 +1,17 @@
 import {
-  IsString,
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsArray,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsEnum,
-  IsNotEmpty,
   IsPositive,
-  IsInt,
+  IsString,
   Min,
-  ArrayNotEmpty,
-  IsArray,
-  ArrayUnique,
 } from 'class-validator';
-
-export enum BillingInterval {
-  DAILY = 'DAILY',
-  WEEKLY = 'WEEKLY',
-  MONTHLY = 'MONTHLY',
-  YEARLY = 'YEARLY',
-}
+import { BillingInterval } from '@prisma/client';
 
 export class CreateSubscriptionPlanDto {
   @IsString()
@@ -30,7 +24,7 @@ export class CreateSubscriptionPlanDto {
 
   @IsString()
   @IsOptional()
-  description?: string | null;
+  description: string | null;
 
   @IsNumber({ allowNaN: false, allowInfinity: false })
   @IsPositive()
@@ -46,12 +40,11 @@ export class CreateSubscriptionPlanDto {
   @IsInt()
   @IsOptional()
   @Min(0)
-  trialDays?: number | null;
+  trialDays: number | null;
 
   @IsArray()
   @ArrayNotEmpty()
   @ArrayUnique()
   @IsString({ each: true })
-  @IsOptional()
-  features?: string[];
+  features: string[];
 }
