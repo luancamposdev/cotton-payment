@@ -2,12 +2,14 @@ import { randomUUID } from 'node:crypto';
 import { Replace } from '@helpers/replace';
 
 import { SubscriptionStatusVO } from '@core/subscriptions/value-objects/subscription-status.vo';
+import { SubscriptionPlanEntity } from '@core/subscription-plans/entities/subscription-plan.entity';
 
 export interface ISubscription {
   customerId: string;
   planId: string;
   status: SubscriptionStatusVO;
   startDate: Date;
+  trialEndsAt: Date | null;
   endDate: Date | null;
   renewalAt: Date | null;
   createdAt: Date;
@@ -18,7 +20,7 @@ export class SubscriptionEntity {
   private readonly _id: string;
   private props: ISubscription;
 
-  constructor(
+  public constructor(
     props: Replace<
       ISubscription,
       { createdAt?: Date; updatedAt?: Date; startDate?: Date }
@@ -28,12 +30,39 @@ export class SubscriptionEntity {
     this._id = id ?? randomUUID();
     this.props = {
       ...props,
-      endDate: props.endDate ?? null,
-      renewalAt: props.renewalAt ?? null,
       startDate: props.startDate ?? new Date(),
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
+      trialEndsAt: props.trialEndsAt ?? null,
+      endDate: props.endDate ?? null,
+      renewalAt: props.renewalAt ?? null,
     };
+    this.checkStatusAutomatically();
+  }
+
+  static createFromPlan(
+    customerId: string,
+    plan: SubscriptionPlanEntity,
+  ): SubscriptionEntity {
+    const now = new Date();
+    let trialEndsAt: Date | null = null;
+    let status: SubscriptionStatusVO = new SubscriptionStatusVO('ACTIVE');
+
+    if (plan.trialDays?.hasTrial()) {
+      trialEndsAt = new Date(now);
+      trialEndsAt.setDate(trialEndsAt.getDate() + plan.trialDays.value);
+      status = new SubscriptionStatusVO('TRIAL');
+    }
+
+    return new SubscriptionEntity({
+      customerId,
+      planId: plan.id,
+      status,
+      startDate: now,
+      trialEndsAt,
+      endDate: null,
+      renewalAt: null,
+    });
   }
 
   get id(): string {
@@ -49,8 +78,10 @@ export class SubscriptionEntity {
   }
 
   get status(): SubscriptionStatusVO {
+    this.checkStatusAutomatically();
     return this.props.status;
   }
+
   set status(value: SubscriptionStatusVO) {
     this.props.status = value;
     this.touch();
@@ -60,17 +91,24 @@ export class SubscriptionEntity {
     return this.props.startDate;
   }
 
+  get trialEndsAt(): Date | null {
+    return this.props.trialEndsAt;
+  }
+
   get endDate(): Date | null {
     return this.props.endDate;
   }
+
   set endDate(value: Date | null) {
     this.props.endDate = value;
     this.touch();
+    this.checkStatusAutomatically();
   }
 
   get renewalAt(): Date | null {
     return this.props.renewalAt;
   }
+
   set renewalAt(value: Date | null) {
     this.props.renewalAt = value;
     this.touch();
@@ -84,9 +122,35 @@ export class SubscriptionEntity {
     return this.props.updatedAt;
   }
 
-  // Atualização parcial da subscription
   updateSubscription(data: Partial<Omit<ISubscription, 'createdAt'>>) {
     this.props = { ...this.props, ...data, updatedAt: new Date() };
+    this.checkStatusAutomatically();
+  }
+
+  private checkStatusAutomatically(): void {
+    if (this.props.status.value === 'CANCELLED') return;
+
+    const now = new Date();
+    const statuses: [boolean, string][] = [
+      [
+        this.props.trialEndsAt !== null && now < this.props.trialEndsAt,
+        'TRIAL',
+      ],
+      [this.props.endDate !== null && now > this.props.endDate, 'EXPIRED'],
+      [
+        this.props.startDate <= now &&
+          (!this.props.endDate || now <= this.props.endDate),
+        'ACTIVE',
+      ],
+    ];
+
+    for (const [condition, status] of statuses) {
+      if (condition && this.props.status.value !== status) {
+        this.props.status = new SubscriptionStatusVO(status);
+        this.touch();
+        break;
+      }
+    }
   }
 
   private touch(): void {
