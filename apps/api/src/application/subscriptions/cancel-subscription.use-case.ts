@@ -14,9 +14,8 @@ export class CancelSubscriptionUseCase {
     private readonly subscriptionRepository: SubscriptionRepository,
   ) {}
 
-  async execute(subscriptionId: string): Promise<ICancelSubscriptionResponse> {
-    const subscription =
-      await this.subscriptionRepository.findById(subscriptionId);
+  async execute(id: string): Promise<ICancelSubscriptionResponse> {
+    const subscription = await this.subscriptionRepository.findById(id);
 
     if (!subscription) {
       throw new NotFoundException('Assinatura não encontrada.');
