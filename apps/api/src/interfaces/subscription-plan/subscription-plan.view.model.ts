@@ -8,6 +8,7 @@ export class SubscriptionPlanViewModel {
   currency: string;
   billingInterval: string;
   trialDays: number | null;
+  features: string[];
   creatorId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +22,7 @@ export class SubscriptionPlanViewModel {
       currency: plan.currency.value,
       billingInterval: plan.billingInterval.value,
       trialDays: plan.trialDays?.value ?? null,
+      features: plan.features?.value ?? [],
       creatorId: plan.creatorId,
       createdAt: plan.createdAt,
       updatedAt: plan.updatedAt,
