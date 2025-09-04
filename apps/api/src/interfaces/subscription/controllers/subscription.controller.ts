@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -20,6 +23,7 @@ import { UpdateSubscriptionUseCase } from '@application/subscriptions/update-sub
 
 import { CreateSubscriptionDto } from '@/interfaces/subscription/dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from '@/interfaces/subscription/dto/update-subscription.dto';
+import { CancelSubscriptionUseCase } from '@application/subscriptions/cancel-subscription.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('subscriptions')
@@ -28,6 +32,7 @@ export class SubscriptionController {
     private readonly createSubscriptionRepository: CreateSubscriptionUseCase,
     private readonly findSubscriptionByCustomerUseCase: FindSubscriptionByCustomerUseCase,
     private readonly updateSubscriptionUseCase: UpdateSubscriptionUseCase,
+    private readonly cancelSubscriptionUseCase: CancelSubscriptionUseCase,
   ) {}
 
   @Post()
@@ -58,5 +63,12 @@ export class SubscriptionController {
       dto,
     );
     return SubscriptionViewModel.toHTTP(subscription);
+  }
+
+  @Delete(':id')
+  @Roles(Role.CUSTOMER)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async cancel(@Param('id') id: string) {
+    await this.cancelSubscriptionUseCase.execute(id);
   }
 }
