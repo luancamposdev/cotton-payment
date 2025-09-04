@@ -8,9 +8,11 @@ export class CreateSubscriptionDto {
   @IsUUID()
   planId: string;
 
+  @IsOptional()
   @IsEnum(SubscriptionStatus)
   status: SubscriptionStatus;
 
+  @IsOptional()
   @IsDateString()
   startDate: Date;
 
