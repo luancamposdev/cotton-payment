@@ -15,8 +15,6 @@ import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
 import { Roles } from '@infrastructure/common/decorators/roles.decorator';
 import { Role } from '@core/users/entities/user.entity';
 
-import { SubscriptionPlanViewModel } from '@/interfaces/subscription-plan/subscription-plan.view.model';
-
 import { FindSubscriptionByCustomerUseCase } from '@application/subscriptions/find-subscription-by-customer.use-case';
 import { UpdateSubscriptionUseCase } from '@application/subscriptions/update-subscription.use-case';
 
