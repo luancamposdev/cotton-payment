@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
 import { CreateSubscriptionDto } from '@/interfaces/subscription/dto/create-subscription.dto';
 import { CreateSubscriptionUseCase } from '@application/subscriptions/create-subscriptions.use-case';
@@ -7,12 +7,14 @@ import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
 import { Roles } from '@infrastructure/common/decorators/roles.decorator';
 import { Role } from '@core/users/entities/user.entity';
+import { FindSubscriptionByCustomerUseCase } from '@application/subscriptions/find-subscription-by-customer.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('subscriptions')
 export class SubscriptionController {
   constructor(
     private readonly createSubscriptionRepository: CreateSubscriptionUseCase,
+    private readonly findSubscriptionByCustomerUseCase: FindSubscriptionByCustomerUseCase,
   ) {}
 
   @Post()
@@ -22,5 +24,15 @@ export class SubscriptionController {
       await this.createSubscriptionRepository.execute(dto);
 
     return SubscriptionViewModel.toHTTP(subscription);
+  }
+
+  @Get('customer/:customerId')
+  async findByCreator(@Param('customerId') customerId: string) {
+    const { subscriptions } =
+      await this.findSubscriptionByCustomerUseCase.execute({ customerId });
+
+    return subscriptions.map((subscription) =>
+      SubscriptionViewModel.toHTTP(subscription),
+    );
   }
 }
