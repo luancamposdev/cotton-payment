@@ -12,11 +12,13 @@ import { SubscriptionPlanRepository } from '@core/subscription-plans/repositorie
 import { PrismaSubscriptionRepository } from '@infrastructure/database/prisma/repositories/prisma-subscription.repository';
 import { PrismaCustomerRepository } from '@infrastructure/database/prisma/repositories/prisma-customer.repository';
 import { PrismaSubscriptionPlanRepository } from '@infrastructure/database/prisma/repositories/prisma-subscription-plan.repository';
+import { FindSubscriptionByCustomerUseCase } from '@application/subscriptions/find-subscription-by-customer.use-case';
 
 @Module({
   controllers: [SubscriptionController],
   providers: [
     CreateSubscriptionUseCase,
+    FindSubscriptionByCustomerUseCase,
     {
       provide: SubscriptionRepository,
       useClass: PrismaSubscriptionRepository,
@@ -30,6 +32,6 @@ import { PrismaSubscriptionPlanRepository } from '@infrastructure/database/prism
       useClass: PrismaSubscriptionPlanRepository,
     },
   ],
-  exports: [CreateSubscriptionUseCase],
+  exports: [CreateSubscriptionUseCase, FindSubscriptionByCustomerUseCase],
 })
 export class SubscriptionModule {}
