@@ -35,11 +35,4 @@ export class InMemorySubscriptionRepository implements SubscriptionRepository {
       this.subscriptions[index] = subscription;
     }
   }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async delete(id: string): Promise<void> {
-    this.subscriptions = this.subscriptions.filter(
-      (subscription) => subscription.id !== id,
-    );
-  }
 }

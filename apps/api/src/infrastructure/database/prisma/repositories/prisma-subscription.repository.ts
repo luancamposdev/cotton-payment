@@ -38,8 +38,4 @@ export class PrismaSubscriptionRepository implements SubscriptionRepository {
       data,
     });
   }
-
-  async delete(id: string): Promise<void> {
-    await this.prisma.subscription.delete({ where: { id } });
-  }
 }
