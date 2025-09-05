@@ -40,6 +40,8 @@ describe('CheckExpiredSubscriptionsUseCase', () => {
 
     await useCase.handle();
 
+    expect(recalcSpy).not.toHaveBeenCalled();
+
     // Verifica se recalculate foi chamado para cada assinatura
     expect(recalcSpy).toHaveBeenCalledTimes(2);
     expect(recalcSpy).toHaveBeenCalledWith(sub1, expect.any(Date));
