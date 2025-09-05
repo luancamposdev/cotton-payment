@@ -38,4 +38,13 @@ export class PrismaSubscriptionRepository implements SubscriptionRepository {
       data,
     });
   }
+
+  async findAllActiveOrTrial(): Promise<SubscriptionEntity[]> {
+    const raws = await this.prisma.subscription.findMany({
+      where: {
+        status: { in: ['ACTIVE', 'TRIAL'] },
+      },
+    });
+    return raws.map((raw) => PrismaSubscriptionMapper.toDomain(raw));
+  }
 }
