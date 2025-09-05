@@ -6,15 +6,16 @@ import { CheckExpiredSubscriptionsUseCase } from '@application/subscriptions/use
 import { SubscriptionStatusVO } from '@core/subscriptions/value-objects/subscription-status.vo';
 
 describe('CheckExpiredSubscriptionsUseCase', () => {
-  let subscriptionRepository: InMemorySubscriptionRepository;
-  let useCase: CheckExpiredSubscriptionsUseCase;
-
   beforeEach(() => {
-    subscriptionRepository = new InMemorySubscriptionRepository();
-    useCase = new CheckExpiredSubscriptionsUseCase(subscriptionRepository);
+    jest.restoreAllMocks(); // Restaura todos os spies/mocks
   });
 
   it('should recalculate statuses and save subscriptions', async () => {
+    const subscriptionRepository = new InMemorySubscriptionRepository();
+    const useCase = new CheckExpiredSubscriptionsUseCase(
+      subscriptionRepository,
+    );
+
     const sub1 = new SubscriptionEntity({
       customerId: 'customer-1',
       status: new SubscriptionStatusVO('ACTIVE'),
@@ -40,8 +41,6 @@ describe('CheckExpiredSubscriptionsUseCase', () => {
 
     await useCase.handle();
 
-    expect(recalcSpy).not.toHaveBeenCalled();
-
     // Verifica se recalculate foi chamado para cada assinatura
     expect(recalcSpy).toHaveBeenCalledTimes(2);
     expect(recalcSpy).toHaveBeenCalledWith(sub1, expect.any(Date));
@@ -55,7 +54,27 @@ describe('CheckExpiredSubscriptionsUseCase', () => {
   });
 
   it('should do nothing if no active or trial subscriptions exist', async () => {
-    // Nenhuma assinatura criada no repositório
+    const subscriptionRepository = new InMemorySubscriptionRepository();
+    const useCase = new CheckExpiredSubscriptionsUseCase(
+      subscriptionRepository,
+    );
+
+    // Criando assinatura CANCELLED
+    const sub = new SubscriptionEntity({
+      customerId: 'customer-3',
+      status: new SubscriptionStatusVO('CANCELLED'), // status diferente de ACTIVE/TRIAL
+      planId: 'plan-3',
+      endDate: null,
+      renewalAt: null,
+      trialEndsAt: null,
+    });
+    await subscriptionRepository.create(sub);
+
+    // Garantir que findAllActiveOrTrial retorna vazio
+    const activeOrTrialSubs =
+      await subscriptionRepository.findAllActiveOrTrial();
+    expect(activeOrTrialSubs).toHaveLength(0); // Confirma que não tem ACTIVE/TRIAL
+
     const recalcSpy = jest.spyOn(SubscriptionStatusService, 'recalculate');
 
     await useCase.handle();
