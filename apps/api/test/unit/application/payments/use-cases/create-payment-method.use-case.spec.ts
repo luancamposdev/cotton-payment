@@ -1,8 +1,6 @@
 import { CreatePaymentMethodUseCase } from '@application/payments/use-cases/create-payment-method.use-case';
 import { InMemoryPaymentMethodRepository } from '@test/in-memory-payment-method.repository';
 import { PaymentProvider } from '@core/payments/entities/payment-method.entity';
-import { CustomerId } from '@core/payments/value-objects/customer-id.vo';
-import { ProviderToken } from '@core/payments/value-objects/provider-token.vo';
 
 describe('CreatePaymentMethodUseCase', () => {
   let repository: InMemoryPaymentMethodRepository;
