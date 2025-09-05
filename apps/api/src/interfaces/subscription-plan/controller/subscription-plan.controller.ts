@@ -66,8 +66,8 @@ export class SubscriptionPlanController {
     );
   }
 
-  @Roles(Role.CREATOR)
   @Patch(':id')
+  @Roles(Role.CREATOR, Role.ADMIN)
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateSubscriptionPlanDto,
@@ -78,7 +78,7 @@ export class SubscriptionPlanController {
     return SubscriptionPlanViewModel.toHTTP(subscriptionPlan);
   }
 
-  @Roles(Role.CREATOR)
+  @Roles(Role.CREATOR, Role.ADMIN)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id') id: string): Promise<void> {
