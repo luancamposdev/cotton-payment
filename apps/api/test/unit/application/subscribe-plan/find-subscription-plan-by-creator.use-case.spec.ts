@@ -60,8 +60,6 @@ describe('FindPlansByCreatorUseCase', () => {
       creatorId: 'creator-123',
     });
 
-    console.log(result);
-
     expect(result.subscriptionPlans).toHaveLength(2);
     expect(result.subscriptionPlans[0]).toBeInstanceOf(SubscriptionPlanEntity);
     expect(result.subscriptionPlans[1]).toBeInstanceOf(SubscriptionPlanEntity);
