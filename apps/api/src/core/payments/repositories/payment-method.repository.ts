@@ -1,8 +1,10 @@
 import { PaymentMethodEntity } from '../entities/payment-method.entity';
 
-export interface PaymentMethodRepository {
-  create(paymentMethod: PaymentMethodEntity): Promise<PaymentMethodEntity>;
-  update(paymentMethod: PaymentMethodEntity): Promise<PaymentMethodEntity>;
-  findById(id: string): Promise<PaymentMethodEntity | null>;
-  findByCustomerId(customerId: string): Promise<PaymentMethodEntity[]>;
+export abstract class PaymentMethodRepository {
+  abstract create(paymentMethod: PaymentMethodEntity): Promise<void>;
+  abstract update(
+    paymentMethod: PaymentMethodEntity,
+  ): Promise<PaymentMethodEntity>;
+  abstract findById(id: string): Promise<PaymentMethodEntity | null>;
+  abstract findByCustomerId(customerId: string): Promise<PaymentMethodEntity[]>;
 }
