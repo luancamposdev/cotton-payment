@@ -109,7 +109,7 @@ describe('UpdateSubscriptionUseCase', () => {
   it('should throw if subscription does not exist', async () => {
     await expect(
       updateSubscriptionUseCase.execute('invalid-id', {
-        status: 'CANCELED',
+        status: 'CANCELLED',
       }),
     ).rejects.toThrow('Assinatura não encontrada.');
   });
