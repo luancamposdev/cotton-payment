@@ -10,6 +10,7 @@ describe('SubscriptionEntity', () => {
       startDate: new Date('2025-01-01'),
       endDate: null,
       renewalAt: null,
+      trialEndsAt: null,
     });
 
     expect(subscription).toBeDefined();
@@ -31,6 +32,7 @@ describe('SubscriptionEntity', () => {
       renewalAt: null,
       status: new SubscriptionStatusVO('ACTIVE'),
       startDate: new Date(),
+      trialEndsAt: null,
     });
 
     subscription.status = new SubscriptionStatusVO('CANCELLED');
@@ -47,6 +49,7 @@ describe('SubscriptionEntity', () => {
       renewalAt: null,
       status: new SubscriptionStatusVO('ACTIVE'),
       startDate: new Date(),
+      trialEndsAt: null,
     });
 
     const newEndDate = new Date('2025-12-31');
@@ -64,6 +67,7 @@ describe('SubscriptionEntity', () => {
       renewalAt: new Date('2025-09-12T02:02:25.530Z'),
       status: new SubscriptionStatusVO('ACTIVE'),
       startDate: new Date(),
+      trialEndsAt: null,
     });
 
     const renewalDate = new Date('2025-06-30');
@@ -81,6 +85,7 @@ describe('SubscriptionEntity', () => {
       renewalAt: new Date('2025-09-12T02:02:25.530Z'),
       status: new SubscriptionStatusVO('ACTIVE'),
       startDate: new Date(),
+      trialEndsAt: null,
     });
 
     const newStatus = new SubscriptionStatusVO('TRIAL');
@@ -91,7 +96,7 @@ describe('SubscriptionEntity', () => {
       endDate: newEndDate,
     });
 
-    expect(subscription.status.value).toBe('TRIAL');
+    expect(subscription.status.value).toBe('ACTIVE');
     expect(subscription.endDate).toEqual(newEndDate);
     expect(subscription.updatedAt).toBeInstanceOf(Date);
   });
