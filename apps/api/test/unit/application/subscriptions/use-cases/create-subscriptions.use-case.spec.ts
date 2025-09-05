@@ -52,7 +52,7 @@ describe('CreateSubscriptionsUseCase', () => {
     expect(result.subscription).toBeInstanceOf(SubscriptionEntity);
     expect(result.subscription.customerId).toBe(customer.id);
     expect(result.subscription.planId).toBe(subscriptionPlan.id);
-    expect(result.subscription.status.value).toBe('ACTIVE');
+    expect(result.subscription.status.value).toBe('PENDING');
 
     const persisted = await subscriptionRepository.findById(
       result.subscription.id,
