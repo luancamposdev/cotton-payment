@@ -7,11 +7,8 @@ export class InMemoryPaymentMethodRepository
   public paymentMethods: PaymentMethodEntity[] = [];
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async create(
-    paymentMethod: PaymentMethodEntity,
-  ): Promise<PaymentMethodEntity> {
+  async create(paymentMethod: PaymentMethodEntity): Promise<void> {
     this.paymentMethods.push(paymentMethod);
-    return paymentMethod;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
