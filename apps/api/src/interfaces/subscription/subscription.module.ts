@@ -8,6 +8,7 @@ import { PrismaCustomerRepository } from '@infrastructure/database/prisma/reposi
 import { PrismaSubscriptionPlanRepository } from '@infrastructure/database/prisma/repositories/prisma-subscription-plan.repository';
 
 import { CreateSubscriptionUseCase } from '@application/subscriptions/use-cases/create-subscriptions.use-case';
+import { FindSubscriptionByIdUseCase } from '@application/subscriptions/use-cases/find-subscription-by-id.use-case';
 import { FindSubscriptionByCustomerUseCase } from '@application/subscriptions/use-cases/find-subscription-by-customer.use-case';
 import { UpdateSubscriptionUseCase } from '@application/subscriptions/use-cases/update-subscription.use-case';
 import { CancelSubscriptionUseCase } from '@application/subscriptions/use-cases/cancel-subscription.use-case';
@@ -18,6 +19,7 @@ import { SubscriptionController } from '@/interfaces/subscription/controllers/su
   controllers: [SubscriptionController],
   providers: [
     CreateSubscriptionUseCase,
+    FindSubscriptionByIdUseCase,
     FindSubscriptionByCustomerUseCase,
     UpdateSubscriptionUseCase,
     CancelSubscriptionUseCase,
