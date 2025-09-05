@@ -35,4 +35,12 @@ export class InMemorySubscriptionRepository implements SubscriptionRepository {
       this.subscriptions[index] = subscription;
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async findAllActiveOrTrial(): Promise<SubscriptionEntity[]> {
+    return this.subscriptions.filter((s) => {
+      const status = s.status.value;
+      return status === 'ACTIVE' || status === 'TRIAL';
+    });
+  }
 }
