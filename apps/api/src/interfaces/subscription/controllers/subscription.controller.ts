@@ -24,12 +24,14 @@ import { UpdateSubscriptionUseCase } from '@application/subscriptions/use-cases/
 import { CreateSubscriptionDto } from '@/interfaces/subscription/dto/create-subscription.dto';
 import { UpdateSubscriptionDto } from '@/interfaces/subscription/dto/update-subscription.dto';
 import { CancelSubscriptionUseCase } from '@application/subscriptions/use-cases/cancel-subscription.use-case';
+import { FindSubscriptionByIdUseCase } from '@application/subscriptions/use-cases/find-subscription-by-id.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('subscriptions')
 export class SubscriptionController {
   constructor(
     private readonly createSubscriptionRepository: CreateSubscriptionUseCase,
+    private readonly findSubscriptionByIdUseCase: FindSubscriptionByIdUseCase,
     private readonly findSubscriptionByCustomerUseCase: FindSubscriptionByCustomerUseCase,
     private readonly updateSubscriptionUseCase: UpdateSubscriptionUseCase,
     private readonly cancelSubscriptionUseCase: CancelSubscriptionUseCase,
@@ -42,6 +44,16 @@ export class SubscriptionController {
       await this.createSubscriptionRepository.execute(dto);
 
     return SubscriptionViewModel.toHTTP(subscription);
+  }
+
+  @Get(':id')
+  @Roles(Role.CUSTOMER)
+  async findById(@Param('id') id: string) {
+    const { subscription } = await this.findSubscriptionByIdUseCase.execute({
+      id,
+    });
+
+    return subscription;
   }
 
   @Get('customer/:customerId')
