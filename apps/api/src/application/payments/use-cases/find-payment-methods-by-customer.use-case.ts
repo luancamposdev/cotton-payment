@@ -13,7 +13,7 @@ export class FindPaymentMethodsByCustomerUseCase {
     const paymentMethods =
       await this.paymentMethodRepository.findByCustomerId(customerId);
 
-    if (!paymentMethods)
+    if (!paymentMethods || paymentMethods.length === 0)
       throw new NotFoundException('Método de pagamento não encontrado.');
 
     return { paymentMethods };
