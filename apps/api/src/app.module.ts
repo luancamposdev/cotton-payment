@@ -9,6 +9,7 @@ import { CustomerModule } from '@/interfaces/customer/customer.module';
 import { AddressModule } from '@/interfaces/addresses/address.module';
 import { SubscriptionPlanModule } from '@/interfaces/subscription-plan/subscription-plan.module';
 import { SubscriptionModule } from '@/interfaces/subscription/subscription.module';
+import { PaymentMethodModule } from '@/interfaces/payments/payment-method.module';
 
 @Global()
 @Module({
@@ -21,6 +22,7 @@ import { SubscriptionModule } from '@/interfaces/subscription/subscription.modul
     AddressModule,
     SubscriptionPlanModule,
     SubscriptionModule,
+    PaymentMethodModule,
   ],
   providers: [PrismaService],
   exports: [PrismaService],
