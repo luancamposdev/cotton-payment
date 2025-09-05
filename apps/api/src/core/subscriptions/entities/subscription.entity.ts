@@ -46,7 +46,7 @@ export class SubscriptionEntity {
   ): SubscriptionEntity {
     const now = new Date();
     let trialEndsAt: Date | null = null;
-    let status: SubscriptionStatusVO = new SubscriptionStatusVO('ACTIVE');
+    let status: SubscriptionStatusVO = new SubscriptionStatusVO('PENDING');
 
     if (plan.trialDays?.hasTrial()) {
       trialEndsAt = new Date(now);
@@ -128,28 +128,37 @@ export class SubscriptionEntity {
   }
 
   private checkStatusAutomatically(): void {
-    if (this.props.status.value === 'CANCELLED') return;
-
     const now = new Date();
-    const statuses: [boolean, string][] = [
-      [
-        this.props.trialEndsAt !== null && now < this.props.trialEndsAt,
-        'TRIAL',
-      ],
-      [this.props.endDate !== null && now > this.props.endDate, 'EXPIRED'],
-      [
-        this.props.startDate <= now &&
-          (!this.props.endDate || now <= this.props.endDate),
-        'ACTIVE',
-      ],
-    ];
+    const current = this.props.status.value;
 
-    for (const [condition, status] of statuses) {
-      if (condition && this.props.status.value !== status) {
-        this.props.status = new SubscriptionStatusVO(status);
+    // estados que não devem ser sobrescritos automaticamente
+    if (current === 'CANCELLED') return;
+    if (current === 'PENDING') return;
+
+    // ainda não começou
+    if (this.props.startDate > now) return;
+
+    // expirado por data de término
+    if (this.props.endDate !== null && now > this.props.endDate) {
+      if (current !== 'EXPIRED') {
+        this.props.status = new SubscriptionStatusVO('EXPIRED');
         this.touch();
-        break;
       }
+      return;
+    }
+
+    // período de trial
+    if (this.props.trialEndsAt !== null && now < this.props.trialEndsAt) {
+      if (current !== 'TRIAL') {
+        this.props.status = new SubscriptionStatusVO('TRIAL');
+        this.touch();
+      }
+      return;
+    }
+
+    if (current !== 'ACTIVE') {
+      this.props.status = new SubscriptionStatusVO('ACTIVE');
+      this.touch();
     }
   }
 
