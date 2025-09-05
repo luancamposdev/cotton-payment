@@ -11,13 +11,13 @@ import { ExpYear } from '@core/payments/value-objects/exp-year.vo';
 import { PaymentMethodRepository } from '@core/payments/repositories/payment-method.repository';
 
 export interface ICreatePaymentMethodRequest {
-  customerId: CustomerId;
+  customerId: string;
   provider: PaymentProvider;
-  providerToken: ProviderToken;
-  brand?: CardBrand;
-  last4?: Last4;
-  expMonth?: ExpMonth;
-  expYear?: ExpYear;
+  providerToken: string;
+  brand?: string;
+  last4?: string;
+  expMonth?: number;
+  expYear?: number;
 }
 
 export class CreatePaymentMethodUseCase {
@@ -27,17 +27,19 @@ export class CreatePaymentMethodUseCase {
 
   async execute(
     request: ICreatePaymentMethodRequest,
-  ): Promise<PaymentMethodEntity> {
+  ): Promise<{ paymentMethod: PaymentMethodEntity }> {
     const paymentMethod = new PaymentMethodEntity({
-      customerId: request.customerId,
+      customerId: new CustomerId(request.customerId),
       provider: request.provider,
-      providerToken: request.providerToken,
-      brand: request.brand,
-      last4: request.last4,
-      expMonth: request.expMonth,
-      expYear: request.expYear,
+      providerToken: new ProviderToken(request.providerToken),
+      brand: request.brand ? new CardBrand(request.brand) : undefined,
+      last4: request.last4 ? new Last4(request.last4) : undefined,
+      expMonth: request.expMonth ? new ExpMonth(request.expMonth) : undefined,
+      expYear: request.expYear ? new ExpYear(request.expYear) : undefined,
     });
 
-    return this.paymentMethodRepository.create(paymentMethod);
+    await this.paymentMethodRepository.create(paymentMethod);
+
+    return { paymentMethod };
   }
 }
