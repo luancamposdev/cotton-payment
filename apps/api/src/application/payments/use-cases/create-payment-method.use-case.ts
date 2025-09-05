@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common';
+
 import {
   PaymentMethodEntity,
   PaymentProvider,
@@ -20,6 +22,7 @@ export interface ICreatePaymentMethodRequest {
   expYear?: number;
 }
 
+@Injectable()
 export class CreatePaymentMethodUseCase {
   constructor(
     private readonly paymentMethodRepository: PaymentMethodRepository,
