@@ -47,7 +47,7 @@ export class SubscriptionController {
   }
 
   @Get(':id')
-  @Roles(Role.CUSTOMER)
+  @Roles(Role.CUSTOMER, Role.ADMIN)
   async findById(@Param('id') id: string) {
     const { subscription } = await this.findSubscriptionByIdUseCase.execute({
       id,
@@ -57,7 +57,7 @@ export class SubscriptionController {
   }
 
   @Get('customer/:customerId')
-  @Roles(Role.CUSTOMER)
+  @Roles(Role.CUSTOMER, Role.ADMIN)
   async findByCreator(@Param('customerId') customerId: string) {
     const { subscriptions } =
       await this.findSubscriptionByCustomerUseCase.execute({ customerId });
@@ -67,7 +67,7 @@ export class SubscriptionController {
     );
   }
 
-  @Roles(Role.CUSTOMER)
+  @Roles(Role.CUSTOMER, Role.ADMIN)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateSubscriptionDto) {
     const { subscription } = await this.updateSubscriptionUseCase.execute(
@@ -78,7 +78,7 @@ export class SubscriptionController {
   }
 
   @Delete(':id')
-  @Roles(Role.CUSTOMER)
+  @Roles(Role.CUSTOMER, Role.ADMIN)
   @HttpCode(HttpStatus.NO_CONTENT)
   async cancel(@Param('id') id: string) {
     await this.cancelSubscriptionUseCase.execute(id);
