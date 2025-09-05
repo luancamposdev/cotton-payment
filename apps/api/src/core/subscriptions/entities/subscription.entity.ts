@@ -162,7 +162,7 @@ export class SubscriptionEntity {
     }
   }
 
-  private touch(): void {
+  public touch(): void {
     this.props.updatedAt = new Date();
   }
 }
