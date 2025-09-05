@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
-import { DeleteSubscriptionPlanUseCase } from '@application/subscription-plan/delete-subscription-plan.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/create-subscription-plan.use-case';
+import { DeleteSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/delete-subscription-plan.use-case';
 
 describe('SubscriptionPlan Delete Use Case', () => {
   let subscriptionPlanRepository: InMemorySubscriptionPlanRepository;

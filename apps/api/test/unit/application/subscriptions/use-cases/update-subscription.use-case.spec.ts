@@ -1,10 +1,10 @@
-import { UpdateSubscriptionUseCase } from '@application/subscriptions/update-subscription.use-case';
+import { UpdateSubscriptionUseCase } from '@application/subscriptions/use-cases/update-subscription.use-case';
 import { InMemorySubscriptionRepository } from '@test/in-memory-subscription.repository';
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-import { CreateSubscriptionUseCase } from '@application/subscriptions/create-subscriptions.use-case';
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
+import { CreateSubscriptionUseCase } from '@application/subscriptions/use-cases/create-subscriptions.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/create-subscription-plan.use-case';
 
 describe('UpdateSubscriptionUseCase', () => {
   let subscriptionRepository: InMemorySubscriptionRepository;

@@ -1,4 +1,4 @@
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 
 describe('Create Customer useCase', () => {

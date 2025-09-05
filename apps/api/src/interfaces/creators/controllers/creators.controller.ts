@@ -6,10 +6,10 @@ import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
 import { CurrentUser } from '@infrastructure/auth/decorators/current-user.decorator';
 import { Role, UserEntity } from '@core/users/entities/user.entity';
 import { Roles } from '@infrastructure/common/decorators/roles.decorator';
-import { FindCreatorByUserIdUseCase } from '@application/creator/use-case/find-creator-by-user-id.use-case';
-import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
+import { FindCreatorByUserIdUseCase } from '@application/creator/use-cases/find-creator-by-user-id.use-case';
+import { CreateCreatorUseCase } from '@application/creator/use-cases/create-creator.use-case';
 import { UpdateCreatorDto } from '@/interfaces/creators/dto/update.creator.dto';
-import { UpdateCreatorUseCase } from '@application/creator/use-case/update-creator.use-case';
+import { UpdateCreatorUseCase } from '@application/creator/use-cases/update-creator.use-case';
 import {
   CreatorView,
   CreatorViewModel,

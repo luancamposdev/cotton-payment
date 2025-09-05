@@ -1,11 +1,11 @@
 import { InMemorySubscriptionRepository } from '@test/in-memory-subscription.repository';
-import { CreateSubscriptionUseCase } from '@application/subscriptions/create-subscriptions.use-case';
+import { CreateSubscriptionUseCase } from '@application/subscriptions/use-cases/create-subscriptions.use-case';
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
 
 import { SubscriptionEntity } from '@core/subscriptions/entities/subscription.entity';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/create-subscription-plan.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
 
 describe('CreateSubscriptionsUseCase', () => {
   it('should create a subscription successfully', async () => {

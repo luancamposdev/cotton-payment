@@ -2,7 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
-import { UpdateUserUseCase } from '@application/user/use-case/update-user.use-case';
+import { UpdateUserUseCase } from '@application/user/use-cases/update-user.use-case';
 import { RegisterUser } from '@application/auth/use-cases/register-user.use-case';
 import { AuthService } from '@infrastructure/auth/services/auth.service';
 import { Role } from '@core/users/entities/user.entity';

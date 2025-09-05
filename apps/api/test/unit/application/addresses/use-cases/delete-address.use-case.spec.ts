@@ -1,6 +1,6 @@
 import { InMemoryAddressRepository } from '@test/in-memory-address.repository';
-import { CreateAddressUseCase } from '@application/address/create-address.use-case';
-import { DeleteAddressUseCase } from '@application/address/delete-address.use-case';
+import { CreateAddressUseCase } from '@application/address/use-cases/create-address.use-case';
+import { DeleteAddressUseCase } from '@application/address/use-cases/delete-address.use-case';
 import { AddressType } from '@core/addresses/entities/address.entity';
 
 describe('DeleteAddressUseCase', () => {

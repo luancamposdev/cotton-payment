@@ -1,6 +1,6 @@
 import { InMemoryCreatorRepository } from '@test/in-memory-creator.repository';
-import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
-import { FindCreatorByUserIdUseCase } from '@application/creator/use-case/find-creator-by-user-id.use-case';
+import { CreateCreatorUseCase } from '@application/creator/use-cases/create-creator.use-case';
+import { FindCreatorByUserIdUseCase } from '@application/creator/use-cases/find-creator-by-user-id.use-case';
 import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 
 describe('Find creator byUserId', () => {

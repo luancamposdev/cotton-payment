@@ -10,9 +10,9 @@ import {
 
 import { Role, UserEntity } from '@core/users/entities/user.entity';
 
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
-import { UpdateCustomerUseCase } from '@application/customer/use-case/update-customer.use-case';
-import { FindCustomerByUserIdUseCase } from '@application/customer/use-case/find-customer-by-user-id.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
+import { UpdateCustomerUseCase } from '@application/customer/use-cases/update-customer.use-case';
+import { FindCustomerByUserIdUseCase } from '@application/customer/use-cases/find-customer-by-user-id.use-case';
 
 import { CreateCustomerDto } from '@/interfaces/customer/dto/create-customer.dto';
 import { UpdateCustomerDto } from '@/interfaces/customer/dto/update.customer.dto';
@@ -26,7 +26,7 @@ import {
   CustomerView,
   CustomerViewModel,
 } from '@/interfaces/customer/customer.view.model';
-import { FindCustomerByIdUseCase } from '@application/customer/use-case/find-customer-by-id.use-case';
+import { FindCustomerByIdUseCase } from '@application/customer/use-cases/find-customer-by-id.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('customers')

@@ -1,6 +1,6 @@
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
-import { UpdateCustomerUseCase } from '@application/customer/use-case/update-customer.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
+import { UpdateCustomerUseCase } from '@application/customer/use-cases/update-customer.use-case';
 import { UpdateCustomerDto } from '@/interfaces/customer/dto/update.customer.dto';
 
 describe('Customer Update Use Case', () => {

@@ -5,9 +5,9 @@ import { UserController } from '@/interfaces/users/controllers/user.controller';
 import { UserRepository } from '@core/users/repositories/user.repository';
 import { PrismaUserRepository } from '@infrastructure/database/prisma/repositories/prisma-user.repository';
 import { CommonModule } from '@infrastructure/common/common.module';
-import { UpdateUserUseCase } from '@application/user/use-case/update-user.use-case';
-import { DeleteUserUseCase } from '@application/user/use-case/delete-user.use-case';
-import { FindUserByEmailUseCase } from '@application/user/use-case/find-user-by-email.use-case';
+import { UpdateUserUseCase } from '@application/user/use-cases/update-user.use-case';
+import { DeleteUserUseCase } from '@application/user/use-cases/delete-user.use-case';
+import { FindUserByEmailUseCase } from '@application/user/use-cases/find-user-by-email.use-case';
 
 @Module({
   imports: [AuthModule, CommonModule],

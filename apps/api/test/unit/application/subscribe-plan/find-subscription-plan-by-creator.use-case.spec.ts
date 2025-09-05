@@ -1,6 +1,6 @@
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
 import { SubscriptionPlanEntity } from '@core/subscription-plans/entities/subscription-plan.entity';
-import { FindSubscriptionPlansByCreatorUseCase } from '@application/subscription-plan/find-subscription-plan-by-creator.use-case';
+import { FindSubscriptionPlansByCreatorUseCase } from '@application/subscription-plan/use-cases/find-subscription-plan-by-creator.use-case';
 
 import { SubscriptionNameVo } from '@core/subscription-plans/value-objects/subscription-plan/subscription-name.vo';
 import { PriceVO } from '@core/subscription-plans/value-objects/subscription-plan/price.vo';

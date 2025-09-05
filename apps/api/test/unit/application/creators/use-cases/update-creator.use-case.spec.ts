@@ -1,6 +1,6 @@
 import { InMemoryCreatorRepository } from '@test/in-memory-creator.repository';
-import { UpdateCreatorUseCase } from '@application/creator/use-case/update-creator.use-case';
-import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
+import { UpdateCreatorUseCase } from '@application/creator/use-cases/update-creator.use-case';
+import { CreateCreatorUseCase } from '@application/creator/use-cases/create-creator.use-case';
 
 describe('Creator Update Use Case', () => {
   const creatorRepository = new InMemoryCreatorRepository();

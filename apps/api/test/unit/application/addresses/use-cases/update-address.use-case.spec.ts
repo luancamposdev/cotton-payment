@@ -1,6 +1,6 @@
 import { InMemoryAddressRepository } from '@test/in-memory-address.repository';
-import { UpdateAddressUseCase } from '@application/address/update-address.use-case';
-import { CreateAddressUseCase } from '@application/address/create-address.use-case';
+import { UpdateAddressUseCase } from '@application/address/use-cases/update-address.use-case';
+import { CreateAddressUseCase } from '@application/address/use-cases/create-address.use-case';
 import { AddressType } from '@core/addresses/entities/address.entity';
 import { NotFoundException } from '@nestjs/common';
 

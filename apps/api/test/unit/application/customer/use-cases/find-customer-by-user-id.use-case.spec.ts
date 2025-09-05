@@ -1,6 +1,6 @@
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
-import { FindCustomerByUserIdUseCase } from '@application/customer/use-case/find-customer-by-user-id.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
+import { FindCustomerByUserIdUseCase } from '@application/customer/use-cases/find-customer-by-user-id.use-case';
 
 describe('Find creator byUserId', () => {
   it('Should return customers by userId', async () => {

@@ -1,5 +1,5 @@
 import { InMemoryAddressRepository } from '@test/in-memory-address.repository';
-import { FindAddressByIdUseCase } from '@application/address/find-address-by-id.use-case';
+import { FindAddressByIdUseCase } from '@application/address/use-cases/find-address-by-id.use-case';
 import {
   AddressEntity,
   AddressType,

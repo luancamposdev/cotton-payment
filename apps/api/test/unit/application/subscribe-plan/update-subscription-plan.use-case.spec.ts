@@ -1,6 +1,6 @@
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
-import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/update-subscription-plan.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/create-subscription-plan.use-case';
+import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/update-subscription-plan.use-case';
 import { UpdateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/update-subscription-plan.dto';
 import { BillingInterval } from '@prisma/client';
 

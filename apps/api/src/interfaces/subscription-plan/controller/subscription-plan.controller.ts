@@ -11,11 +11,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { DeleteSubscriptionPlanUseCase } from '@application/subscription-plan/delete-subscription-plan.use-case';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
-import { FindSubscriptionPlanUseCase } from '@application/subscription-plan/find-subscription-plan.use-case';
-import { FindSubscriptionPlansByCreatorUseCase } from '@application/subscription-plan/find-subscription-plan-by-creator.use-case';
-import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/update-subscription-plan.use-case';
+import { DeleteSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/delete-subscription-plan.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/create-subscription-plan.use-case';
+import { FindSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/find-subscription-plan.use-case';
+import { FindSubscriptionPlansByCreatorUseCase } from '@application/subscription-plan/use-cases/find-subscription-plan-by-creator.use-case';
+import { UpdateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/update-subscription-plan.use-case';
 
 import { CreateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/create-subscription-plan.dto';
 import { UpdateSubscriptionPlanDto } from '@/interfaces/subscription-plan/dto/update-subscription-plan.dto';

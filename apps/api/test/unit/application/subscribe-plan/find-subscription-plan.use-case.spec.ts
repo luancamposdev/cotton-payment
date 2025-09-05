@@ -1,5 +1,5 @@
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-import { FindSubscriptionPlanUseCase } from '@application/subscription-plan/find-subscription-plan.use-case';
+import { FindSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/find-subscription-plan.use-case';
 import { SubscriptionPlanEntity } from '@core/subscription-plans/entities/subscription-plan.entity';
 
 import { SubscriptionNameVo } from '@core/subscription-plans/value-objects/subscription-plan/subscription-name.vo';

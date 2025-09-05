@@ -1,10 +1,10 @@
-import { CancelSubscriptionUseCase } from '@application/subscriptions/cancel-subscription.use-case';
+import { CancelSubscriptionUseCase } from '@application/subscriptions/use-cases/cancel-subscription.use-case';
 import { InMemorySubscriptionRepository } from '@test/in-memory-subscription.repository';
-import { CreateSubscriptionUseCase } from '@application/subscriptions/create-subscriptions.use-case';
+import { CreateSubscriptionUseCase } from '@application/subscriptions/use-cases/create-subscriptions.use-case';
 import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
 import { InMemorySubscriptionPlanRepository } from '@test/in-memory-subscription-plan.repository';
-import { CreateCustomerUseCase } from '@application/customer/use-case/create-customer.use-case';
-import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/create-subscription-plan.use-case';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
+import { CreateSubscriptionPlanUseCase } from '@application/subscription-plan/use-cases/create-subscription-plan.use-case';
 
 describe('CancelSubscriptionUseCase', () => {
   it('should cancel an existing subscription', async () => {

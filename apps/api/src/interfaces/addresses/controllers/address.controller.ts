@@ -13,13 +13,13 @@ import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
 import { CreateAddressDto } from '@/interfaces/addresses/dto/create-address.dto';
 import { CurrentUser } from '@infrastructure/auth/decorators/current-user.decorator';
 import { UserEntity } from '@core/users/entities/user.entity';
-import { CreateAddressUseCase } from '@application/address/create-address.use-case';
+import { CreateAddressUseCase } from '@application/address/use-cases/create-address.use-case';
 import { AddressViewModel } from '@/interfaces/addresses/address.view.model';
-import { FindAddressByIdUseCase } from '@application/address/find-address-by-id.use-case';
-import { FindAddressesByUserIdUseCase } from '@application/address/find-addresses-by-user-id.use-case';
+import { FindAddressByIdUseCase } from '@application/address/use-cases/find-address-by-id.use-case';
+import { FindAddressesByUserIdUseCase } from '@application/address/use-cases/find-addresses-by-user-id.use-case';
 import { UpdateAddressDto } from '@/interfaces/addresses/dto/update-address.dto';
-import { UpdateAddressUseCase } from '@application/address/update-address.use-case';
-import { DeleteAddressUseCase } from '@application/address/delete-address.use-case';
+import { UpdateAddressUseCase } from '@application/address/use-cases/update-address.use-case';
+import { DeleteAddressUseCase } from '@application/address/use-cases/delete-address.use-case';
 
 @UseGuards(JwtAuthGuard)
 @Controller('addresses')

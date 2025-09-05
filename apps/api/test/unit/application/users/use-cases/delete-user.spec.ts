@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { RegisterUser } from '@application/auth/use-cases/register-user.use-case';
 import { AuthService } from '@infrastructure/auth/services/auth.service';
-import { DeleteUserUseCase } from '@application/user/use-case/delete-user.use-case';
+import { DeleteUserUseCase } from '@application/user/use-cases/delete-user.use-case';
 import { TokenBlacklistService } from '@infrastructure/auth/services/token-blacklist.service';
 import { Role } from '@core/users/entities/user.entity';
 

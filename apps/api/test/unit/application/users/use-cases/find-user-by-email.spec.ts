@@ -1,4 +1,4 @@
-import { FindUserByEmailUseCase } from '@application/user/use-case/find-user-by-email.use-case';
+import { FindUserByEmailUseCase } from '@application/user/use-cases/find-user-by-email.use-case';
 import { InMemoryUserRepository } from '@test/in-memory-user.repository';
 import { Role, UserEntity } from '@core/users/entities/user.entity';
 import { Name } from '@core/users/value-objects/name';

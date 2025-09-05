@@ -1,5 +1,5 @@
 import { InMemoryCreatorRepository } from '@test/in-memory-creator.repository';
-import { CreateCreatorUseCase } from '@application/creator/use-case/create-creator.use-case';
+import { CreateCreatorUseCase } from '@application/creator/use-cases/create-creator.use-case';
 import { SocialLink } from '@core/creators/value-objects/social-link.vo';
 
 describe('Creator creator useCase', () => {

@@ -14,8 +14,8 @@ import { CurrentUser } from '@infrastructure/auth/decorators/current-user.decora
 import { UserEntity } from '@core/users/entities/user.entity';
 import { UpdateUserDto } from '@/interfaces/users/dto/update-user.dto';
 import { UserViewModel } from '@/interfaces/auth/mappers/user-view.model';
-import { DeleteUserUseCase } from '@application/user/use-case/delete-user.use-case';
-import { UpdateUserUseCase } from '@application/user/use-case/update-user.use-case';
+import { DeleteUserUseCase } from '@application/user/use-cases/delete-user.use-case';
+import { UpdateUserUseCase } from '@application/user/use-cases/update-user.use-case';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)

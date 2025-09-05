@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 
-import { SubscriptionRepository } from '@/core/subscriptions/repositories/subscription.repository';
-import { SubscriptionStatusService } from '@/core/subscriptions/services/subscription-status.service';
+import { SubscriptionRepository } from '@core/subscriptions/repositories/subscription.repository';
+import { SubscriptionStatusService } from '@core/subscriptions/services/subscription-status.service';
 
 @Injectable()
 export class CheckExpiredSubscriptionsUseCase {
