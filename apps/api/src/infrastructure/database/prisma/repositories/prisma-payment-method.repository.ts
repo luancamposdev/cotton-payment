@@ -6,7 +6,6 @@ import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 
 import { PaymentMethodEntity } from '@/core/payments/entities/payment-method.entity';
 import { PaymentMethodMapper } from '@infrastructure/database/prisma/mappers/payment-method.mapper';
-import { PrismaAddressMapper } from '@infrastructure/database/prisma/mappers/prisma-address.mapper';
 
 @Injectable()
 export class PrismaPaymentMethodRepository implements PaymentMethodRepository {
@@ -34,7 +33,13 @@ export class PrismaPaymentMethodRepository implements PaymentMethodRepository {
     return PaymentMethodMapper.toDomain(raw);
   }
 
-  findByCustomerId(customerId: string): Promise<PaymentMethodEntity[]> {
-    throw new Error('Method not implemented.');
+  async findByCustomerId(customerId: string): Promise<PaymentMethodEntity[]> {
+    if (!customerId.trim()) return Promise.resolve([]);
+
+    const raws = await this.prismaService.paymentMethod.findMany({
+      where: { customerId },
+    });
+
+    return raws.map((raw) => PaymentMethodMapper.toDomain(raw));
   }
 }
