@@ -1,7 +1,8 @@
 import { PaymentMethodRepository } from '@core/payments/repositories/payment-method.repository';
 import { PaymentMethodEntity } from '@core/payments/entities/payment-method.entity';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
+@Injectable()
 export class FindPaymentMethodsByCustomerUseCase {
   constructor(
     private readonly paymentMethodRepository: PaymentMethodRepository,
