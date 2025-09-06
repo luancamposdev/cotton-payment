@@ -1,14 +1,15 @@
 import { PaymentMethodRepository } from '@core/payments/repositories/payment-method.repository';
 import { PaymentMethodEntity } from '@core/payments/entities/payment-method.entity';
 import { NotFoundException } from '@nestjs/common';
+import { CardBrand } from '@core/payments/value-objects/card-brand.vo';
 
 export interface UpdatePaymentMethodRequest {
   id: string;
-  providerToken?: string;
-  brand?: string;
-  last4?: string;
-  expMonth?: number;
-  expYear?: number;
+  providerToken: string | null;
+  brand: CardBrand | null;
+  last4: string | null;
+  expMonth: number | null;
+  expYear: number | null;
 }
 
 export class UpdatePaymentMethodUseCase {
