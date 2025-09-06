@@ -16,7 +16,7 @@ describe('CreatePaymentMethodUseCase', () => {
       customerId: 'customer-123',
       provider: PaymentProvider.STRIPE,
       providerToken: 'valid-token-123456',
-      brand: 'VISA',
+      brand: 'Visa',
       last4: '4242',
       expMonth: 12,
       expYear: 2030,
@@ -25,7 +25,7 @@ describe('CreatePaymentMethodUseCase', () => {
     expect(result.paymentMethod.customerId.value).toBe('customer-123');
     expect(result.paymentMethod.provider).toBe(PaymentProvider.STRIPE);
     expect(result.paymentMethod.providerToken.value).toBe('valid-token-123456');
-    expect(result.paymentMethod.brand!.value).toBe('VISA');
+    expect(result.paymentMethod.brand!.value).toBe('Visa');
     expect(result.paymentMethod.last4!.value).toBe('4242');
     expect(result.paymentMethod.expMonth!.value).toBe(12);
     expect(result.paymentMethod.expYear!.value).toBe(2030);
@@ -46,9 +46,9 @@ describe('CreatePaymentMethodUseCase', () => {
     expect(paymentMethod.customerId.value).toBe('customer-456');
     expect(paymentMethod.provider).toBe(PaymentProvider.PAYPAL);
     expect(paymentMethod.providerToken.value).toBe('another-valid-token');
-    expect(paymentMethod.brand).toBeUndefined();
-    expect(paymentMethod.last4).toBeUndefined();
-    expect(paymentMethod.expMonth).toBeUndefined();
-    expect(paymentMethod.expYear).toBeUndefined();
+    expect(paymentMethod.brand).toBeNull();
+    expect(paymentMethod.last4).toBeNull();
+    expect(paymentMethod.expMonth).toBeNull();
+    expect(paymentMethod.expYear).toBeNull();
   });
 });
