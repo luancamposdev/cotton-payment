@@ -7,12 +7,14 @@ import { CreatePaymentMethodUseCase } from '@application/payments/use-cases/crea
 
 import { PaymentMethodController } from '@/interfaces/payments/controllers/payment-method.controller';
 import { FindPaymentMethodByIdUseCase } from '@application/payments/use-cases/find-payment-method-by-id.use-case';
+import { FindPaymentMethodsByCustomerUseCase } from '@application/payments/use-cases/find-payment-methods-by-customer.use-case';
 
 @Module({
   controllers: [PaymentMethodController],
   providers: [
     CreatePaymentMethodUseCase,
     FindPaymentMethodByIdUseCase,
+    FindPaymentMethodsByCustomerUseCase,
     {
       provide: PaymentMethodRepository,
       useClass: PrismaPaymentMethodRepository,
