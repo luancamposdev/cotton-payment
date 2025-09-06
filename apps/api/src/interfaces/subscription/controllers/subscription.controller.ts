@@ -58,7 +58,7 @@ export class SubscriptionController {
 
   @Get('customer/:customerId')
   @Roles(Role.CUSTOMER, Role.ADMIN)
-  async findByCreator(@Param('customerId') customerId: string) {
+  async findByCustomer(@Param('customerId') customerId: string) {
     const { subscriptions } =
       await this.findSubscriptionByCustomerUseCase.execute({ customerId });
 
