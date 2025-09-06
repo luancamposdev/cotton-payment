@@ -23,12 +23,20 @@ describe('FindPaymentMethodsByCustomerUseCase', () => {
       customerId,
       provider: PaymentProvider.STRIPE,
       providerToken: new ProviderToken('valid-token-123456'),
+      brand: null,
+      expMonth: null,
+      expYear: null,
+      last4: null,
     });
 
     const paymentMethod2 = new PaymentMethodEntity({
       customerId,
       provider: PaymentProvider.PAYPAL,
       providerToken: new ProviderToken('valid-token-841395'),
+      brand: null,
+      expMonth: null,
+      expYear: null,
+      last4: null,
     });
 
     await repository.create(paymentMethod1);
