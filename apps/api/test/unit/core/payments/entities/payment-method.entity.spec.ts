@@ -23,21 +23,27 @@ describe('UpdatePaymentMethodUseCase', () => {
       customerId: new CustomerId('customer-123'),
       provider: PaymentProvider.STRIPE,
       providerToken: new ProviderToken('valid-token-123456'),
+      brand: null,
+      expMonth: null,
+      expYear: null,
+      last4: null,
     });
 
     await repository.create(paymentMethod);
 
+    const cardBrand = new CardBrand('Visa');
+
     const updated = await useCase.execute({
       id: paymentMethod.id,
       providerToken: 'updated-token-654321',
-      brand: 'VISA',
+      brand: cardBrand,
       last4: '4242',
       expMonth: 12,
       expYear: 2030,
     });
 
     expect(updated.providerToken.value).toBe('updated-token-654321');
-    expect(updated.brand!.value).toBe('VISA');
+    expect(updated.brand!.value).toBe('Visa');
     expect(updated.last4!.value).toBe('4242');
     expect(updated.expMonth!.value).toBe(12);
     expect(updated.expYear!.value).toBe(2030);
@@ -51,7 +57,10 @@ describe('UpdatePaymentMethodUseCase', () => {
       customerId: new CustomerId('customer-456'),
       provider: PaymentProvider.PAYPAL,
       providerToken: new ProviderToken('valid-token-abcdef'),
-      brand: new CardBrand('MASTERCARD'),
+      brand: new CardBrand('Mastercard'),
+      expMonth: null,
+      expYear: null,
+      last4: null,
     });
 
     await repository.create(paymentMethod);
@@ -59,10 +68,14 @@ describe('UpdatePaymentMethodUseCase', () => {
     const updated = await useCase.execute({
       id: paymentMethod.id,
       last4: '1111',
+      brand: null,
+      expMonth: null,
+      expYear: null,
+      providerToken: null,
     });
 
     expect(updated.last4!.value).toBe('1111');
-    expect(updated.brand!.value).toBe('MASTERCARD'); // não alterou
+    expect(updated.brand!.value).toBe('Mastercard'); // não alterou
     expect(updated.providerToken.value).toBe('valid-token-abcdef'); // não alterou
   });
 
@@ -71,6 +84,10 @@ describe('UpdatePaymentMethodUseCase', () => {
       useCase.execute({
         id: 'non-existent-id',
         providerToken: 'token-123456',
+        brand: null,
+        expMonth: null,
+        expYear: null,
+        last4: null,
       }),
     ).rejects.toThrow(NotFoundException);
   });
