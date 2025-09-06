@@ -1,9 +1,10 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaymentMethodRepository } from '@core/payments/repositories/payment-method.repository';
 import { PaymentMethodEntity } from '@core/payments/entities/payment-method.entity';
 
-export class FindPaymentMethodsByIdUseCase {
+@Injectable()
+export class FindPaymentMethodByIdUseCase {
   constructor(private paymentMethodRepository: PaymentMethodRepository) {}
 
   async execute(id: string): Promise<{ paymentMethod: PaymentMethodEntity }> {
