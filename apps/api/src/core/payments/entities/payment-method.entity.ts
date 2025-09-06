@@ -20,10 +20,10 @@ export interface IPaymentMethod {
   customerId: CustomerId;
   provider: PaymentProvider;
   providerToken: ProviderToken;
-  brand?: CardBrand;
-  last4?: Last4;
-  expMonth?: ExpMonth;
-  expYear?: ExpYear;
+  brand: CardBrand | null;
+  last4: Last4 | null;
+  expMonth: ExpMonth | null;
+  expYear: ExpYear | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -60,19 +60,19 @@ export class PaymentMethodEntity {
     return this.props.providerToken;
   }
 
-  public get brand(): CardBrand | undefined {
+  public get brand(): CardBrand | null {
     return this.props.brand;
   }
 
-  public get last4(): Last4 | undefined {
+  public get last4(): Last4 | null {
     return this.props.last4;
   }
 
-  public get expMonth(): ExpMonth | undefined {
+  public get expMonth(): ExpMonth | null {
     return this.props.expMonth;
   }
 
-  public get expYear(): ExpYear | undefined {
+  public get expYear(): ExpYear | null {
     return this.props.expYear;
   }
 
@@ -91,8 +91,8 @@ export class PaymentMethodEntity {
     this.touch();
   }
 
-  public updateBrand(brand: string): void {
-    this.props.brand = new CardBrand(brand);
+  public updateBrand(brand: CardBrand): void {
+    this.props.brand = new CardBrand(brand.value);
     this.touch();
   }
 
