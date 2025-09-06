@@ -1,4 +1,4 @@
-import { FindPaymentMethodsByIdUseCase } from '@application/payments/use-cases/find-payment-methods-by-id.use-case';
+import { FindPaymentMethodByIdUseCase } from '@application/payments/use-cases/find-payment-method-by-id.use-case';
 import { InMemoryPaymentMethodRepository } from '@test/in-memory-payment-method.repository';
 import {
   PaymentMethodEntity,
@@ -11,13 +11,13 @@ import { Last4 } from '@core/payments/value-objects/last4.vo';
 import { ExpMonth } from '@core/payments/value-objects/exp-month.vo';
 import { ExpYear } from '@core/payments/value-objects/exp-year.vo';
 
-describe('FindPaymentMethodsByIdUseCase', () => {
+describe('FindPaymentMethodByIdUseCase', () => {
   let repository: InMemoryPaymentMethodRepository;
-  let useCase: FindPaymentMethodsByIdUseCase;
+  let useCase: FindPaymentMethodByIdUseCase;
 
   beforeEach(() => {
     repository = new InMemoryPaymentMethodRepository();
-    useCase = new FindPaymentMethodsByIdUseCase(repository);
+    useCase = new FindPaymentMethodByIdUseCase(repository);
   });
 
   it('should return a payment method by ID', async () => {
@@ -25,7 +25,7 @@ describe('FindPaymentMethodsByIdUseCase', () => {
       customerId: new CustomerId('customer-123'),
       provider: PaymentProvider.STRIPE,
       providerToken: new ProviderToken('valid-token-123'),
-      brand: new CardBrand('VISA'),
+      brand: new CardBrand('Visa'),
       last4: new Last4('4242'),
       expMonth: new ExpMonth(12),
       expYear: new ExpYear(2030),
