@@ -9,6 +9,7 @@ import { CreatePaymentMethodUseCase } from '@application/payments/use-cases/crea
 import { CreatePaymentMethodDto } from '@/interfaces/payments/dto/create-payment-method.dto';
 import { PaymentMethodViewModel } from '@/interfaces/payments/payment-method.view-model';
 import { FindPaymentMethodByIdUseCase } from '@application/payments/use-cases/find-payment-method-by-id.use-case';
+import { FindPaymentMethodsByCustomerUseCase } from '@application/payments/use-cases/find-payment-methods-by-customer.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('payment-method')
@@ -16,6 +17,7 @@ export class PaymentMethodController {
   constructor(
     private readonly createPaymentMethodUseCase: CreatePaymentMethodUseCase,
     private readonly findPaymentMethodByIdUseCase: FindPaymentMethodByIdUseCase,
+    private readonly findPaymentMethodsByCustomerUseCase: FindPaymentMethodsByCustomerUseCase,
   ) {}
 
   @Post()
@@ -34,5 +36,16 @@ export class PaymentMethodController {
       await this.findPaymentMethodByIdUseCase.execute(id);
 
     return PaymentMethodViewModel.toHTTP(paymentMethod);
+  }
+
+  @Get('customer/:customerId')
+  @Roles(Role.CUSTOMER)
+  async findByCustomerId(@Param('customerId') customerId: string) {
+    const { paymentMethods } =
+      await this.findPaymentMethodsByCustomerUseCase.execute(customerId);
+
+    return paymentMethods.map((paymentMethod) =>
+      PaymentMethodViewModel.toHTTP(paymentMethod),
+    );
   }
 }
