@@ -23,5 +23,6 @@ import { CustomersController } from '@/interfaces/customer/controllers/customers
       useClass: PrismaCustomerRepository,
     },
   ],
+  exports: [CustomerRepository],
 })
 export class CustomerModule {}
