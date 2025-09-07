@@ -25,9 +25,7 @@ export class InMemoryPaymentMethodRepository
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async update(
-    paymentMethod: PaymentMethodEntity,
-  ): Promise<PaymentMethodEntity> {
+  async save(paymentMethod: PaymentMethodEntity): Promise<PaymentMethodEntity> {
     const index = this.paymentMethods.findIndex(
       (item) => item.id === paymentMethod.id,
     );
