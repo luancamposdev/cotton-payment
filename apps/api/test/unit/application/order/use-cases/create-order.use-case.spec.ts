@@ -72,7 +72,7 @@ describe('CreateOrderUseCase with InMemory Repository', () => {
     const { order: order1 } = await createOrderUseCase.execute(request1);
     const { order: order2 } = await createOrderUseCase.execute(request2);
 
-    const allOrders = await orderRepository.findAll();
+    const allOrders = await orderRepository.findAllByCustomer();
     expect(allOrders).toHaveLength(2);
     expect(allOrders.map((o) => o.id)).toEqual([order1.id, order2.id]);
   });
