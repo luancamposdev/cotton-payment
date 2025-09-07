@@ -1,15 +1,15 @@
 import { OrderEntity } from '@core/Order/entities/order.entity';
 
 import { CreateOrderUseCase } from '@application/order/use-cases/create-order.use-case';
-import { OrderRepositoryInMemory } from '@test/in-memory.order.repository';
+import { InMemoryOrderRepository } from '@test/in-memory.order.repository';
 
 describe('CreateOrderUseCase with InMemory Repository', () => {
-  let orderRepositoryInMemory: OrderRepositoryInMemory;
+  let orderRepository: InMemoryOrderRepository;
   let createOrderUseCase: CreateOrderUseCase;
 
   beforeEach(() => {
-    orderRepositoryInMemory = new OrderRepositoryInMemory();
-    createOrderUseCase = new CreateOrderUseCase(orderRepositoryInMemory);
+    orderRepository = new InMemoryOrderRepository();
+    createOrderUseCase = new CreateOrderUseCase(orderRepository);
   });
 
   it('should create and persist an order', async () => {
@@ -30,7 +30,7 @@ describe('CreateOrderUseCase with InMemory Repository', () => {
     expect(order.status.value).toBe('PENDING');
     expect(order.description).toBe(request.description);
 
-    const storedOrder = await orderRepositoryInMemory.findById(order.id);
+    const storedOrder = await orderRepository.findById(order.id);
     expect(storedOrder).not.toBeNull();
     expect(storedOrder?.id).toBe(order.id);
     expect(storedOrder?.amount.value).toBe(order.amount.value);
@@ -49,7 +49,7 @@ describe('CreateOrderUseCase with InMemory Repository', () => {
 
     expect(order.status.value).toBe('PENDING');
 
-    const storedOrder = await orderRepositoryInMemory.findById(order.id);
+    const storedOrder = await orderRepository.findById(order.id);
     expect(storedOrder?.status.value).toBe('PENDING');
   });
 
@@ -72,7 +72,7 @@ describe('CreateOrderUseCase with InMemory Repository', () => {
     const { order: order1 } = await createOrderUseCase.execute(request1);
     const { order: order2 } = await createOrderUseCase.execute(request2);
 
-    const allOrders = await orderRepositoryInMemory.findAll();
+    const allOrders = await orderRepository.findAll();
     expect(allOrders).toHaveLength(2);
     expect(allOrders.map((o) => o.id)).toEqual([order1.id, order2.id]);
   });
