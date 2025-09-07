@@ -90,7 +90,7 @@ export class OrderEntity {
     this.touch();
   }
 
-  public updateDescription(description: string): void {
+  public updateDescription(description: string | null): void {
     this.props.description = description;
     this.touch();
   }
