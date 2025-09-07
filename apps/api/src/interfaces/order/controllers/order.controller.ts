@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, Param } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Param, Get } from '@nestjs/common';
 
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
@@ -10,11 +10,16 @@ import { CreateOrderUseCase } from '@application/order/use-cases/create-order.us
 import { CreateOrderDTO } from '@/interfaces/order/dto/create-order.dto';
 
 import { OrderViewModel } from '@/interfaces/order/order.view.model';
+import { PaymentMethodViewModel } from '@/interfaces/payments/payment-method.view-model';
+import { FindOrderByIDUseCase } from '@application/order/use-cases/find-order-by-id.use-case';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('orders')
 export class OrderController {
-  constructor(private readonly createOrderUseCase: CreateOrderUseCase) {}
+  constructor(
+    private readonly createOrderUseCase: CreateOrderUseCase,
+    private readonly findOrderByIdUseCase: FindOrderByIDUseCase,
+  ) {}
 
   @Post(':id')
   @Roles(Role.CUSTOMER, Role.ADMIN)
@@ -23,6 +28,14 @@ export class OrderController {
       ...dto,
       customerId: id,
     });
+
+    return OrderViewModel.toHTTP(order);
+  }
+
+  @Get(':id')
+  @Roles(Role.CUSTOMER, Role.ADMIN)
+  async findById(@Param('id') id: string) {
+    const { order } = await this.findOrderByIdUseCase.execute(id);
 
     return OrderViewModel.toHTTP(order);
   }
