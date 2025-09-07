@@ -1,7 +1,7 @@
 import { OrderRepository } from '@core/Order/repository/order.repository';
 import { OrderEntity } from '@core/Order/entities/order.entity';
 
-export class OrderRepositoryInMemory implements OrderRepository {
+export class InMemoryOrderRepository implements OrderRepository {
   private orders: Map<string, OrderEntity> = new Map();
 
   // eslint-disable-next-line @typescript-eslint/require-await
