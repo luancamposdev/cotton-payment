@@ -1,4 +1,4 @@
-import { PaymentStatusVO } from '@core/Order/entities/value-objects/payment-status.vo';
+import { PaymentStatusVO } from '@core/Order/value-objects/payment-status.vo';
 
 describe('PaymentStatus', () => {
   it('should create a valid status', () => {

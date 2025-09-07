@@ -1,4 +1,4 @@
-import { CurrencyVO } from '@core/Order/entities/value-objects/currency.vo';
+import { CurrencyVO } from '@core/Order/value-objects/currency.vo';
 
 describe('CurrencyVO', () => {
   it('should create a valid currency', () => {

@@ -1,4 +1,4 @@
-import { AmountVO } from '@core/Order/entities/value-objects/amount.vo';
+import { AmountVO } from '@core/Order/value-objects/amount.vo';
 
 describe('AmountVO', () => {
   it('Should be able to create a valid amount', () => {
