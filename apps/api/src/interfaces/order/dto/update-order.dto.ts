@@ -4,16 +4,16 @@ import { IsString, IsOptional, IsNumber, IsIn } from 'class-validator';
 export class UpdateOrderDTO {
   @IsString()
   @IsOptional()
-  creatorId?: string;
+  creatorId: string | null;
 
   @IsNumber()
   @IsOptional()
-  amount?: number;
+  amount: number;
 
   @IsString()
   @IsIn(['BRL', 'USD', 'EUR'])
   @IsOptional()
-  currency?: string;
+  currency: string;
 
   @IsString()
   @IsOptional()
@@ -22,5 +22,5 @@ export class UpdateOrderDTO {
   @IsString()
   @IsIn(['PENDING', 'PAID', 'FAILED', 'CANCELLED'])
   @IsOptional()
-  status?: string;
+  status: string;
 }
