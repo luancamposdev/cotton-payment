@@ -19,6 +19,7 @@ import { DeletePaymentMethodUseCase } from '@application/payments/use-cases/dele
     FindPaymentMethodsByCustomerUseCase,
     UpdatePaymentMethodUseCase,
     DeletePaymentMethodUseCase,
+
     {
       provide: PaymentMethodRepository,
       useClass: PrismaPaymentMethodRepository,
