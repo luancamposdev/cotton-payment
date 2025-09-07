@@ -1,8 +1,8 @@
 import { CustomerId } from '@core/payments/value-objects/customer-id.vo';
-import { AmountVO } from '@core/Order/entities/value-objects/amount.vo';
-import { CurrencyVO } from '@core/Order/entities/value-objects/currency.vo';
+import { AmountVO } from '@core/Order/value-objects/amount.vo';
+import { CurrencyVO } from '@core/Order/value-objects/currency.vo';
 import { OrderEntity } from '@core/Order/entities/order.entity';
-import { PaymentStatusVO } from '@core/Order/entities/value-objects/payment-status.vo';
+import { PaymentStatusVO } from '@core/Order/value-objects/payment-status.vo';
 
 describe('OrderEntity', () => {
   const customerId = new CustomerId('cus_123');
