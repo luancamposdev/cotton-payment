@@ -6,12 +6,13 @@ import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 
 import { PrismaOrderMapper } from '@infrastructure/database/prisma/mappers/prisma-order.mapper';
 import { PaymentMethodMapper } from '@infrastructure/database/prisma/mappers/payment-method.mapper';
+import { PaymentMethodEntity } from '@core/payments/entities/payment-method.entity';
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async save(order: OrderEntity): Promise<void> {
+  async create(order: OrderEntity): Promise<void> {
     const raw = PrismaOrderMapper.toPrisma(order);
 
     await this.prismaService.order.create({ data: raw });
@@ -37,6 +38,15 @@ export class PrismaOrderRepository implements OrderRepository {
     });
 
     return raws.map((raw) => PrismaOrderMapper.toDomain(raw));
+  }
+
+  async save(order: OrderEntity): Promise<void> {
+    const raw = PrismaOrderMapper.toPrisma(order);
+
+    const updated = await this.prismaService.order.update({
+      where: { id: order.id },
+      data: raw,
+    });
   }
 
   async delete(id: string): Promise<void> {
