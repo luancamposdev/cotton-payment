@@ -5,6 +5,7 @@ import { OrderEntity } from '@core/Order/entities/order.entity';
 import { PrismaService } from '@infrastructure/database/prisma/prisma.service';
 
 import { PrismaOrderMapper } from '@infrastructure/database/prisma/mappers/prisma-order.mapper';
+import { PaymentMethodMapper } from '@infrastructure/database/prisma/mappers/payment-method.mapper';
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
@@ -28,11 +29,19 @@ export class PrismaOrderRepository implements OrderRepository {
     return PrismaOrderMapper.toDomain(raw);
   }
 
-  findAllByCustomer(customerId: string): Promise<OrderEntity[]> {
-    return Promise.resolve([]);
+  async findAllByCustomer(customerId: string): Promise<OrderEntity[]> {
+    if (!customerId.trim()) return Promise.resolve([]);
+
+    const raws = await this.prismaService.order.findMany({
+      where: { customerId },
+    });
+
+    return raws.map((raw) => PrismaOrderMapper.toDomain(raw));
   }
 
-  delete(id: string): Promise<void> {
-    return Promise.resolve(undefined);
+  async delete(id: string): Promise<void> {
+    await this.prismaService.order.delete({
+      where: { id },
+    });
   }
 }
