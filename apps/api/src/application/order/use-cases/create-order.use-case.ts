@@ -48,7 +48,7 @@ export class CreateOrderUseCase {
       status: statusVO,
     });
 
-    await this.orderRepository.save(order);
+    await this.orderRepository.create(order);
 
     return { order };
   }
