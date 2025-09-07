@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common';
+
 import { OrderRepository } from '@core/Order/repository/order.repository';
 import { OrderEntity } from '@core/Order/entities/order.entity';
 
@@ -14,6 +16,7 @@ interface CreateOrderRequest {
   description: string | null;
 }
 
+@Injectable()
 export class CreateOrderUseCase {
   constructor(private readonly orderRepository: OrderRepository) {}
 
