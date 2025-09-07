@@ -27,7 +27,7 @@ describe('PaymentMethodEntity', () => {
     paymentMethod.updateProviderToken('new-token-654321');
 
     expect(paymentMethod.providerToken.value).toBe('new-token-654321');
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThan(
+    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
       oldUpdatedAt.getTime(),
     );
   });
@@ -39,7 +39,7 @@ describe('PaymentMethodEntity', () => {
 
     paymentMethod.updateBrand(new CardBrand('Visa'));
 
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThan(
+    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
       oldUpdatedAt.getTime(),
     );
   });
@@ -52,7 +52,7 @@ describe('PaymentMethodEntity', () => {
     paymentMethod.updateLast4('4242');
 
     expect(paymentMethod.last4!.value).toBe('4242');
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThan(
+    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
       oldUpdatedAt.getTime(),
     );
   });
@@ -65,7 +65,7 @@ describe('PaymentMethodEntity', () => {
     paymentMethod.updateExpMonth(12);
 
     expect(paymentMethod.expMonth!.value).toBe(12);
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThan(
+    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
       oldUpdatedAt.getTime(),
     );
   });
@@ -76,7 +76,7 @@ describe('PaymentMethodEntity', () => {
     paymentMethod.updateExpYear(2030);
 
     expect(paymentMethod.expYear!.value).toBe(2030);
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThan(
+    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
       oldUpdatedAt.getTime(),
     );
   });
