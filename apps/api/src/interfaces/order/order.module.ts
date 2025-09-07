@@ -7,6 +7,9 @@ import { OrderRepository } from '@core/Order/repository/order.repository';
 import { PrismaOrderRepository } from '@infrastructure/database/prisma/repositories/prisma-order.repository';
 import { CustomerModule } from '@/interfaces/customer/customer.module';
 import { FindOrderByIDUseCase } from '@application/order/use-cases/find-order-by-id.use-case';
+import { FindOrderByCustomerIdUseCase } from '@application/order/use-cases/find-order-by-customer-id.use-case';
+import { DeleteOrderUseCase } from '@application/order/use-cases/delete-order.use-case';
+import { UpdateOrderUseCase } from '@application/order/use-cases/update-order.use-case';
 
 @Module({
   imports: [CustomerModule],
@@ -14,6 +17,9 @@ import { FindOrderByIDUseCase } from '@application/order/use-cases/find-order-by
   providers: [
     CreateOrderUseCase,
     FindOrderByIDUseCase,
+    FindOrderByCustomerIdUseCase,
+    UpdateOrderUseCase,
+    DeleteOrderUseCase,
     {
       provide: OrderRepository,
       useClass: PrismaOrderRepository,
