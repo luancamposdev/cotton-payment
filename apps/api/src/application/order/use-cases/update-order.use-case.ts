@@ -1,9 +1,15 @@
+import {
+  NotFoundException,
+  BadRequestException,
+  Injectable,
+} from '@nestjs/common';
+
 import { OrderRepository } from '@core/Order/repository/order.repository';
 import { OrderEntity } from '@core/Order/entities/order.entity';
+
 import { AmountVO } from '@core/Order/value-objects/amount.vo';
 import { CurrencyVO } from '@core/Order/value-objects/currency.vo';
 import { PaymentStatusVO } from '@core/Order/value-objects/payment-status.vo';
-import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 interface UpdateOrderRequest {
   customerId?: string | null;
@@ -14,6 +20,7 @@ interface UpdateOrderRequest {
   status: string | null;
 }
 
+@Injectable()
 export class UpdateOrderUseCase {
   constructor(private readonly orderRepository: OrderRepository) {}
 

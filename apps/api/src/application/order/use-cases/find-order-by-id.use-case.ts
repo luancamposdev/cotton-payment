@@ -1,8 +1,9 @@
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { OrderRepository } from '@core/Order/repository/order.repository';
 import { OrderEntity } from '@core/Order/entities/order.entity';
 
+@Injectable()
 export class FindOrderByIDUseCase {
   constructor(private readonly orderRepository: OrderRepository) {}
 
