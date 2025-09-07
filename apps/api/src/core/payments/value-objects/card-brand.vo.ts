@@ -61,7 +61,7 @@ export class CardBrand {
     );
 
     if (!found) {
-      throw new Error(`Bandeira do cartão inválida: ${value}`);
+      throw new Error(`Bandeira do cartão inválida: ${value}.`);
     }
 
     return found;
