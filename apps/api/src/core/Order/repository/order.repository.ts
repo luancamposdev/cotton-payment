@@ -1,6 +1,7 @@
 import { OrderEntity } from '@core/Order/entities/order.entity';
 
 export abstract class OrderRepository {
+  abstract create(order: OrderEntity): Promise<void>;
   abstract findById(id: string): Promise<OrderEntity | null>;
   abstract findAllByCustomer(customerId: string): Promise<OrderEntity[]>;
   abstract save(order: OrderEntity): Promise<void>;
