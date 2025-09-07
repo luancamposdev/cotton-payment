@@ -9,7 +9,7 @@ export class InMemoryOrderRepository implements OrderRepository {
     return this.orders.get(id) ?? null;
   }
   // eslint-disable-next-line @typescript-eslint/require-await
-  async findAll(): Promise<OrderEntity[]> {
+  async findAllByCustomer(): Promise<OrderEntity[]> {
     return Array.from(this.orders.values());
   }
 
