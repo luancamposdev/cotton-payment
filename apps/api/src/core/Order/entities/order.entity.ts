@@ -2,9 +2,9 @@ import { randomUUID } from 'node:crypto';
 import { Replace } from '@helpers/replace';
 
 import { CustomerId } from '@core/payments/value-objects/customer-id.vo';
-import { AmountVO } from '@core/Order/entities/value-objects/amount.vo';
-import { CurrencyVO } from '@core/Order/entities/value-objects/currency.vo';
-import { PaymentStatusVO } from '@core/Order/entities/value-objects/payment-status.vo';
+import { AmountVO } from '@core/Order/value-objects/amount.vo';
+import { CurrencyVO } from '@core/Order/value-objects/currency.vo';
+import { PaymentStatusVO } from '@core/Order/value-objects/payment-status.vo';
 
 export interface IOrder {
   customerId: CustomerId;
