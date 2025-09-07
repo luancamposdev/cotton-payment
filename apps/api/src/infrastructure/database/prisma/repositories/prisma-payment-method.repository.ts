@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { PaymentMethodRepository } from '@core/payments/repositories/payment-method.repository';
 
@@ -16,9 +16,17 @@ export class PrismaPaymentMethodRepository implements PaymentMethodRepository {
     await this.prismaService.paymentMethod.create({ data: raw });
   }
 
-  update(paymentMethod: PaymentMethodEntity): Promise<PaymentMethodEntity> {
-    throw new Error('Method not implemented.');
+  async save(paymentMethod: PaymentMethodEntity): Promise<PaymentMethodEntity> {
+    const raw = PaymentMethodMapper.toPrisma(paymentMethod);
+
+    const updated = await this.prismaService.paymentMethod.update({
+      where: { id: paymentMethod.id },
+      data: raw,
+    });
+
+    return PaymentMethodMapper.toDomain(updated);
   }
+
   async findById(id: string): Promise<PaymentMethodEntity | null> {
     if (!id || id.trim() === '') {
       return null;
@@ -41,5 +49,11 @@ export class PrismaPaymentMethodRepository implements PaymentMethodRepository {
     });
 
     return raws.map((raw) => PaymentMethodMapper.toDomain(raw));
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.prismaService.paymentMethod.delete({
+      where: { id },
+    });
   }
 }
