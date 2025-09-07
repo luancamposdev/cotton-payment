@@ -40,14 +40,16 @@ describe('UpdatePaymentMethodUseCase', () => {
 
     const bradCar = new CardBrand('Visa');
 
-    const updated = await updatePaymentMethodUseCase.execute({
-      id: paymentMethod.id,
-      providerToken: 'new-valid-token-987654',
-      brand: bradCar,
-      last4: '4242',
-      expMonth: 12,
-      expYear: 2030,
-    });
+    const { paymentMethod: updated } = await updatePaymentMethodUseCase.execute(
+      paymentMethod.id,
+      {
+        providerToken: 'new-valid-token-987654',
+        brand: bradCar,
+        last4: '4242',
+        expMonth: 12,
+        expYear: 2030,
+      },
+    );
 
     expect(updated.providerToken.value).toBe('new-valid-token-987654');
     expect(updated.brand!.value).toBe('Visa');
@@ -72,14 +74,12 @@ describe('UpdatePaymentMethodUseCase', () => {
 
     await paymentMethodRepository.create(paymentMethod);
 
-    const updated = await updatePaymentMethodUseCase.execute({
-      id: paymentMethod.id,
-      last4: '1111',
-      brand: null,
-      expMonth: null,
-      expYear: null,
-      providerToken: null,
-    });
+    const { paymentMethod: updated } = await updatePaymentMethodUseCase.execute(
+      paymentMethod.id,
+      {
+        last4: '1111',
+      },
+    );
 
     expect(updated.last4!.value).toBe('1111');
     expect(updated.brand!.value).toBe('Mastercard');
@@ -88,13 +88,8 @@ describe('UpdatePaymentMethodUseCase', () => {
 
   it('should throw if payment method does not exist', async () => {
     await expect(
-      updatePaymentMethodUseCase.execute({
-        id: 'invalid-id',
+      updatePaymentMethodUseCase.execute('invalid-id', {
         providerToken: 'token',
-        brand: null,
-        expMonth: null,
-        expYear: null,
-        last4: null,
       }),
     ).rejects.toThrow('Método de pagamento não encontrado.');
   });
