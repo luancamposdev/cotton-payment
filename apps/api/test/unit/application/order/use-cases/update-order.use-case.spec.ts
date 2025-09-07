@@ -4,21 +4,35 @@ import { InMemoryOrderRepository } from '@test/in-memory.order.repository';
 
 import { CreateOrderUseCase } from '@application/order/use-cases/create-order.use-case';
 import { UpdateOrderUseCase } from '@application/order/use-cases/update-order.use-case';
+import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
 
 describe('UpdateOrderUseCase', () => {
   let orderRepository: InMemoryOrderRepository;
+  let customerRepository: InMemoryCustomerRepository;
+  let createCustomerUseCase: CreateCustomerUseCase;
   let createOrderUseCase: CreateOrderUseCase;
   let updateUseCase: UpdateOrderUseCase;
 
   beforeEach(() => {
     orderRepository = new InMemoryOrderRepository();
-    createOrderUseCase = new CreateOrderUseCase(orderRepository);
+    customerRepository = new InMemoryCustomerRepository();
+    createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
+    createOrderUseCase = new CreateOrderUseCase(
+      orderRepository,
+      customerRepository,
+    );
     updateUseCase = new UpdateOrderUseCase(orderRepository);
   });
 
   it('Should update an existing order', async () => {
+    const { customer } = await createCustomerUseCase.execute({
+      userId: 'user-123',
+      defaultAddressId: 'addr-123',
+    });
+
     const orderData = {
-      customerId: 'customer-123',
+      customerId: customer.id,
       creatorId: 'creator-456',
       amount: 2000,
       currency: 'BRL',
@@ -55,8 +69,13 @@ describe('UpdateOrderUseCase', () => {
   });
 
   it('Should throw BadRequestException when trying to update customerId', async () => {
+    const { customer } = await createCustomerUseCase.execute({
+      userId: 'user-123',
+      defaultAddressId: 'addr-123',
+    });
+
     const { order } = await createOrderUseCase.execute({
-      customerId: 'customer-123',
+      customerId: customer.id,
       creatorId: 'creator-456',
       amount: 2000,
       currency: 'BRL',

@@ -2,21 +2,37 @@ import { OrderRepository } from '@core/Order/repository/order.repository';
 import { CreateOrderUseCase } from '@application/order/use-cases/create-order.use-case';
 import { FindOrderByIDUseCase } from '@application/order/use-cases/find-order-by-id.use-case';
 import { InMemoryOrderRepository } from '@test/in-memory.order.repository';
+import { InMemoryCustomerRepository } from '@test/in-memory-customer.repository';
+import { CreateCustomerUseCase } from '@application/customer/use-cases/create-customer.use-case';
 
 describe('FindOrderByIdUseCase', () => {
   let orderRepository: OrderRepository;
+  let customerRepository: InMemoryCustomerRepository;
+  let createCustomerUseCase: CreateCustomerUseCase;
   let createOrderUseCase: CreateOrderUseCase;
   let findOrderByIdUseCase: FindOrderByIDUseCase;
 
   beforeEach(() => {
     orderRepository = new InMemoryOrderRepository();
-    createOrderUseCase = new CreateOrderUseCase(orderRepository);
+    customerRepository = new InMemoryCustomerRepository();
+    createCustomerUseCase = new CreateCustomerUseCase(customerRepository);
+    createOrderUseCase = new CreateOrderUseCase(
+      orderRepository,
+      customerRepository,
+    );
     findOrderByIdUseCase = new FindOrderByIDUseCase(orderRepository);
   });
 
   it('Should return order by id', async () => {
+    const dto = {
+      userId: 'userId-123456',
+      defaultAddressId: 'addresses-1234567',
+    };
+
+    const { customer } = await createCustomerUseCase.execute(dto);
+
     const request = {
-      customerId: 'customer-123',
+      customerId: customer.id,
       creatorId: 'creator-456',
       amount: 2000,
       currency: 'BRL',
