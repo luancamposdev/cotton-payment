@@ -8,7 +8,7 @@ import { PaymentStatusVO } from '@core/Order/value-objects/payment-status.vo';
 
 export interface IOrder {
   customerId: CustomerId;
-  creatorId: string | null;
+  creatorId?: string | null;
   amount: AmountVO;
   currency: CurrencyVO;
   description: string | null;
@@ -45,7 +45,7 @@ export class OrderEntity {
     return this.props.customerId;
   }
 
-  public get creatorId(): string | null {
+  public get creatorId(): string | null | undefined {
     return this.props.creatorId;
   }
 
