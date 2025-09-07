@@ -1,5 +1,5 @@
 export class AmountVO {
-  public readonly _amount: number;
+  private readonly _amount: number;
 
   public static create(cents: number): AmountVO {
     return new AmountVO(cents);
@@ -11,6 +11,10 @@ export class AmountVO {
 
   public toString(): string {
     return `${this._amount / 100}`;
+  }
+
+  public get value(): number {
+    return this._amount;
   }
 
   constructor(cents: number) {

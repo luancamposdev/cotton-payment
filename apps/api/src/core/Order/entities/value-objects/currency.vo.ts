@@ -3,7 +3,7 @@ export type CurrencyType = (typeof CurrencyVO.ALLOWED_CURRENCIES)[number];
 export class CurrencyVO {
   public static readonly ALLOWED_CURRENCIES = ['BRL', 'USD', 'EUR'] as const;
 
-  public readonly _currency: CurrencyType;
+  private readonly _currency: CurrencyType;
 
   public static create(currency: string): CurrencyVO {
     if (!currency) {
@@ -21,6 +21,10 @@ export class CurrencyVO {
 
   public static values(): readonly CurrencyType[] {
     return this.ALLOWED_CURRENCIES;
+  }
+
+  public get value(): string {
+    return this._currency;
   }
 
   public equals(currency: CurrencyVO): boolean {

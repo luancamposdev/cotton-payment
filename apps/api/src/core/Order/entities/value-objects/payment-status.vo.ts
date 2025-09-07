@@ -9,11 +9,11 @@ export class PaymentStatusVO {
     'CANCELLED',
   ] as const;
 
-  public readonly _paymentStatus: PaymentStatusType;
+  private readonly _paymentStatus: PaymentStatusType;
 
   public static create(paymentStatus: string): PaymentStatusVO {
     if (!paymentStatus) {
-      throw new Error('PaymentStatus is required');
+      throw new Error('Status de pagamento é obrigatório.');
     }
 
     const normalized = PaymentStatusVO.normalize(paymentStatus);
@@ -44,6 +44,10 @@ export class PaymentStatusVO {
 
   public equals(paymentStatus: PaymentStatusVO): boolean {
     return this._paymentStatus === paymentStatus._paymentStatus;
+  }
+
+  public get value(): string {
+    return this._paymentStatus;
   }
 
   constructor(paymentStatus: PaymentStatusType) {
