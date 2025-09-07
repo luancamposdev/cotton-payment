@@ -5,6 +5,11 @@ export class InMemoryOrderRepository implements OrderRepository {
   private orders: Map<string, OrderEntity> = new Map();
 
   // eslint-disable-next-line @typescript-eslint/require-await
+  async create(order: OrderEntity): Promise<void> {
+    this.orders.set(order.id, order);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
   async findById(id: string): Promise<OrderEntity | null> {
     return this.orders.get(id) ?? null;
   }
