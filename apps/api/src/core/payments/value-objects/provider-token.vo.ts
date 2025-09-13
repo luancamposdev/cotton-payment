@@ -3,7 +3,7 @@ export class ProviderToken {
 
   constructor(value: string) {
     if (!value || value.length < 10) {
-      throw new Error('Provider token is invalid');
+      throw new Error('O token do provedor (ProviderToken) é inválido.');
     }
     this.value = value;
   }
