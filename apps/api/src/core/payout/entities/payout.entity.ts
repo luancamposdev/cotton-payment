@@ -13,10 +13,10 @@ export interface PayoutProps {
   status: PayoutStatusVO;
   amount: PayoutAmountVO;
   currency: PayoutCurrencyVO;
-  scheduledAt?: PayoutScheduleAtVo;
+  scheduledAt?: PayoutScheduleAtVo | null;
   processedAt?: PayoutProcessedAtVO | null;
   providerPayoutId?: ProviderPayoutIdVO | null;
-  rawPayload?: PayoutRawPayloadVO;
+  rawPayload?: PayoutRawPayloadVO | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
