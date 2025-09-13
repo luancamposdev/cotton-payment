@@ -53,7 +53,7 @@ export class SubscriptionController {
       id,
     });
 
-    return subscription;
+    return SubscriptionViewModel.toHTTP(subscription);
   }
 
   @Get('customer/:customerId')
