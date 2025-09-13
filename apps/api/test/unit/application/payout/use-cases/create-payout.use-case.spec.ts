@@ -33,7 +33,7 @@ describe('CreatePayoutUseCase', () => {
     expect(payout.props.scheduledAt).toBeNull();
     expect(payout.props.rawPayload).toBeNull();
 
-    const stored = await payoutRepository.findById(payout.id.value);
+    const stored = await payoutRepository.findById(payout.id);
     expect(stored).not.toBeNull();
     expect(stored?.id.value).toBe(payout.id.value);
   });
@@ -101,7 +101,7 @@ describe('CreatePayoutUseCase', () => {
     const { payout: payout1 } = await createPayoutUseCase.execute(request1);
     const { payout: payout2 } = await createPayoutUseCase.execute(request2);
 
-    const all = await payoutRepository.findAll();
+    const all = await payoutRepository.list();
     expect(all).toHaveLength(2);
     expect(all.map((p) => p.id.value)).toEqual([
       payout1.id.value,
