@@ -44,8 +44,6 @@ describe('CancelPayoutUseCase with InMemoryRepository', () => {
     const payout = makePayout('PENDING');
     await payoutRepository.create(payout);
 
-    console.log(payout);
-
     const result = await cancelPayoutUseCase.execute({
       payoutId: payout.id.value,
     });
@@ -54,7 +52,6 @@ describe('CancelPayoutUseCase with InMemoryRepository', () => {
 
     const persisted = await payoutRepository.findById(result.payout.id);
 
-    console.log(persisted);
     expect(persisted).toBeDefined();
     expect(persisted?.props.status.value).toBe('CANCELLED');
   });
