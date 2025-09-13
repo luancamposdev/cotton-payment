@@ -1,5 +1,4 @@
 import { randomUUID } from 'node:crypto';
-
 import { Replace } from '@helpers/replace';
 
 import { CustomerId } from '@core/payments/value-objects/customer-id.vo';
@@ -29,89 +28,103 @@ export interface IPaymentMethod {
 }
 
 export class PaymentMethodEntity {
-  private readonly _id: string;
-  private props: IPaymentMethod;
+  public readonly id: string;
+  private readonly props: IPaymentMethod;
 
   constructor(
     props: Replace<IPaymentMethod, { createdAt?: Date; updatedAt?: Date }>,
     id?: string,
   ) {
-    this._id = id ?? randomUUID();
+    this.id = id ?? randomUUID();
     this.props = {
       ...props,
       createdAt: props.createdAt ?? new Date(),
       updatedAt: props.updatedAt ?? new Date(),
     };
+
+    this.validateConsistency();
   }
 
-  public get id(): string {
-    return this._id;
-  }
-
-  public get customerId(): CustomerId {
+  // ==== GETTERS ====
+  get customerId() {
     return this.props.customerId;
   }
-
-  public get provider(): PaymentProvider {
+  get provider() {
     return this.props.provider;
   }
-
-  public get providerToken(): ProviderToken {
+  get providerToken() {
     return this.props.providerToken;
   }
-
-  public get brand(): CardBrand | null {
+  get brand() {
     return this.props.brand;
   }
-
-  public get last4(): Last4 | null {
+  get last4() {
     return this.props.last4;
   }
-
-  public get expMonth(): ExpMonth | null {
+  get expMonth() {
     return this.props.expMonth;
   }
-
-  public get expYear(): ExpYear | null {
+  get expYear() {
     return this.props.expYear;
   }
-
-  public get createdAt(): Date {
+  get createdAt() {
     return this.props.createdAt;
   }
-
-  public get updatedAt(): Date {
+  get updatedAt() {
     return this.props.updatedAt;
   }
 
   // ==== REGRAS DE NEGÓCIO ====
 
   public updateProviderToken(token: string): void {
-    this.props.providerToken = new ProviderToken(token);
-    this.touch();
+    this.updateVO('providerToken', new ProviderToken(token));
   }
 
-  public updateBrand(brand: CardBrand): void {
-    this.props.brand = new CardBrand(brand.value);
-    this.touch();
+  public updateCardDetails(
+    brand: CardBrand | null,
+    last4: Last4 | null,
+    expMonth: ExpMonth | null,
+    expYear: ExpYear | null,
+  ): void {
+    this.updateVO('brand', brand);
+    this.updateVO('last4', last4);
+    this.updateVO('expMonth', expMonth);
+    this.updateVO('expYear', expYear);
+
+    this.validateConsistency();
   }
 
-  public updateLast4(last4: string): void {
-    this.props.last4 = new Last4(last4);
-    this.touch();
-  }
+  // ==== MÉTODOS INTERNOS ====
 
-  public updateExpMonth(month: number): void {
-    this.props.expMonth = new ExpMonth(month);
-    this.touch();
-  }
-
-  public updateExpYear(year: number): void {
-    this.props.expYear = new ExpYear(year);
+  private updateVO<K extends keyof IPaymentMethod>(
+    key: K,
+    value: IPaymentMethod[K],
+  ): void {
+    (this.props as any)[key] = value;
     this.touch();
   }
 
   private touch(): void {
     this.props.updatedAt = new Date();
+  }
+
+  private validateConsistency(): void {
+    // Se brand for nulo, last4/expMonth/expYear devem ser nulos também
+    if (!this.props.brand) {
+      if (this.props.last4 || this.props.expMonth || this.props.expYear) {
+        throw new Error('Card details must be null if brand is null');
+      }
+    } else {
+      // Se brand existe, last4, expMonth e expYear não podem ser nulos
+      if (!this.props.last4 || !this.props.expMonth || !this.props.expYear) {
+        throw new Error('Card details are incomplete');
+      }
+    }
+  }
+
+  // ==== MÉTODOS AUXILIARES ====
+
+  public equals(other: PaymentMethodEntity): boolean {
+    return this.id === other.id;
   }
 }
