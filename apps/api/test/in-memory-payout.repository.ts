@@ -1,5 +1,7 @@
 import { PayoutEntity } from '@core/payout/entities/payout.entity';
 import { PayoutRepository } from '@core/payout/repositories/payout.repository';
+import { PayoutIdVO } from '@core/payout/value-objects/payout-id.vo';
+import { CreatorPayoutConfigIdVO } from '@core/payout/value-objects/creator-payout-config-id.vo';
 
 export class InMemoryPayoutRepository implements PayoutRepository {
   private payouts: PayoutEntity[] = [];
@@ -10,26 +12,37 @@ export class InMemoryPayoutRepository implements PayoutRepository {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
+  async findById(id: PayoutIdVO): Promise<PayoutEntity | null> {
+    const found = this.payouts.find((p) => p.id.value === id.value);
+    return found ?? null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async findByCreatorConfigId(
+    creatorPayoutConfigId: CreatorPayoutConfigIdVO,
+  ): Promise<PayoutEntity[]> {
+    return this.payouts.filter(
+      (p) =>
+        p.props.creatorPayoutConfigId.value === creatorPayoutConfigId.value,
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
   async save(payout: PayoutEntity): Promise<void> {
     const index = this.payouts.findIndex((p) => p.id.value === payout.id.value);
     if (index === -1) {
-      throw new Error(`Payout with id ${payout.id.value} not found`);
+      throw new Error(`Pagamento com id ${payout.id.value} não encontrado.`);
     }
     this.payouts[index] = payout;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async findById(id: string): Promise<PayoutEntity | null> {
-    return this.payouts.find((p) => p.id.value === id) ?? null;
+  async delete(id: PayoutIdVO): Promise<void> {
+    this.payouts = this.payouts.filter((p) => p.id.value !== id.value);
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async findAll(): Promise<PayoutEntity[]> {
+  async list(): Promise<PayoutEntity[]> {
     return this.payouts;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async delete(id: string): Promise<void> {
-    this.payouts = this.payouts.filter((p) => p.id.value !== id);
   }
 }
