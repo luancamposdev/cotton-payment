@@ -100,6 +100,7 @@ export class PaymentMethodEntity {
     key: K,
     value: IPaymentMethod[K],
   ): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (this.props as any)[key] = value;
     this.touch();
   }
