@@ -35,7 +35,7 @@ describe('PaymentMethodEntity', () => {
     );
   });
 
-  it('should update card details and updatedAt', async () => {
+  it('should update card details and updatedAt', () => {
     const oldUpdatedAt = paymentMethod.updatedAt;
 
     // Criar VO para os detalhes do cartão
