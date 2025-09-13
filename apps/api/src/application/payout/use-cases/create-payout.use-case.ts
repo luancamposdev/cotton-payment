@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { PayoutEntity, PayoutProps } from '@core/payout/entities/payout.entity';
 import { PayoutRepository } from '@core/payout/repositories/payout.repository';
+
 import { PayoutAmountVO } from '@core/payout/value-objects/payout-amount.vo';
 import { PayoutCurrencyVO } from '@core/payout/value-objects/payout-currency.vo';
 import { PayoutStatusVO } from '@core/payout/value-objects/payout-status.vo';
