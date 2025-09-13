@@ -14,7 +14,7 @@ export interface GetPayoutByIdResponse {
 }
 
 @Injectable()
-export class GetPayoutByIsUseCase {
+export class GetPayoutByIdUseCase {
   constructor(private readonly payoutRepository: PayoutRepository) {}
 
   async execute(request: GetPayoutByIdRequest): Promise<GetPayoutByIdResponse> {
