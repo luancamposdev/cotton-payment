@@ -7,6 +7,7 @@ export class PayoutStatusVO {
     'PROCESSING',
     'COMPLETED',
     'FAILED',
+    'CANCELLED',
   ] as const;
 
   public static create(value: string): PayoutStatusVO {
