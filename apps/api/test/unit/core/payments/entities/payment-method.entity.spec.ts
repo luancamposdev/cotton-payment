@@ -5,6 +5,9 @@ import {
 import { CustomerId } from '@core/payments/value-objects/customer-id.vo';
 import { ProviderToken } from '@core/payments/value-objects/provider-token.vo';
 import { CardBrand } from '@core/payments/value-objects/card-brand.vo';
+import { Last4 } from '@core/payments/value-objects/last4.vo';
+import { ExpMonth } from '@core/payments/value-objects/exp-month.vo';
+import { ExpYear } from '@core/payments/value-objects/exp-year.vo';
 
 describe('PaymentMethodEntity', () => {
   let paymentMethod: PaymentMethodEntity;
@@ -32,52 +35,42 @@ describe('PaymentMethodEntity', () => {
     );
   });
 
-  it('should update brand and updatedAt', async () => {
+  it('should update card details and updatedAt', async () => {
     const oldUpdatedAt = paymentMethod.updatedAt;
 
-    await new Promise((r) => setTimeout(r, 1));
+    // Criar VO para os detalhes do cartão
+    const brand = new CardBrand('Visa');
+    const last4 = new Last4('4242');
+    const expMonth = new ExpMonth(12);
+    const expYear = new ExpYear(2030);
 
-    paymentMethod.updateBrand(new CardBrand('Visa'));
+    // Atualizar os detalhes do cartão
+    paymentMethod.updateCardDetails(brand, last4, expMonth, expYear);
 
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
-      oldUpdatedAt.getTime(),
-    );
-  });
-
-  it('should update last4 and updatedAt', async () => {
-    const oldUpdatedAt = paymentMethod.updatedAt;
-
-    await new Promise((r) => setTimeout(r, 5));
-
-    paymentMethod.updateLast4('4242');
-
+    expect(paymentMethod.brand!.value).toBe('Visa');
     expect(paymentMethod.last4!.value).toBe('4242');
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
-      oldUpdatedAt.getTime(),
-    );
-  });
-
-  it('should update expMonth and updatedAt', async () => {
-    const oldUpdatedAt = paymentMethod.updatedAt;
-
-    await new Promise((r) => setTimeout(r, 5));
-
-    paymentMethod.updateExpMonth(12);
-
     expect(paymentMethod.expMonth!.value).toBe(12);
+    expect(paymentMethod.expYear!.value).toBe(2030);
+
     expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
       oldUpdatedAt.getTime(),
     );
   });
 
-  it('should update expYear and updatedAt', () => {
-    const oldUpdatedAt = paymentMethod.updatedAt;
+  it('should throw if card details are incomplete', () => {
+    const brand = new CardBrand('Visa');
+    const last4 = null;
+    const expMonth = new ExpMonth(12);
+    const expYear = new ExpYear(2030);
 
-    paymentMethod.updateExpYear(2030);
+    expect(() =>
+      paymentMethod.updateCardDetails(brand, last4, expMonth, expYear),
+    ).toThrow('Card details are incomplete');
+  });
 
-    expect(paymentMethod.expYear!.value).toBe(2030);
-    expect(paymentMethod.updatedAt.getTime()).toBeGreaterThanOrEqual(
-      oldUpdatedAt.getTime(),
-    );
+  it('should allow setting all card details to null if brand is null', () => {
+    expect(() =>
+      paymentMethod.updateCardDetails(null, null, null, null),
+    ).not.toThrow();
   });
 });

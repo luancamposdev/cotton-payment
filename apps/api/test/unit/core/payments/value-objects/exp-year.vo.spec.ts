@@ -17,7 +17,7 @@ describe('ExpYear', () => {
   it('deve lançar erro se o ano for menor que o atual', () => {
     const pastYear = currentYear - 1;
     expect(() => new ExpYear(pastYear)).toThrow(
-      'ExpYear must be current or future year',
+      'O ano de expiração (ExpYear) deve ser igual ou maior que o ano atual.',
     );
   });
 });

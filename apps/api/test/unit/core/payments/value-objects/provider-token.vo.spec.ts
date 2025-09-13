@@ -12,12 +12,14 @@ describe('ProviderToken', () => {
   });
 
   it('deve lançar erro se o token for vazio', () => {
-    expect(() => new ProviderToken('')).toThrow('Provider token is invalid');
+    expect(() => new ProviderToken('')).toThrow(
+      'O token do provedor (ProviderToken) é inválido',
+    );
   });
 
   it('deve lançar erro se o token tiver menos de 10 caracteres', () => {
     expect(() => new ProviderToken('short')).toThrow(
-      'Provider token is invalid',
+      'O token do provedor (ProviderToken) é inválido',
     );
   });
 });

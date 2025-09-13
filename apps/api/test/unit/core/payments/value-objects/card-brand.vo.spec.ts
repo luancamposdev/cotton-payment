@@ -12,13 +12,13 @@ describe('CardBrandVO', () => {
   });
 
   it('deve lançar erro se valor for vazio', () => {
-    expect(() => CardBrand.create('')).toThrowError(
+    expect(() => CardBrand.create('')).toThrow(
       'A bandeira do cartão é obrigatória.',
     );
   });
 
   it('deve lançar erro se bandeira não for suportada', () => {
-    expect(() => CardBrand.create('CartãoXPTO')).toThrowError(
+    expect(() => CardBrand.create('CartãoXPTO')).toThrow(
       'Bandeira do cartão inválida: CartãoXPTO.',
     );
   });

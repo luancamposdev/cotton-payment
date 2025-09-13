@@ -7,11 +7,15 @@ describe('CustomerIdVO', () => {
   });
 
   it('deve lançar erro se valor for vazio', () => {
-    expect(() => new CustomerId('')).toThrow('CustomerId is required');
+    expect(() => new CustomerId('')).toThrow(
+      'O identificador do cliente (CustomerId) é obrigatório.',
+    );
   });
 
   it('deve lançar erro se valor for undefined', () => {
     // @ts-expect-error Testando construtor sem argumento
-    expect(() => new CustomerId(undefined)).toThrow('CustomerId is required');
+    expect(() => new CustomerId(undefined)).toThrow(
+      'O identificador do cliente (CustomerId) é obrigatório.',
+    );
   });
 });

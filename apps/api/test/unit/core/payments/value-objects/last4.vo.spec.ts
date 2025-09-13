@@ -7,12 +7,20 @@ describe('Last4', () => {
   });
 
   it('deve lançar erro se não tiver exatamente 4 dígitos', () => {
-    expect(() => new Last4('123')).toThrow('Last4 must be exactly 4 digits');
-    expect(() => new Last4('12345')).toThrow('Last4 must be exactly 4 digits');
+    expect(() => new Last4('123')).toThrow(
+      'Os últimos 4 dígitos do cartão (Last4) devem conter exatamente 4 números.',
+    );
+    expect(() => new Last4('12345')).toThrow(
+      'Os últimos 4 dígitos do cartão (Last4) devem conter exatamente 4 números.',
+    );
   });
 
   it('deve lançar erro se contiver letras ou caracteres inválidos', () => {
-    expect(() => new Last4('12a4')).toThrow('Last4 must be exactly 4 digits');
-    expect(() => new Last4('abcd')).toThrow('Last4 must be exactly 4 digits');
+    expect(() => new Last4('12a4')).toThrow(
+      'Os últimos 4 dígitos do cartão (Last4) devem conter exatamente 4 números.',
+    );
+    expect(() => new Last4('abcd')).toThrow(
+      'Os últimos 4 dígitos do cartão (Last4) devem conter exatamente 4 números.',
+    );
   });
 });

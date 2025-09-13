@@ -17,14 +17,20 @@ describe('ExpMonthVO', () => {
   });
 
   it('deve lançar erro se valor for menor que 1', () => {
-    expect(() => new ExpMonth(0)).toThrow('ExpMonth must be between 1 and 12');
+    expect(() => new ExpMonth(0)).toThrow(
+      ' mês de expiração (ExpMonth) deve estar entre 1 e 12.',
+    );
   });
 
   it('deve lançar erro se valor for maior que 12', () => {
-    expect(() => new ExpMonth(13)).toThrow('ExpMonth must be between 1 and 12');
+    expect(() => new ExpMonth(13)).toThrow(
+      'mês de expiração (ExpMonth) deve estar entre 1 e 12.',
+    );
   });
 
   it('deve lançar erro se valor for negativo', () => {
-    expect(() => new ExpMonth(-5)).toThrow('ExpMonth must be between 1 and 12');
+    expect(() => new ExpMonth(-5)).toThrow(
+      'mês de expiração (ExpMonth) deve estar entre 1 e 12.',
+    );
   });
 });
