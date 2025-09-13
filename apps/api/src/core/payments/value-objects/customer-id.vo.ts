@@ -1,5 +1,6 @@
 export class CustomerId {
   constructor(public readonly value: string) {
-    if (!value) throw new Error('CustomerId is required');
+    if (!value)
+      throw new Error('O identificador do cliente (CustomerId) é obrigatório.');
   }
 }
