@@ -4,6 +4,9 @@ import { PaymentMethodRepository } from '@core/payments/repositories/payment-met
 import { PaymentMethodEntity } from '@core/payments/entities/payment-method.entity';
 
 import { CardBrand } from '@core/payments/value-objects/card-brand.vo';
+import { Last4 } from '@core/payments/value-objects/last4.vo';
+import { ExpMonth } from '@core/payments/value-objects/exp-month.vo';
+import { ExpYear } from '@core/payments/value-objects/exp-year.vo';
 
 export interface UpdatePaymentMethodRequest {
   providerToken?: string | null;
@@ -21,19 +24,33 @@ export class UpdatePaymentMethodUseCase {
     id: string,
     request: UpdatePaymentMethodRequest,
   ): Promise<{ paymentMethod: PaymentMethodEntity }> {
-    const raw = await this.paymentMethodRepository.findById(id);
-
-    if (!raw) {
+    const paymentMethod = await this.paymentMethodRepository.findById(id);
+    if (!paymentMethod) {
       throw new NotFoundException('Método de pagamento não encontrado.');
     }
 
-    if (request.providerToken) raw.updateProviderToken(request.providerToken);
-    if (request.brand) raw.updateBrand(request.brand);
-    if (request.last4) raw.updateLast4(request.last4);
-    if (request.expMonth) raw.updateExpMonth(request.expMonth);
-    if (request.expYear) raw.updateExpYear(request.expYear);
+    if (request.providerToken) {
+      paymentMethod.updateProviderToken(request.providerToken);
+    }
 
-    const paymentMethod = await this.paymentMethodRepository.save(raw);
+    // Atualiza detalhes do cartão se qualquer campo estiver presente
+    if (
+      request.brand !== undefined ||
+      request.last4 !== undefined ||
+      request.expMonth !== undefined ||
+      request.expYear !== undefined
+    ) {
+      paymentMethod.updateCardDetails(
+        request.brand ?? paymentMethod.brand,
+        request.last4 ? new Last4(request.last4) : paymentMethod.last4,
+        request.expMonth
+          ? new ExpMonth(request.expMonth)
+          : paymentMethod.expMonth,
+        request.expYear ? new ExpYear(request.expYear) : paymentMethod.expYear,
+      );
+    }
+
+    await this.paymentMethodRepository.save(paymentMethod);
 
     return { paymentMethod };
   }
