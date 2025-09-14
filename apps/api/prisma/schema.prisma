@@ -42,8 +42,11 @@ enum PaymentStatus {
 
 enum PayoutStatus {
   PENDING
-  PAID
+  PROCESSING
+  SCHEDULED
+  COMPLETED
   FAILED
+  CANCELLED
 }
 
 enum SubscriptionStatus {
@@ -255,7 +258,7 @@ model Payout {
   creatorPayoutConfigId String
   payoutConfig          CreatorPayoutConfig @relation(fields: [creatorPayoutConfigId], references: [id])
   status                PayoutStatus        @default(PENDING)
-  amountCents           Int
+  amount                Int
   currency              String              @default("BRL")
   scheduledAt           DateTime?
   processedAt           DateTime?
