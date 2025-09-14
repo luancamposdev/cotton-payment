@@ -11,7 +11,7 @@ import { CreatePayoutDto } from '@/interfaces/payout/dto/create-payout.dto';
 import { PayoutViewModel } from '@/interfaces/payout/payout.view-model';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('payment-method')
+@Controller('payout')
 export class PayoutController {
   constructor(private readonly createPayoutUseCase: CreatePayoutUseCase) {}
 
