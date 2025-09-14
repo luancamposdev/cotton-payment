@@ -1,4 +1,3 @@
-// create-order.dto.ts
 import {
   IsString,
   IsNotEmpty,
