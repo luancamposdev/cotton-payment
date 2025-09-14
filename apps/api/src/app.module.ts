@@ -11,6 +11,7 @@ import { SubscriptionPlanModule } from '@/interfaces/subscription-plan/subscript
 import { SubscriptionModule } from '@/interfaces/subscription/subscription.module';
 import { PaymentMethodModule } from '@/interfaces/payments/payment-method.module';
 import { OrderModule } from '@/interfaces/order/order.module';
+import { PayoutModule } from '@/interfaces/payout/payout.module';
 
 @Global()
 @Module({
@@ -24,6 +25,7 @@ import { OrderModule } from '@/interfaces/order/order.module';
     SubscriptionPlanModule,
     SubscriptionModule,
     PaymentMethodModule,
+    PayoutModule,
     OrderModule,
   ],
   providers: [PrismaService],
