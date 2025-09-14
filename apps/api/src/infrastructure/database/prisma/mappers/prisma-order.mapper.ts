@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Order as RawOrder, PayoutStatus } from '@prisma/client';
+import { Order as RawOrder, PaymentStatus } from '@prisma/client';
 
 import { OrderEntity } from '@core/Order/entities/order.entity';
 import { AmountVO } from '@core/Order/value-objects/amount.vo';
@@ -17,7 +17,7 @@ export class PrismaOrderMapper {
       amountCents: order.amount.value,
       currency: order.currency.value,
       description: order.description,
-      status: order.status.value as PayoutStatus,
+      status: order.status.value as PaymentStatus,
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     };
