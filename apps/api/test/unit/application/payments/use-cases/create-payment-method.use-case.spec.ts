@@ -4,23 +4,25 @@ import { PaymentProvider } from '@core/payments/entities/payment-method.entity';
 
 describe('CreatePaymentMethodUseCase', () => {
   let repository: InMemoryPaymentMethodRepository;
-  let useCase: CreatePaymentMethodUseCase;
+  let createPaymentMethodUseCase: CreatePaymentMethodUseCase;
 
   beforeEach(() => {
     repository = new InMemoryPaymentMethodRepository();
-    useCase = new CreatePaymentMethodUseCase(repository);
+    createPaymentMethodUseCase = new CreatePaymentMethodUseCase(repository);
   });
 
   it('should create a payment method with all details', async () => {
-    const result = await useCase.execute({
-      customerId: 'customer-123',
-      provider: PaymentProvider.STRIPE,
-      providerToken: 'valid-token-123456',
-      brand: 'Visa',
-      last4: '4242',
-      expMonth: 12,
-      expYear: 2030,
-    });
+    const result = await createPaymentMethodUseCase.execute(
+      {
+        provider: PaymentProvider.STRIPE,
+        providerToken: 'valid-token-123456',
+        brand: 'Visa',
+        last4: '4242',
+        expMonth: 12,
+        expYear: 2030,
+      },
+      'customer-123',
+    );
 
     expect(result.paymentMethod.customerId.value).toBe('customer-123');
     expect(result.paymentMethod.provider).toBe(PaymentProvider.STRIPE);
@@ -41,7 +43,10 @@ describe('CreatePaymentMethodUseCase', () => {
       providerToken: 'another-valid-token',
     };
 
-    const { paymentMethod } = await useCase.execute(request);
+    const { paymentMethod } = await createPaymentMethodUseCase.execute(
+      request,
+      'customer-456',
+    );
 
     expect(paymentMethod.customerId.value).toBe('customer-456');
     expect(paymentMethod.provider).toBe(PaymentProvider.PAYPAL);
