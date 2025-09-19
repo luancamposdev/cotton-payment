@@ -38,12 +38,11 @@ export class OrderController {
     private readonly deleteOrderUseCase: DeleteOrderUseCase,
   ) {}
 
-  @Post(':id')
+  @Post()
   @Roles(Role.CUSTOMER)
-  async create(@Body() dto: CreateOrderDTO, @Param('id') id: string) {
+  async create(@Body() dto: CreateOrderDTO) {
     const { order } = await this.createOrderUseCase.execute({
       ...dto,
-      customerId: id,
     });
 
     return OrderViewModel.toHTTP(order);
