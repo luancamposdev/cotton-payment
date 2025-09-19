@@ -12,10 +12,6 @@ import { PaymentProvider } from '@core/payments/entities/payment-method.entity';
 
 export class CreatePaymentMethodDto {
   @IsNotEmpty()
-  @IsString()
-  customerId: string;
-
-  @IsNotEmpty()
   @IsEnum(PaymentProvider)
   provider: PaymentProvider;
 
