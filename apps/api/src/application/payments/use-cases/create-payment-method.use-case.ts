@@ -14,7 +14,6 @@ import { ExpMonth } from '@core/payments/value-objects/exp-month.vo';
 import { ExpYear } from '@core/payments/value-objects/exp-year.vo';
 
 export interface ICreatePaymentMethodRequest {
-  customerId: string;
   provider: PaymentProvider;
   providerToken: string;
   brand?: string | null;
@@ -31,10 +30,11 @@ export class CreatePaymentMethodUseCase {
 
   async execute(
     request: ICreatePaymentMethodRequest,
+    customerId: string,
   ): Promise<{ paymentMethod: PaymentMethodEntity }> {
     try {
       const paymentMethod = new PaymentMethodEntity({
-        customerId: new CustomerId(request.customerId),
+        customerId: new CustomerId(customerId),
         provider: request.provider,
         providerToken: new ProviderToken(request.providerToken),
         brand: request.brand ? CardBrand.create(request.brand) : null,
