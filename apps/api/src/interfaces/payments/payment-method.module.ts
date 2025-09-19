@@ -10,6 +10,7 @@ import { FindPaymentMethodByIdUseCase } from '@application/payments/use-cases/fi
 import { FindPaymentMethodsByCustomerUseCase } from '@application/payments/use-cases/find-payment-methods-by-customer.use-case';
 import { UpdatePaymentMethodUseCase } from '@application/payments/use-cases/update-payment-method.use-case';
 import { DeletePaymentMethodUseCase } from '@application/payments/use-cases/delete-payment-method.use-case';
+import { FindCustomerByUserIdUseCase } from '@application/customer/use-cases/find-customer-by-user-id.use-case';
 
 @Module({
   controllers: [PaymentMethodController],
@@ -19,6 +20,7 @@ import { DeletePaymentMethodUseCase } from '@application/payments/use-cases/dele
     FindPaymentMethodsByCustomerUseCase,
     UpdatePaymentMethodUseCase,
     DeletePaymentMethodUseCase,
+    FindCustomerByUserIdUseCase,
 
     {
       provide: PaymentMethodRepository,
