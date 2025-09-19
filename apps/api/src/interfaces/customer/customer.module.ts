@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 
 import { CustomerRepository } from '@core/customer/repository/customer.repository';
 import { PrismaCustomerRepository } from '@infrastructure/database/prisma/repositories/prisma-customer.repository';
@@ -10,6 +10,7 @@ import { UpdateCustomerUseCase } from '@application/customer/use-cases/update-cu
 
 import { CustomersController } from '@/interfaces/customer/controllers/customers.controller';
 
+@Global()
 @Module({
   controllers: [CustomersController],
   providers: [
