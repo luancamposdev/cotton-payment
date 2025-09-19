@@ -14,7 +14,7 @@ import {
 import { JwtAuthGuard } from '@infrastructure/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@infrastructure/common/guards/roles.guard';
 import { Roles } from '@infrastructure/common/decorators/roles.decorator';
-import { Role } from '@core/users/entities/user.entity';
+import { Role, UserEntity } from '@core/users/entities/user.entity';
 
 import { CreatePaymentMethodUseCase } from '@application/payments/use-cases/create-payment-method.use-case';
 import { CreatePaymentMethodDto } from '@/interfaces/payments/dto/create-payment-method.dto';
@@ -27,6 +27,9 @@ import { UpdatePaymentMethodDto } from '@/interfaces/payments/dto/update-payment
 import { CardBrand } from '@core/payments/value-objects/card-brand.vo';
 import { DeletePaymentMethodUseCase } from '@application/payments/use-cases/delete-payment-method.use-case';
 
+import { CurrentUser } from '@infrastructure/auth/decorators/current-user.decorator';
+import { FindCustomerByUserIdUseCase } from '@application/customer/use-cases/find-customer-by-user-id.use-case';
+
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('payment-method')
 export class PaymentMethodController {
@@ -36,13 +39,24 @@ export class PaymentMethodController {
     private readonly findPaymentMethodsByCustomerUseCase: FindPaymentMethodsByCustomerUseCase,
     private readonly updatePaymentMethodUseCase: UpdatePaymentMethodUseCase,
     private readonly deletePaymentMethodUseCase: DeletePaymentMethodUseCase,
+
+    private readonly findCustomerByUserIdUseCase: FindCustomerByUserIdUseCase,
   ) {}
 
   @Post()
   @Roles(Role.CUSTOMER)
-  async create(@Body() dto: CreatePaymentMethodDto) {
-    const { paymentMethod } =
-      await this.createPaymentMethodUseCase.execute(dto);
+  async create(
+    @Body() dto: CreatePaymentMethodDto,
+    @CurrentUser() user: UserEntity,
+  ) {
+    const { customer } = await this.findCustomerByUserIdUseCase.execute({
+      userId: user.id,
+    });
+
+    const { paymentMethod } = await this.createPaymentMethodUseCase.execute(
+      dto,
+      customer.id,
+    );
 
     return PaymentMethodViewModel.toHTTP(paymentMethod);
   }
@@ -56,15 +70,17 @@ export class PaymentMethodController {
     return PaymentMethodViewModel.toHTTP(paymentMethod);
   }
 
-  @Get('customer/:customerId')
+  @Get()
   @Roles(Role.CUSTOMER)
-  async findByCustomerId(@Param('customerId') customerId: string) {
-    const { paymentMethods } =
-      await this.findPaymentMethodsByCustomerUseCase.execute(customerId);
+  async findByCustomer(@CurrentUser() user: UserEntity) {
+    const { customer } = await this.findCustomerByUserIdUseCase.execute({
+      userId: user.id,
+    });
 
-    return paymentMethods.map((paymentMethod) =>
-      PaymentMethodViewModel.toHTTP(paymentMethod),
-    );
+    const { paymentMethods } =
+      await this.findPaymentMethodsByCustomerUseCase.execute(customer.id);
+
+    return paymentMethods.map((pm) => PaymentMethodViewModel.toHTTP(pm));
   }
 
   @Roles(Role.CUSTOMER, Role.ADMIN)
