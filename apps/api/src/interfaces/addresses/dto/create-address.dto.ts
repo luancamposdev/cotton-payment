@@ -1,7 +1,6 @@
 import { AddressType } from '@core/addresses/entities/address.entity';
 
 export class CreateAddressDto {
-  userId: string;
   type: AddressType;
   street: string;
   number?: string;

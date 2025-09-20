@@ -10,7 +10,6 @@ describe('DeleteAddressUseCase', () => {
     const deleteAddressUseCase = new DeleteAddressUseCase(addressRepository);
 
     const dto = {
-      userId: 'user-1',
       type: AddressType.RESIDENTIAL,
       street: '123 Main St',
       district: 'Downtown',
@@ -19,7 +18,7 @@ describe('DeleteAddressUseCase', () => {
       postalCode: '12345678',
     };
 
-    const { address } = await createAddressUseCase.execute(dto);
+    const { address } = await createAddressUseCase.execute(dto, 'user-1');
 
     await deleteAddressUseCase.execute(address.id);
 

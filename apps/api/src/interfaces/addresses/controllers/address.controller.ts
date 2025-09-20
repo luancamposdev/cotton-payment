@@ -33,8 +33,7 @@ export class AddressController {
   ) {}
   @Post()
   async create(@Body() dto: CreateAddressDto, @CurrentUser() user: UserEntity) {
-    dto.userId = user.id;
-    const { address } = await this.createAddress.execute(dto);
+    const { address } = await this.createAddress.execute(dto, user.id);
 
     return AddressViewModel.toHTTP(address);
   }

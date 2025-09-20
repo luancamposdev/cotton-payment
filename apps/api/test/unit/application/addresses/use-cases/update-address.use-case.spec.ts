@@ -11,7 +11,6 @@ describe('UpdateAddress', () => {
     const updateAddressUseCase = new UpdateAddressUseCase(addressRepository);
 
     const dto = {
-      userId: 'userId-1',
       type: AddressType.RESIDENTIAL,
       street: 'Alameda das Araras',
       number: '12345678',
@@ -23,7 +22,10 @@ describe('UpdateAddress', () => {
       country: 'BR',
     };
 
-    const { address: created } = await createAddressUseCase.execute(dto);
+    const { address: created } = await createAddressUseCase.execute(
+      dto,
+      'userId-1',
+    );
 
     const { address: updated } = await updateAddressUseCase.execute(
       {

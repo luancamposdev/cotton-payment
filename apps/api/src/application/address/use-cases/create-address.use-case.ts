@@ -6,7 +6,6 @@ import {
 } from '@core/addresses/entities/address.entity';
 
 interface ICreateAddressRequest {
-  userId: string;
   type: AddressType;
   street: string;
   number?: string;
@@ -24,15 +23,16 @@ export class CreateAddressUseCase {
 
   async execute(
     dto: ICreateAddressRequest,
+    userId: string,
   ): Promise<{ address: AddressEntity }> {
-    const existing = await this.addressRepository.findManyByUserId(dto.userId);
+    const existing = await this.addressRepository.findManyByUserId(userId);
 
     if (existing.length >= 5) {
       throw new BadRequestException('Limite de endereços atingido');
     }
 
     const address = new AddressEntity({
-      userId: dto.userId,
+      userId: userId,
       type: dto.type,
       street: dto.street,
       number: dto.number,

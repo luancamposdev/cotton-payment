@@ -13,7 +13,6 @@ describe('Create Address Use Case', () => {
     const createAddressUseCase = new CreateAddressUseCase(addressRepository);
 
     const dto = {
-      userId: 'user-1',
       type: AddressType.RESIDENTIAL,
       street: '123 Main St',
       district: 'Downtown',
@@ -22,11 +21,11 @@ describe('Create Address Use Case', () => {
       postalCode: '12345678',
     };
 
-    const { address } = await createAddressUseCase.execute(dto);
+    const { address } = await createAddressUseCase.execute(dto, 'user-id');
 
     expect(address).toBeTruthy();
     expect(address.id).toBeDefined();
-    expect(address.userId).toBe(dto.userId);
+    expect(address.userId).toBe('user-id');
   });
 
   it('should throw BadRequestException when user has 5 addresses', async () => {
@@ -46,7 +45,6 @@ describe('Create Address Use Case', () => {
     ) as AddressEntity[];
 
     const dto: CreateAddressDto = {
-      userId: 'user-123',
       district: '',
       type: AddressType.RESIDENTIAL,
       street: 'New Street',
@@ -55,7 +53,7 @@ describe('Create Address Use Case', () => {
       postalCode: '87654-321',
     };
 
-    await expect(createAddressUseCase.execute(dto)).rejects.toThrow(
+    await expect(createAddressUseCase.execute(dto, 'user-123')).rejects.toThrow(
       BadRequestException,
     );
   });
